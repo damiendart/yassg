@@ -43,5 +43,5 @@ tasks:
 
   lint:javascript:
     cmds:
-      - "node_modules/.bin/eslint bin/** src/**"
+      - "node_modules/.bin/eslint bin/yassg src/**"
     desc: 'Lint JavaScript files with ESLint'
