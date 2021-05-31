@@ -10,7 +10,6 @@
     "gray-matter": "^4.0.3",
     "html-minifier": "^4.0.0",
     "marked": "^2.0.6",
-    "svgo": "^2.3.0",
     "toolbox-sass": "git+https://www.robotinaponcho.net/git/toolbox-sass.git#f3fcbcdc4989221636b8062bb4445a49bbc24d95",
     "twing": "^5.0.2"
   },

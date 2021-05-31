@@ -4,8 +4,6 @@
 
 /* eslint-env node */
 
-const SVGO = require('svgo');
-
 class SVGProcessor {
   static get INPUT_EXTENSION() {
     return '.svg';
@@ -20,7 +18,7 @@ class SVGProcessor {
   }
 
   static process(data) {
-    return new SVGO().optimize(data.content).then((output) => output.data);
+    return data.content;
   }
 }
 
