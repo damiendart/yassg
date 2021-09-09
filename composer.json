@@ -7,6 +7,11 @@
       "role": "Developer"
     }
   ],
+  "autoload": {
+    "psr-4": {
+      "Yassg\\": "src/"
+    }
+  },
   "bin": [
     "bin/yassg"
   ],
@@ -26,7 +31,8 @@
     }
   ],
   "require": {
-    "php": "^8.0"
+    "php": "^8.0",
+    "symfony/console": "^5.3"
   },
   "require-dev": {
     "damiendart/toolbox-sass": "dev-master",

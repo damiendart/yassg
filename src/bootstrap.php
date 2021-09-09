@@ -7,3 +7,12 @@
 declare(strict_types=1);
 
 require __DIR__ . '/../vendor/autoload.php';
+
+use Symfony\Component\Console\SingleCommandApplication;
+use Yassg\Commands\BuildCommand;
+
+(new SingleCommandApplication())
+    ->setName('yassg')
+    ->setHelp('Yet another static site generator.')
+    ->setCode(new BuildCommand())
+    ->run();
