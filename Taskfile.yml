@@ -3,7 +3,7 @@
 # please refer to the accompanying "LICENCE" file.
 
 ---
-version: 2
+version: '3'
 
 output: 'prefixed'
 
@@ -21,27 +21,25 @@ tasks:
 
   clean:
     cmds:
-      - 'rm -fr node_modules package-lock.json'
+      - 'rm -fr vendor composer.lock'
     desc: 'Delete all third-party dependencies and lock files'
 
   dependencies:
     cmds:
-      - task: 'dependencies:javascript'
+      - task: 'dependencies:php'
     desc: 'Run all dependency-installing-related tasks'
 
-  dependencies:javascript:
+  dependencies:php:
     cmds:
-      - 'npm install'
-    env:
-      CI: true
-    desc: 'Install JavaScript dependencies'
+      - 'composer install --no-ansi --no-interaction --no-progress'
+    desc: 'Install PHP dependencies'
 
   lint:
     cmds:
-      - task: 'lint:javascript'
+      - task: 'lint:php'
     desc: 'Run all linting-related tasks'
 
-  lint:javascript:
+  lint:php:
     cmds:
-      - "node_modules/.bin/eslint bin/yassg src/**"
-    desc: 'Lint JavaScript files with ESLint'
+      - 'vendor/bin/php-cs-fixer fix --allow-risky=yes --dry-run --diff'
+    desc: 'Lint PHP files with PHP Coding Standards Fixer'

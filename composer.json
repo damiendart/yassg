@@ -1,0 +1,35 @@
+{
+  "authors": [
+    {
+      "email": "damiendart@pobox.com",
+      "homepage": "https://www.robotinaponcho.net",
+      "name": "Damien Dart",
+      "role": "Developer"
+    }
+  ],
+  "bin": [
+    "bin/yassg"
+  ],
+  "config": {
+    "optimize-autoloader": true,
+    "preferred-install": "dist",
+    "sort-packages": true
+  },
+  "description": "Yet another static site generator.",
+  "license": "MIT",
+  "name": "damiendart/yassg",
+  "prefer-stable": true,
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://www.robotinaponcho.net/git/toolbox-sass.git"
+    }
+  ],
+  "require": {
+    "php": "^8.0"
+  },
+  "require-dev": {
+    "damiendart/toolbox-sass": "dev-master",
+    "friendsofphp/php-cs-fixer": "^3.1"
+  }
+}

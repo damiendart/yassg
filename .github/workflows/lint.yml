@@ -13,15 +13,15 @@ on:
 jobs:
   lint:
     name: 'Lint project'
-    runs-on: 'ubuntu-18.04'
+    runs-on: 'ubuntu-20.04'
     steps:
       - name: 'Check out repository'
         uses: 'actions/checkout@v2'
 
-      - name: 'Set up Node environment'
-        uses: 'actions/setup-node@v2-beta'
+      - name: 'Set up PHP environment'
+        uses: 'shivammathur/setup-php@v2'
         with:
-          node-version: '14'
+          php-version: '8.0'
 
       - name: 'Install Task'
         run: 'curl -sL https://taskfile.dev/install.sh | sh'
