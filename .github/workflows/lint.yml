@@ -3,7 +3,7 @@
 # please refer to the accompanying "LICENCE" file.
 
 ---
-name: 'Lint Project'
+name: 'Lint and Test Project'
 
 on:
   push:
@@ -11,8 +11,8 @@ on:
       - 'master'
 
 jobs:
-  lint:
-    name: 'Lint project'
+  lint-and-test:
+    name: 'Lint and test project'
     runs-on: 'ubuntu-20.04'
     steps:
       - name: 'Check out repository'
@@ -26,5 +26,5 @@ jobs:
       - name: 'Install Task'
         run: 'curl -sL https://taskfile.dev/install.sh | sh'
 
-      - name: 'Download project dependencies and run all linting-related tasks'
+      - name: 'Download project dependencies and run all linting and testing tasks'
         run: './bin/task ci'
