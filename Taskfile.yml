@@ -17,6 +17,7 @@ tasks:
       - task: 'clean'
       - task: 'dependencies'
       - task: 'lint'
+      - task: 'test'
     desc: 'Run all CI-related tasks'
 
   clean:
@@ -43,3 +44,13 @@ tasks:
     cmds:
       - 'vendor/bin/php-cs-fixer fix --allow-risky=yes --dry-run --diff'
     desc: 'Lint PHP files with PHP Coding Standards Fixer'
+
+  test:
+    cmds:
+      - task: 'test:php'
+    desc: 'Run all testing-related tasks'
+
+  test:php:
+    cmds:
+      - 'vendor/bin/phpunit --testdox'
+    desc: 'Run PHP tests with PHPUnit'

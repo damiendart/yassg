@@ -14,6 +14,7 @@ return (new PhpCsFixer\Config())
         PhpCsFixer\Finder::create()
             ->in(__DIR__ . DIRECTORY_SEPARATOR . 'bin')
             ->in(__DIR__ . DIRECTORY_SEPARATOR . 'src')
+            ->in(__DIR__ . DIRECTORY_SEPARATOR . 'tests')
             ->name('*.php')
             ->name('yassg')
     );
