@@ -12,7 +12,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Yassg\Events\EventDispatcher;
-use Yassg\Events\TestEvent;
+use Yassg\Events\FileCopiedEvent;
 use Yassg\Yassg;
 
 class BuildCommand
@@ -45,9 +45,11 @@ class BuildCommand
     public function setupEventListeners(OutputInterface $output): void
     {
         $this->eventDispatcher->addEventListener(
-            TestEvent::class,
-            function (TestEvent $event) use ($output): void {
-                $output->writeln($event->getDescription());
+            FileCopiedEvent::class,
+            function (FileCopiedEvent $event) use ($output): void {
+                $output->writeln(
+                    "[✔] Copied file to \"{$event->getRealFilepath()}\"",
+                );
             }
         );
     }
