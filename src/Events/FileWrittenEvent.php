@@ -8,17 +8,21 @@ declare(strict_types=1);
 
 namespace Yassg\Events;
 
+use Yassg\Files\InputFile;
 use Yassg\Files\OutputFileInterface;
 
 class FileWrittenEvent extends Event
 {
-    private string $realFilepath;
+    private InputFile $inputFile;
+    private string $realOutputFilepath;
 
     public function __construct(
+        InputFile $inputFile,
         OutputFileInterface $outputFile,
         string $baseOutputDirectory,
     ) {
-        $this->realFilepath = join(
+        $this->inputFile = $inputFile;
+        $this->realOutputFilepath = join(
             DIRECTORY_SEPARATOR,
             [
                 $baseOutputDirectory,
@@ -27,8 +31,13 @@ class FileWrittenEvent extends Event
         );
     }
 
-    public function getRealFilepath(): string
+    public function getRealInputFilepath(): string
     {
-        return $this->realFilepath;
+        return $this->inputFile->getRealFilepath();
+    }
+
+    public function getRealOutputFilepath(): string
+    {
+        return $this->realOutputFilepath;
     }
 }

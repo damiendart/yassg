@@ -59,6 +59,7 @@ class Yassg
         if ($outputFile instanceof CopyFile) {
             $this->eventDispatcher->dispatch(
                 new FileCopiedEvent(
+                    $inputFile,
                     $outputFile,
                     $baseOutputDirectory,
                 )

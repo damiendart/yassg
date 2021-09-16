@@ -13,6 +13,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Yassg\Events\EventDispatcher;
 use Yassg\Events\FileCopiedEvent;
+use Yassg\Exceptions\InvalidInputDirectoryException;
 use Yassg\Yassg;
 
 class BuildCommand
@@ -34,10 +35,16 @@ class BuildCommand
     ): int {
         $this->setupEventListeners($output);
 
-        $this->yassg->build(
-            $input->getArgument('inputDirectory'),
-            $input->getArgument('outputDirectory'),
-        );
+        try {
+            $this->yassg->build(
+                $input->getArgument('inputDirectory'),
+                $input->getArgument('outputDirectory'),
+            );
+        } catch (InvalidInputDirectoryException $e) {
+            $output->writeln("<error>{$e->getMessage()}</error>");
+
+            return Command::FAILURE;
+        }
 
         return Command::SUCCESS;
     }
@@ -48,8 +55,14 @@ class BuildCommand
             FileCopiedEvent::class,
             function (FileCopiedEvent $event) use ($output): void {
                 $output->writeln(
-                    "[✔] Copied file to \"{$event->getRealFilepath()}\"",
+                    "[✔] Copied file to \"{$event->getRealOutputFilepath()}\"",
                 );
+
+                if ($output->isVerbose()) {
+                    $output->writeln(
+                        "    <info>(Source file: \"{$event->getRealInputFilepath()}\")</info>",
+                    );
+                }
             }
         );
     }
