@@ -9,24 +9,11 @@ declare(strict_types=1);
 require __DIR__ . '/../vendor/autoload.php';
 
 use DI\ContainerBuilder;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\SingleCommandApplication;
+use Symfony\Component\Console\Application;
 use Yassg\Commands\BuildCommand;
 
+$application = new Application('yassg');
 $container = (new ContainerBuilder())->build();
 
-(new SingleCommandApplication())
-    ->setName('yassg')
-    ->setHelp('Yet another static site generator.')
-    ->addArgument(
-        'inputDirectory',
-        InputArgument::REQUIRED,
-        'The input directory'
-    )
-    ->addArgument(
-        'outputDirectory',
-        InputArgument::REQUIRED,
-        'The output directory'
-    )
-    ->setCode($container->get(BuildCommand::class))
-    ->run();
+$application->add($container->get(BuildCommand::class));
+$application->run();
