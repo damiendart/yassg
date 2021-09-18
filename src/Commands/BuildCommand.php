@@ -12,6 +12,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Yassg\Configuration\Configuration;
 use Yassg\Events\EventDispatcher;
 use Yassg\Events\FileCopiedEvent;
 use Yassg\Exceptions\InvalidInputDirectoryException;
@@ -19,15 +20,18 @@ use Yassg\Yassg;
 
 class BuildCommand extends Command
 {
-    private Yassg $yassg;
+    private Configuration $configuration;
     private EventDispatcher $eventDispatcher;
+    private Yassg $yassg;
 
     public function __construct(
+        Configuration $configuration,
+        EventDispatcher $eventDispatcher,
         Yassg $yassg,
-        EventDispatcher $eventDispatcher
     ) {
-        $this->yassg = $yassg;
+        $this->configuration = $configuration;
         $this->eventDispatcher = $eventDispatcher;
+        $this->yassg = $yassg;
 
         parent::__construct();
     }
@@ -61,6 +65,7 @@ class BuildCommand extends Command
             $this->yassg->build(
                 $input->getArgument('inputDirectory'),
                 $input->getArgument('outputDirectory'),
+                $this->configuration->getProcessors(),
             );
         } catch (InvalidInputDirectoryException $e) {
             $formatter = $this->getHelper('formatter');

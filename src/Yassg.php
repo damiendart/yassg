@@ -19,18 +19,15 @@ use Yassg\Processors\ProcessorInterface;
 
 class Yassg
 {
-    private Config $config;
     private EventDispatcher $eventDispatcher;
     private Filesystem $filesystem;
     private Finder $finder;
 
     public function __construct(
-        Config $config,
         EventDispatcher $eventDispatcher,
         Filesystem $filesystem,
         Finder $finder,
     ) {
-        $this->config = $config;
         $this->eventDispatcher = $eventDispatcher;
         $this->filesystem = $filesystem;
         $this->finder = $finder;
@@ -42,17 +39,19 @@ class Yassg
     public function build(
         string $inputDirectory,
         string $outputDirectory,
+        array|ProcessorInterface $processors = [],
     ): void {
         $this
             ->validateInputDirectory($inputDirectory)
-            ->buildSite($inputDirectory, $outputDirectory);
+            ->buildSite($inputDirectory, $outputDirectory, $processors);
     }
 
     private function buildFile(
         InputFile $inputFile,
-        string $baseOutputDirectory
+        ProcessorInterface $processor,
+        string $baseOutputDirectory,
     ): void {
-        $outputFile = $this->getProcessor($inputFile)->process($inputFile);
+        $outputFile = $processor->process($inputFile);
 
         $outputFile->write($this->filesystem, $baseOutputDirectory);
 
@@ -70,6 +69,7 @@ class Yassg
     private function buildSite(
         string $inputDirectory,
         string $outputDirectory,
+        array|ProcessorInterface $processors,
     ): void {
         $finder = $this->finder
             ->files()
@@ -84,19 +84,27 @@ class Yassg
         );
 
         foreach ($finder as $file) {
-            $this->buildFile(new InputFile($file), $outputDirectory);
+            $file = new InputFile($file);
+
+            array_map(
+                function ($processor) use ($file, $outputDirectory): void {
+                    $this->buildFile($file, $processor, $outputDirectory);
+                },
+                $this->filterProcessors($processors, $file),
+            );
         }
     }
 
-    private function getProcessor($inputFile): ?ProcessorInterface
-    {
-        foreach ($this->config->getProcessors() as $processor) {
-            if ($processor->canProcess($inputFile)) {
-                return $processor;
-            }
-        }
-
-        return null;
+    private function filterProcessors(
+        array|ProcessorInterface $processors,
+        InputFile $inputFile,
+    ): array|ProcessorInterface {
+        return array_filter(
+            $processors,
+            function ($processor) use ($inputFile): bool {
+                return $processor->canProcess($inputFile);
+            },
+        );
     }
 
     /**

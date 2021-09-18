@@ -6,11 +6,11 @@
 
 declare(strict_types=1);
 
-namespace Yassg;
+namespace Yassg\Configuration;
 
 use Yassg\Processors\DefaultProcessor;
 
-class Config
+class Configuration
 {
     public function getProcessors(): array
     {
