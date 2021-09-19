@@ -18,7 +18,7 @@ class EventDispatcher implements EventDispatcherInterface, ListenerProviderInter
 
     public function addEventListener(
         string $eventClass,
-        callable $listener
+        callable $listener,
     ): self {
         $this->listeners[$eventClass][] = $listener;
 

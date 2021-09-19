@@ -63,7 +63,7 @@ class Yassg
                     $inputFile,
                     $outputFile,
                     $baseOutputDirectory,
-                )
+                ),
             );
         }
     }
@@ -87,7 +87,7 @@ class Yassg
 
         $outputDirectory = $this->filesystem->readlink(
             $outputDirectory,
-            true
+            true,
         );
 
         foreach ($finder as $file) {

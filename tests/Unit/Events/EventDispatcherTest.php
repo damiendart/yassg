@@ -81,7 +81,7 @@ class EventDispatcherTest extends TestCase
             $event::class,
             function (TestEvent $event): void {
                 $event->stopPropagation();
-            }
+            },
         );
         $dispatcher->addEventListener($event::class, $listener);
         $dispatcher->dispatch($event);

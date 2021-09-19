@@ -16,6 +16,6 @@ interface OutputFileInterface
 
     public function write(
         Filesystem $filesystem,
-        string $baseOutputDirectory
+        string $baseOutputDirectory,
     ): void;
 }

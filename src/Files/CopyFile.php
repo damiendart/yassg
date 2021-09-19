@@ -37,7 +37,7 @@ class CopyFile implements OutputFileInterface
                     $this->inputFile->getRelativeFilepath(),
                 ],
             ),
-            true
+            true,
         );
     }
 }

@@ -9,7 +9,7 @@ declare(strict_types=1);
 use ToolboxSass\Helpers\PHPCSFixerHelper;
 
 return (new PhpCsFixer\Config())
-    ->setRules(PHPCSFixerHelper::getHouseRules())
+    ->setRules(PHPCSFixerHelper::getHouseRules(phpversion()))
     ->setFinder(
         PhpCsFixer\Finder::create()
             ->in(__DIR__ . DIRECTORY_SEPARATOR . 'bin')

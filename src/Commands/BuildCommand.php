@@ -41,23 +41,23 @@ class BuildCommand extends Command
         $this
             ->setName('build')
             ->setDescription(
-                'Takes an input directory and uses it to build a site.'
+                'Takes an input directory and uses it to build a site.',
             )
             ->addArgument(
                 'inputDirectory',
                 InputArgument::REQUIRED,
-                'The input directory'
+                'The input directory',
             )
             ->addArgument(
                 'outputDirectory',
                 InputArgument::REQUIRED,
-                'The output directory'
+                'The output directory',
             );
     }
 
     protected function execute(
         InputInterface $input,
-        OutputInterface $output
+        OutputInterface $output,
     ): int {
         $this->setupEventListeners($output);
 
@@ -75,7 +75,7 @@ class BuildCommand extends Command
                     ['[' . $e::class . ']', $e->getMessage()],
                     'error',
                     true,
-                )
+                ),
             );
 
             return Command::FAILURE;
@@ -98,7 +98,7 @@ class BuildCommand extends Command
                         "    <info>(Source file: \"{$event->getRealInputFilepath()}\")</info>",
                     );
                 }
-            }
+            },
         );
     }
 }
