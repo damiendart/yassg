@@ -46,6 +46,7 @@
   "require-dev": {
     "damiendart/toolbox-sass": "dev-master",
     "friendsofphp/php-cs-fixer": "^3.1",
-    "phpunit/phpunit": "^9.5"
+    "phpunit/phpunit": "^9.5",
+    "vimeo/psalm": "^4.10"
   }
 }

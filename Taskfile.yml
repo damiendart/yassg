@@ -17,6 +17,7 @@ tasks:
       - task: 'clean'
       - task: 'dependencies'
       - task: 'lint'
+      - task: 'static-analysis'
       - task: 'test'
     desc: 'Run all CI-related tasks'
 
@@ -44,6 +45,16 @@ tasks:
     cmds:
       - 'vendor/bin/php-cs-fixer fix --allow-risky=yes --dry-run --diff'
     desc: 'Lint PHP files with PHP Coding Standards Fixer'
+
+  static-analysis:
+    cmds:
+      - task: 'static-analysis:php'
+    desc: 'Run all static-analysis-related tasks'
+
+  static-analysis:php:
+    cmds:
+      - 'vendor/bin/psalm --show-info=true --stats'
+    desc: 'Analyse PHP files with Psalm'
 
   test:
     cmds:

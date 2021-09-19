@@ -34,12 +34,14 @@ class Yassg
     }
 
     /**
+     * @param $processors ProcessorInterface[]
+     *
      * @throws InvalidInputDirectoryException
      */
     public function build(
         string $inputDirectory,
         string $outputDirectory,
-        array|ProcessorInterface $processors = [],
+        array $processors = [],
     ): void {
         $this
             ->validateInputDirectory($inputDirectory)
@@ -66,10 +68,15 @@ class Yassg
         }
     }
 
+    /**
+     * @psalm-suppress PossiblyNullArgument
+     *
+     * @param $processors ProcessorInterface[]
+     */
     private function buildSite(
         string $inputDirectory,
         string $outputDirectory,
-        array|ProcessorInterface $processors,
+        array $processors,
     ): void {
         $finder = $this->finder
             ->files()
@@ -87,7 +94,7 @@ class Yassg
             $file = new InputFile($file);
 
             array_map(
-                function ($processor) use ($file, $outputDirectory): void {
+                function (ProcessorInterface $processor) use ($file, $outputDirectory): void {
                     $this->buildFile($file, $processor, $outputDirectory);
                 },
                 $this->filterProcessors($processors, $file),
@@ -95,13 +102,18 @@ class Yassg
         }
     }
 
+    /**
+     * @param $processors ProcessorInterface[]
+     *
+     * @return ProcessorInterface[]
+     */
     private function filterProcessors(
-        array|ProcessorInterface $processors,
+        array $processors,
         InputFile $inputFile,
-    ): array|ProcessorInterface {
+    ): array {
         return array_filter(
             $processors,
-            function ($processor) use ($inputFile): bool {
+            function (ProcessorInterface $processor) use ($inputFile): bool {
                 return $processor->canProcess($inputFile);
             },
         );
