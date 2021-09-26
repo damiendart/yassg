@@ -8,14 +8,53 @@ declare(strict_types=1);
 
 namespace Yassg\Configuration;
 
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Yassg\Processors\DefaultProcessor;
+use Yassg\Processors\ProcessorInterface;
 
 class Configuration
 {
+    private array $options;
+
+    public function __construct(array $options = [])
+    {
+        $this->options = $this->createResolver()->resolve($options);
+    }
+
+    public function getInputDirectory(): string
+    {
+        return $this->options['inputDirectory'];
+    }
+
+    public function getOutputDirectory(): string
+    {
+        return $this->options['outputDirectory'];
+    }
+
     public function getProcessors(): array
     {
-        return [
-            new DefaultProcessor(),
-        ];
+        return $this->options['processors'];
+    }
+
+    private function createResolver(): OptionsResolver
+    {
+        $optionsResolver = new OptionsResolver();
+
+        $optionsResolver
+            ->setRequired(
+                ['inputDirectory', 'outputDirectory'],
+            )
+            ->setDefaults(
+                [
+                    'processors' => [
+                        new DefaultProcessor(),
+                    ],
+                ],
+            )
+            ->setAllowedTypes('inputDirectory', 'string')
+            ->setAllowedTypes('outputDirectory', 'string')
+            ->setAllowedTypes('processors', ProcessorInterface::class . '[]');
+
+        return $optionsResolver;
     }
 }

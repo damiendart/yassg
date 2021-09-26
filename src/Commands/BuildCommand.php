@@ -9,27 +9,23 @@ declare(strict_types=1);
 namespace Yassg\Commands;
 
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Yassg\Configuration\Configuration;
 use Yassg\Events\EventDispatcher;
 use Yassg\Events\FileCopiedEvent;
-use Yassg\Exceptions\InvalidInputDirectoryException;
+use Yassg\Exceptions\InvalidConfigurationException;
 use Yassg\Yassg;
 
 class BuildCommand extends Command
 {
-    private Configuration $configuration;
     private EventDispatcher $eventDispatcher;
     private Yassg $yassg;
 
     public function __construct(
-        Configuration $configuration,
         EventDispatcher $eventDispatcher,
         Yassg $yassg,
     ) {
-        $this->configuration = $configuration;
         $this->eventDispatcher = $eventDispatcher;
         $this->yassg = $yassg;
 
@@ -40,19 +36,7 @@ class BuildCommand extends Command
     {
         $this
             ->setName('build')
-            ->setDescription(
-                'Takes an input directory and uses it to build a site.',
-            )
-            ->addArgument(
-                'inputDirectory',
-                InputArgument::REQUIRED,
-                'The input directory',
-            )
-            ->addArgument(
-                'outputDirectory',
-                InputArgument::REQUIRED,
-                'The output directory',
-            );
+            ->setDescription('Builds a site.');
     }
 
     protected function execute(
@@ -62,12 +46,8 @@ class BuildCommand extends Command
         $this->setupEventListeners($output);
 
         try {
-            $this->yassg->build(
-                $input->getArgument('inputDirectory'),
-                $input->getArgument('outputDirectory'),
-                $this->configuration->getProcessors(),
-            );
-        } catch (InvalidInputDirectoryException $e) {
+            $this->yassg->build($this->getConfiguration());
+        } catch (InvalidConfigurationException $e) {
             $formatter = $this->getHelper('formatter');
 
             $output->writeln(
@@ -84,7 +64,38 @@ class BuildCommand extends Command
         return Command::SUCCESS;
     }
 
-    protected function setupEventListeners(OutputInterface $output): void
+    /**
+     * @throws InvalidConfigurationException
+     */
+    private function getConfiguration(): Configuration
+    {
+        $configurationFilepath = getcwd() . DIRECTORY_SEPARATOR . '.yassg.php';
+
+        if (false === file_exists($configurationFilepath)) {
+            throw new InvalidConfigurationException(
+                sprintf(
+                    'The config file "%s" does not exist.',
+                    $configurationFilepath,
+                ),
+            );
+        }
+
+        $configuration = include $configurationFilepath;
+
+        if (false === $configuration instanceof Configuration) {
+            throw new InvalidConfigurationException(
+                sprintf(
+                    'The config file "%s" does not return a "%s" instance.',
+                    $configurationFilepath,
+                    Configuration::class,
+                ),
+            );
+        }
+
+        return $configuration;
+    }
+
+    private function setupEventListeners(OutputInterface $output): void
     {
         $this->eventDispatcher->addEventListener(
             FileCopiedEvent::class,

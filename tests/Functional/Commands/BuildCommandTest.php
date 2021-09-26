@@ -15,6 +15,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Filesystem\Filesystem;
 use Yassg\Commands\BuildCommand;
+use Yassg\Configuration\Configuration;
 
 /**
  * @internal
@@ -24,7 +25,8 @@ class BuildCommandTest extends TestCase
 {
     private static Filesystem $filesystem;
     private static string $fixturesDirectoryPath;
-    private static string $temporaryDirectoryPath;
+
+    private string $outputDirectoryPath;
 
     public static function setUpBeforeClass(): void
     {
@@ -32,14 +34,11 @@ class BuildCommandTest extends TestCase
         self::$fixturesDirectoryPath = dirname(__DIR__, 2)
             . DIRECTORY_SEPARATOR
             . 'Fixtures';
-        self::$temporaryDirectoryPath = dirname(__DIR__, 2)
-            . DIRECTORY_SEPARATOR
-            . 'tmp';
     }
 
     protected function tearDown(): void
     {
-        self::$filesystem->remove(self::$temporaryDirectoryPath);
+        self::$filesystem->remove($this->outputDirectoryPath);
     }
 
     public function testRunningTheBuildCommandWithAnInvalidInputDirectory(): void
@@ -47,23 +46,31 @@ class BuildCommandTest extends TestCase
         $command = (new ContainerBuilder())
             ->build()
             ->get(BuildCommand::class);
+        $fixtureDirectoryPath = self::$fixturesDirectoryPath
+            . DIRECTORY_SEPARATOR
+            . 'invalid-input-directory';
+
+        /** @var Configuration $configuration */
+        $configuration = include $fixtureDirectoryPath
+            . DIRECTORY_SEPARATOR
+            . '.yassg.php';
+
+        $this->outputDirectoryPath = $configuration->getOutputDirectory();
 
         $command->setApplication(new Application());
 
         $commandTester = new CommandTester($command);
 
-        $commandTester->execute(
-            [
-                'inputDirectory' => 'non-existent-directory',
-                'outputDirectory' => self::$temporaryDirectoryPath,
-            ],
-        );
+        chdir($fixtureDirectoryPath);
+        $commandTester->execute([]);
 
         $this->assertEquals(
             Command::FAILURE,
             $commandTester->getStatusCode(),
         );
-        $this->assertDirectoryDoesNotExist(self::$temporaryDirectoryPath);
+        $this->assertDirectoryDoesNotExist(
+            $configuration->getOutputDirectory(),
+        );
     }
 
     public function testRunningTheBuildCommandWithADirectoryOfTextFiles(): void
@@ -71,38 +78,46 @@ class BuildCommandTest extends TestCase
         $command = (new ContainerBuilder())
             ->build()
             ->get(BuildCommand::class);
+        $fixtureDirectoryPath = self::$fixturesDirectoryPath
+            . DIRECTORY_SEPARATOR
+            . 'just-text-files';
+
+        /** @var Configuration $configuration */
+        $configuration = include $fixtureDirectoryPath
+            . DIRECTORY_SEPARATOR
+            . '.yassg.php';
+
+        $this->outputDirectoryPath = $configuration->getOutputDirectory();
 
         $command->setApplication(new Application());
 
         $commandTester = new CommandTester($command);
 
-        $commandTester->execute(
-            [
-                'inputDirectory' => self::$fixturesDirectoryPath
-                    . DIRECTORY_SEPARATOR
-                    . 'just-text-files',
-                'outputDirectory' => self::$temporaryDirectoryPath,
-            ],
-        );
+        chdir($fixtureDirectoryPath);
+        $commandTester->execute([]);
 
         $this->assertEquals(Command::SUCCESS, $commandTester->getStatusCode());
         $this->assertFileEquals(
-            self::$fixturesDirectoryPath
+            $fixtureDirectoryPath
                 . DIRECTORY_SEPARATOR
-                . 'just-text-files'
+                . 'input'
                 . DIRECTORY_SEPARATOR
                 . 'test-1.txt',
-            self::$temporaryDirectoryPath
+            $fixtureDirectoryPath
+                . DIRECTORY_SEPARATOR
+                . 'output'
                 . DIRECTORY_SEPARATOR
                 . 'test-1.txt',
         );
         $this->assertFileEquals(
-            self::$fixturesDirectoryPath
+            $fixtureDirectoryPath
                 . DIRECTORY_SEPARATOR
-                . 'just-text-files'
+                . 'input'
                 . DIRECTORY_SEPARATOR
                 . 'test-2.txt',
-            self::$temporaryDirectoryPath
+            $fixtureDirectoryPath
+                . DIRECTORY_SEPARATOR
+                . 'output'
                 . DIRECTORY_SEPARATOR
                 . 'test-2.txt',
         );

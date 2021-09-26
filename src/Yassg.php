@@ -10,9 +10,10 @@ namespace Yassg;
 
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
+use Yassg\Configuration\Configuration;
 use Yassg\Events\EventDispatcher;
 use Yassg\Events\FileCopiedEvent;
-use Yassg\Exceptions\InvalidInputDirectoryException;
+use Yassg\Exceptions\InvalidConfigurationException;
 use Yassg\Files\CopyFile;
 use Yassg\Files\InputFile;
 use Yassg\Processors\ProcessorInterface;
@@ -34,18 +35,17 @@ class Yassg
     }
 
     /**
-     * @param $processors ProcessorInterface[]
-     *
-     * @throws InvalidInputDirectoryException
+     * @throws InvalidConfigurationException
      */
-    public function build(
-        string $inputDirectory,
-        string $outputDirectory,
-        array $processors = [],
-    ): void {
+    public function build(Configuration $configuration): void
+    {
         $this
-            ->validateInputDirectory($inputDirectory)
-            ->buildSite($inputDirectory, $outputDirectory, $processors);
+            ->validateInputDirectory($configuration->getInputDirectory())
+            ->buildSite(
+                $configuration->getInputDirectory(),
+                $configuration->getOutputDirectory(),
+                $configuration->getProcessors(),
+            );
     }
 
     private function buildFile(
@@ -120,12 +120,12 @@ class Yassg
     }
 
     /**
-     * @throws InvalidInputDirectoryException
+     * @throws InvalidConfigurationException
      */
     private function validateInputDirectory(string $inputDirectory): self
     {
         if (false === $this->filesystem->exists($inputDirectory)) {
-            throw new InvalidInputDirectoryException(
+            throw new InvalidConfigurationException(
                 "The input directory (\"{$inputDirectory}\") does not exist.",
             );
         }
