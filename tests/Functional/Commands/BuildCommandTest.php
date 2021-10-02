@@ -95,4 +95,35 @@ class BuildCommandTest extends CommandTestBase
             $fixtureConfiguration->getOutputDirectory(),
         );
     }
+
+    public function testRunningTheBuildCommandWithTheConfigOption(): void
+    {
+        $fixtureDirectoryPath = self::$fixturesDirectoryPath
+            . DIRECTORY_SEPARATOR
+            . 'non-standard-configuration-filename';
+
+        /** @var Configuration $fixtureConfiguration */
+        $fixtureConfiguration = include $fixtureDirectoryPath
+            . DIRECTORY_SEPARATOR
+            . '.chicken.php';
+
+        $this->setTemporaryDirectoryPath(
+            $fixtureConfiguration->getOutputDirectory(),
+        );
+
+        $commandTester = $this->runCommand(
+            $this->buildCommand,
+            $fixtureDirectoryPath,
+            ['--config' => '.chicken.php'],
+        );
+
+        $this->assertEquals(
+            Command::SUCCESS,
+            $commandTester->getStatusCode(),
+        );
+        $this->assertDirectoryEquals(
+            $fixtureConfiguration->getInputDirectory(),
+            $fixtureConfiguration->getOutputDirectory(),
+        );
+    }
 }

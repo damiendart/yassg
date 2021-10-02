@@ -10,6 +10,7 @@ namespace Yassg\Commands;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Yassg\Configuration\Configuration;
 use Yassg\Events\EventDispatcher;
@@ -36,7 +37,17 @@ class BuildCommand extends Command
     {
         $this
             ->setName('build')
-            ->setDescription('Builds a site.');
+            ->setDescription('Builds a site.')
+            ->setDefinition(
+                [
+                    new InputOption(
+                        'config',
+                        'c',
+                        InputOption::VALUE_REQUIRED,
+                        'The path to a yassg configuration file.',
+                    ),
+                ],
+            );
     }
 
     protected function execute(
@@ -46,7 +57,11 @@ class BuildCommand extends Command
         $this->setupEventListeners($output);
 
         try {
-            $this->yassg->build($this->getConfiguration());
+            $this->yassg->build(
+                $this->getConfiguration(
+                    $input->getOption('config') ?? null,
+                ),
+            );
         } catch (InvalidConfigurationException $e) {
             $formatter = $this->getHelper('formatter');
 
@@ -67,9 +82,14 @@ class BuildCommand extends Command
     /**
      * @throws InvalidConfigurationException
      */
-    private function getConfiguration(): Configuration
-    {
-        $configurationFilepath = getcwd() . DIRECTORY_SEPARATOR . '.yassg.php';
+    private function getConfiguration(
+        ?string $configurationFilepath = null,
+    ): Configuration {
+        if (null === $configurationFilepath) {
+            $configurationFilepath = getcwd()
+                . DIRECTORY_SEPARATOR
+                . '.yassg.php';
+        }
 
         if (false === file_exists($configurationFilepath)) {
             throw new InvalidConfigurationException(
