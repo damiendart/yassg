@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace Yassg\Configuration;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Yassg\Processors\DefaultProcessor;
+use Yassg\Processors\MarkdownProcessor;
 use Yassg\Processors\ProcessorInterface;
 
 class Configuration
@@ -47,7 +47,7 @@ class Configuration
             ->setDefaults(
                 [
                     'processors' => [
-                        new DefaultProcessor(),
+                        new MarkdownProcessor(),
                     ],
                 ],
             )

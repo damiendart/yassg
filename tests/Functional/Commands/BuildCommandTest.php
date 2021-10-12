@@ -96,6 +96,38 @@ class BuildCommandTest extends CommandTestBase
         );
     }
 
+    public function testRunningTheBuildCommandWithADirectoryOfMarkdownFiles(): void
+    {
+        $fixtureDirectoryPath = self::$fixturesDirectoryPath
+            . DIRECTORY_SEPARATOR
+            . 'just-markdown-files';
+
+        /** @var Configuration $fixtureConfiguration */
+        $fixtureConfiguration = include $fixtureDirectoryPath
+            . DIRECTORY_SEPARATOR
+            . '.yassg.php';
+
+        $this->setTemporaryDirectoryPath(
+            $fixtureConfiguration->getOutputDirectory(),
+        );
+
+        $commandTester = $this->runCommand(
+            $this->buildCommand,
+            $fixtureDirectoryPath,
+        );
+
+        $this->assertEquals(
+            Command::SUCCESS,
+            $commandTester->getStatusCode(),
+        );
+        $this->assertDirectoryEquals(
+            $fixtureDirectoryPath
+            . DIRECTORY_SEPARATOR
+            . 'expected',
+            $fixtureConfiguration->getOutputDirectory(),
+        );
+    }
+
     public function testRunningTheBuildCommandWithTheConfigOption(): void
     {
         $fixtureDirectoryPath = self::$fixturesDirectoryPath

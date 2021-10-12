@@ -13,9 +13,11 @@ use Symfony\Component\Finder\Finder;
 use Yassg\Configuration\Configuration;
 use Yassg\Events\EventDispatcher;
 use Yassg\Events\FileCopiedEvent;
+use Yassg\Events\FileWrittenEvent;
 use Yassg\Exceptions\InvalidConfigurationException;
 use Yassg\Files\CopyFile;
 use Yassg\Files\InputFile;
+use Yassg\Processors\DefaultProcessor;
 use Yassg\Processors\ProcessorInterface;
 
 class Yassg
@@ -65,6 +67,14 @@ class Yassg
                     $baseOutputDirectory,
                 ),
             );
+        } else {
+            $this->eventDispatcher->dispatch(
+                new FileWrittenEvent(
+                    $inputFile,
+                    $outputFile,
+                    $baseOutputDirectory,
+                ),
+            );
         }
     }
 
@@ -93,30 +103,28 @@ class Yassg
         foreach ($finder as $file) {
             $file = new InputFile($file);
 
-            array_map(
-                function (ProcessorInterface $processor) use ($file, $outputDirectory): void {
-                    $this->buildFile($file, $processor, $outputDirectory);
-                },
-                $this->filterProcessors($processors, $file),
+            $this->buildFile(
+                $file,
+                $this->getApplicableProcessor($processors, $file),
+                $outputDirectory,
             );
         }
     }
 
     /**
      * @param $processors ProcessorInterface[]
-     *
-     * @return ProcessorInterface[]
      */
-    private function filterProcessors(
+    private function getApplicableProcessor(
         array $processors,
         InputFile $inputFile,
-    ): array {
-        return array_filter(
-            $processors,
-            function (ProcessorInterface $processor) use ($inputFile): bool {
-                return $processor->canProcess($inputFile);
-            },
-        );
+    ): ProcessorInterface {
+        foreach ($processors as $processor) {
+            if ($processor->canProcess($inputFile)) {
+                return $processor;
+            }
+        }
+
+        return new DefaultProcessor();
     }
 
     /**

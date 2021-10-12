@@ -15,6 +15,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Yassg\Configuration\Configuration;
 use Yassg\Events\EventDispatcher;
 use Yassg\Events\FileCopiedEvent;
+use Yassg\Events\FileWrittenEvent;
 use Yassg\Exceptions\InvalidConfigurationException;
 use Yassg\Yassg;
 
@@ -122,6 +123,21 @@ class BuildCommand extends Command
             function (FileCopiedEvent $event) use ($output): void {
                 $output->writeln(
                     "[✔] Copied file to \"{$event->getRealOutputFilepath()}\"",
+                );
+
+                if ($output->isVerbose()) {
+                    $output->writeln(
+                        "    <info>(Source file: \"{$event->getRealInputFilepath()}\")</info>",
+                    );
+                }
+            },
+        );
+
+        $this->eventDispatcher->addEventListener(
+            FileWrittenEvent::class,
+            function (FileWrittenEvent $event) use ($output): void {
+                $output->writeln(
+                    "[✔] Written \"{$event->getRealOutputFilepath()}\"",
                 );
 
                 if ($output->isVerbose()) {
