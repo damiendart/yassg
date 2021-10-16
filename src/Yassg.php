@@ -17,23 +17,26 @@ use Yassg\Events\FileWrittenEvent;
 use Yassg\Exceptions\InvalidConfigurationException;
 use Yassg\Files\CopyFile;
 use Yassg\Files\InputFile;
-use Yassg\Processors\DefaultProcessor;
 use Yassg\Processors\ProcessorInterface;
+use Yassg\Processors\ProcessorResolver;
 
 class Yassg
 {
     private EventDispatcher $eventDispatcher;
     private Filesystem $filesystem;
     private Finder $finder;
+    private ProcessorResolver $processorResolver;
 
     public function __construct(
         EventDispatcher $eventDispatcher,
         Filesystem $filesystem,
         Finder $finder,
+        ProcessorResolver $processorResolver,
     ) {
         $this->eventDispatcher = $eventDispatcher;
         $this->filesystem = $filesystem;
         $this->finder = $finder;
+        $this->processorResolver = $processorResolver;
     }
 
     /**
@@ -46,7 +49,6 @@ class Yassg
             ->buildSite(
                 $configuration->getInputDirectory(),
                 $configuration->getOutputDirectory(),
-                $configuration->getProcessors(),
             );
     }
 
@@ -80,13 +82,10 @@ class Yassg
 
     /**
      * @psalm-suppress PossiblyNullArgument
-     *
-     * @param $processors ProcessorInterface[]
      */
     private function buildSite(
         string $inputDirectory,
         string $outputDirectory,
-        array $processors,
     ): void {
         $finder = $this->finder
             ->files()
@@ -105,26 +104,10 @@ class Yassg
 
             $this->buildFile(
                 $file,
-                $this->getApplicableProcessor($processors, $file),
+                $this->processorResolver->getApplicableProcessor($file),
                 $outputDirectory,
             );
         }
-    }
-
-    /**
-     * @param $processors ProcessorInterface[]
-     */
-    private function getApplicableProcessor(
-        array $processors,
-        InputFile $inputFile,
-    ): ProcessorInterface {
-        foreach ($processors as $processor) {
-            if ($processor->canProcess($inputFile)) {
-                return $processor;
-            }
-        }
-
-        return new DefaultProcessor();
     }
 
     /**

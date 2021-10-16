@@ -9,8 +9,6 @@ declare(strict_types=1);
 namespace Yassg\Configuration;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Yassg\Processors\MarkdownProcessor;
-use Yassg\Processors\ProcessorInterface;
 
 class Configuration
 {
@@ -31,11 +29,6 @@ class Configuration
         return $this->options['outputDirectory'];
     }
 
-    public function getProcessors(): array
-    {
-        return $this->options['processors'];
-    }
-
     private function createResolver(): OptionsResolver
     {
         $optionsResolver = new OptionsResolver();
@@ -44,16 +37,8 @@ class Configuration
             ->setRequired(
                 ['inputDirectory', 'outputDirectory'],
             )
-            ->setDefaults(
-                [
-                    'processors' => [
-                        new MarkdownProcessor(),
-                    ],
-                ],
-            )
             ->setAllowedTypes('inputDirectory', 'string')
-            ->setAllowedTypes('outputDirectory', 'string')
-            ->setAllowedTypes('processors', ProcessorInterface::class . '[]');
+            ->setAllowedTypes('outputDirectory', 'string');
 
         return $optionsResolver;
     }
