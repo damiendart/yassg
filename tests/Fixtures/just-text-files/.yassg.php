@@ -9,8 +9,6 @@ declare(strict_types=1);
 use Yassg\Configuration\Configuration;
 
 return new Configuration(
-    [
-        'inputDirectory' => __DIR__ . DIRECTORY_SEPARATOR . 'input',
-        'outputDirectory' => __DIR__ . DIRECTORY_SEPARATOR . 'output',
-    ],
+    __DIR__ . DIRECTORY_SEPARATOR . 'input',
+    __DIR__ . DIRECTORY_SEPARATOR . 'output',
 );

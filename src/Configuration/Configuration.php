@@ -8,38 +8,26 @@ declare(strict_types=1);
 
 namespace Yassg\Configuration;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
-
 class Configuration
 {
-    private array $options;
+    private string $inputDirectoryPath;
+    private string $outputDirectoryPath;
 
-    public function __construct(array $options = [])
-    {
-        $this->options = $this->createResolver()->resolve($options);
+    public function __construct(
+        string $inputDirectoryPath,
+        string $outputDirectoryPath,
+    ) {
+        $this->inputDirectoryPath = $inputDirectoryPath;
+        $this->outputDirectoryPath = $outputDirectoryPath;
     }
 
     public function getInputDirectory(): string
     {
-        return $this->options['inputDirectory'];
+        return $this->inputDirectoryPath;
     }
 
     public function getOutputDirectory(): string
     {
-        return $this->options['outputDirectory'];
-    }
-
-    private function createResolver(): OptionsResolver
-    {
-        $optionsResolver = new OptionsResolver();
-
-        $optionsResolver
-            ->setRequired(
-                ['inputDirectory', 'outputDirectory'],
-            )
-            ->setAllowedTypes('inputDirectory', 'string')
-            ->setAllowedTypes('outputDirectory', 'string');
-
-        return $optionsResolver;
+        return $this->outputDirectoryPath;
     }
 }
