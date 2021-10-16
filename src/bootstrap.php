@@ -6,14 +6,8 @@
 
 declare(strict_types=1);
 
+use Yassg\Application\Application;
+
 require __DIR__ . '/../vendor/autoload.php';
 
-use DI\ContainerBuilder;
-use Symfony\Component\Console\Application;
-use Yassg\Commands\BuildCommand;
-
-$application = new Application('yassg');
-$container = (new ContainerBuilder())->build();
-
-$application->add($container->get(BuildCommand::class));
-$application->run();
+(new Application())->run();

@@ -10,7 +10,6 @@ namespace Yassg\Commands;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Yassg\Configuration\Configuration;
 use Yassg\Events\EventDispatcher;
@@ -21,13 +20,16 @@ use Yassg\Yassg;
 
 class BuildCommand extends Command
 {
+    private Configuration $configuration;
     private EventDispatcher $eventDispatcher;
     private Yassg $yassg;
 
     public function __construct(
+        Configuration $configuration,
         EventDispatcher $eventDispatcher,
         Yassg $yassg,
     ) {
+        $this->configuration = $configuration;
         $this->eventDispatcher = $eventDispatcher;
         $this->yassg = $yassg;
 
@@ -38,17 +40,7 @@ class BuildCommand extends Command
     {
         $this
             ->setName('build')
-            ->setDescription('Builds a site.')
-            ->setDefinition(
-                [
-                    new InputOption(
-                        'config',
-                        'c',
-                        InputOption::VALUE_REQUIRED,
-                        'The path to a yassg configuration file.',
-                    ),
-                ],
-            );
+            ->setDescription('Builds a site.');
     }
 
     protected function execute(
@@ -58,11 +50,7 @@ class BuildCommand extends Command
         $this->setupEventListeners($output);
 
         try {
-            $this->yassg->build(
-                $this->getConfiguration(
-                    $input->getOption('config') ?? null,
-                ),
-            );
+            $this->yassg->build($this->configuration);
         } catch (InvalidConfigurationException $e) {
             $formatter = $this->getHelper('formatter');
 
@@ -78,42 +66,6 @@ class BuildCommand extends Command
         }
 
         return Command::SUCCESS;
-    }
-
-    /**
-     * @throws InvalidConfigurationException
-     */
-    private function getConfiguration(
-        ?string $configurationFilepath = null,
-    ): Configuration {
-        if (null === $configurationFilepath) {
-            $configurationFilepath = getcwd()
-                . DIRECTORY_SEPARATOR
-                . '.yassg.php';
-        }
-
-        if (false === file_exists($configurationFilepath)) {
-            throw new InvalidConfigurationException(
-                sprintf(
-                    'The config file "%s" does not exist.',
-                    $configurationFilepath,
-                ),
-            );
-        }
-
-        $configuration = include $configurationFilepath;
-
-        if (false === $configuration instanceof Configuration) {
-            throw new InvalidConfigurationException(
-                sprintf(
-                    'The config file "%s" does not return a "%s" instance.',
-                    $configurationFilepath,
-                    Configuration::class,
-                ),
-            );
-        }
-
-        return $configuration;
     }
 
     private function setupEventListeners(OutputInterface $output): void

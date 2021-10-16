@@ -19,24 +19,6 @@ use Yassg\Configuration\Configuration;
  */
 class BuildCommandTest extends CommandTestBase
 {
-    public Command $buildCommand;
-
-    public function setUp(): void
-    {
-        $this->buildCommand = (new ContainerBuilder())
-            ->build()
-            ->get(BuildCommand::class);
-
-        parent::setUp();
-    }
-
-    public function tearDown(): void
-    {
-        unset($this->buildCommand);
-
-        parent::tearDown();
-    }
-
     public function testRunningTheBuildCommandWithAnInvalidInputDirectory(): void
     {
         $fixtureDirectoryPath = self::$fixturesDirectoryPath
@@ -52,10 +34,12 @@ class BuildCommandTest extends CommandTestBase
             $fixtureConfiguration->getOutputDirectory(),
         );
 
-        $commandTester = $this->runCommand(
-            $this->buildCommand,
-            $fixtureDirectoryPath,
-        );
+        $command = (new ContainerBuilder())
+            ->addDefinitions([Configuration::class => $fixtureConfiguration])
+            ->build()
+            ->get(BuildCommand::class);
+
+        $commandTester = $this->runCommand($command, $fixtureDirectoryPath);
 
         $this->assertEquals(
             Command::FAILURE,
@@ -81,10 +65,12 @@ class BuildCommandTest extends CommandTestBase
             $fixtureConfiguration->getOutputDirectory(),
         );
 
-        $commandTester = $this->runCommand(
-            $this->buildCommand,
-            $fixtureDirectoryPath,
-        );
+        $command = (new ContainerBuilder())
+            ->addDefinitions([Configuration::class => $fixtureConfiguration])
+            ->build()
+            ->get(BuildCommand::class);
+
+        $commandTester = $this->runCommand($command, $fixtureDirectoryPath);
 
         $this->assertEquals(
             Command::SUCCESS,
@@ -111,10 +97,12 @@ class BuildCommandTest extends CommandTestBase
             $fixtureConfiguration->getOutputDirectory(),
         );
 
-        $commandTester = $this->runCommand(
-            $this->buildCommand,
-            $fixtureDirectoryPath,
-        );
+        $command = (new ContainerBuilder())
+            ->addDefinitions([Configuration::class => $fixtureConfiguration])
+            ->build()
+            ->get(BuildCommand::class);
+
+        $commandTester = $this->runCommand($command, $fixtureDirectoryPath);
 
         $this->assertEquals(
             Command::SUCCESS,
@@ -143,11 +131,12 @@ class BuildCommandTest extends CommandTestBase
             $fixtureConfiguration->getOutputDirectory(),
         );
 
-        $commandTester = $this->runCommand(
-            $this->buildCommand,
-            $fixtureDirectoryPath,
-            ['--config' => '.chicken.php'],
-        );
+        $command = (new ContainerBuilder())
+            ->addDefinitions([Configuration::class => $fixtureConfiguration])
+            ->build()
+            ->get(BuildCommand::class);
+
+        $commandTester = $this->runCommand($command, $fixtureDirectoryPath);
 
         $this->assertEquals(
             Command::SUCCESS,
