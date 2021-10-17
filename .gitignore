@@ -5,5 +5,5 @@
 .php-cs-fixer.cache
 .phpunit.result.cache
 composer.lock
-tests/tmp
+tests/Fixtures/*/output
 vendor
