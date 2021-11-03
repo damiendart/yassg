@@ -8,17 +8,17 @@ declare(strict_types=1);
 
 namespace Yassg\Processors;
 
-use League\CommonMark\CommonMarkConverter;
+use League\CommonMark\MarkdownConverterInterface;
 use Yassg\Files\InputFile;
 use Yassg\Files\WriteFile;
 
 class MarkdownProcessor implements ProcessorInterface
 {
-    private CommonMarkConverter $converter;
+    private MarkdownConverterInterface $converter;
 
-    public function __construct()
+    public function __construct(MarkdownConverterInterface $converter)
     {
-        $this->converter = new CommonMarkConverter();
+        $this->converter = $converter;
     }
 
     public function canProcess(InputFile $file): bool

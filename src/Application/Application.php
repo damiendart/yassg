@@ -8,29 +8,22 @@ declare(strict_types=1);
 
 namespace Yassg\Application;
 
-use DI\ContainerBuilder;
 use Exception;
-use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Application as SymfonyApplication;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Yassg\Commands\BuildCommand;
-use Yassg\Configuration\Configuration;
-use Yassg\Exceptions\InvalidConfigurationException;
+use Yassg\Container\Container;
 
 class Application extends SymfonyApplication
 {
     const NAME = 'yassg';
     const VERSION = '0.1.0';
 
-    private ContainerBuilder $containerBuilder;
-
     public function __construct()
     {
         parent::__construct(static::NAME, static::VERSION);
-
-        $this->containerBuilder = new ContainerBuilder();
     }
 
     /**
@@ -65,36 +58,7 @@ class Application extends SymfonyApplication
      */
     private function initialise(string $configurationFilepath): void
     {
-        $this->containerBuilder->addDefinitions(
-            [
-                Configuration::class => function (ContainerInterface $c) use ($configurationFilepath) {
-                    if (false === file_exists($configurationFilepath)) {
-                        throw new InvalidConfigurationException(
-                            sprintf(
-                                'The config file "%s" does not exist.',
-                                $configurationFilepath,
-                            ),
-                        );
-                    }
-
-                    $configuration = include $configurationFilepath;
-
-                    if (false === $configuration instanceof Configuration) {
-                        throw new InvalidConfigurationException(
-                            sprintf(
-                                'The config file "%s" does not return a "%s" instance.',
-                                $configurationFilepath,
-                                Configuration::class,
-                            ),
-                        );
-                    }
-
-                    return $configuration;
-                },
-            ],
-        );
-
-        $container = $this->containerBuilder->build();
+        $container = new Container($configurationFilepath);
 
         $this->add($container->get(BuildCommand::class));
     }
