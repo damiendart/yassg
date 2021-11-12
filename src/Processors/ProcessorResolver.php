@@ -24,6 +24,7 @@ class ProcessorResolver
         MarkdownProcessor $markdownProcessor,
     ) {
         $this->fallbackProcessor = $defaultProcessor;
+        $this->processors = [];
 
         $this->addProcessor($markdownProcessor);
     }
