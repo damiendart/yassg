@@ -17,7 +17,7 @@ use Yassg\Events\FileWrittenEvent;
 use Yassg\Exceptions\InvalidConfigurationException;
 use Yassg\Files\CopyFile;
 use Yassg\Files\InputFile;
-use Yassg\Processors\ProcessorInterface;
+use Yassg\Files\OutputFileInterface;
 use Yassg\Processors\ProcessorResolver;
 
 class Yassg
@@ -54,18 +54,25 @@ class Yassg
 
     private function buildFile(
         InputFile $inputFile,
-        ProcessorInterface $processor,
         string $baseOutputDirectory,
     ): void {
-        $outputFile = $processor->process($inputFile);
+        $processedFile = $inputFile;
 
-        $outputFile->write($this->filesystem, $baseOutputDirectory);
+        while (false === $processedFile instanceof OutputFileInterface) {
+            $processor = $this->processorResolver->getApplicableProcessor(
+                $processedFile,
+            );
 
-        if ($outputFile instanceof CopyFile) {
+            $processedFile = $processor->process($processedFile);
+        }
+
+        $processedFile->write($this->filesystem, $baseOutputDirectory);
+
+        if ($processedFile instanceof CopyFile) {
             $this->eventDispatcher->dispatch(
                 new FileCopiedEvent(
                     $inputFile,
-                    $outputFile,
+                    $processedFile,
                     $baseOutputDirectory,
                 ),
             );
@@ -73,7 +80,7 @@ class Yassg
             $this->eventDispatcher->dispatch(
                 new FileWrittenEvent(
                     $inputFile,
-                    $outputFile,
+                    $processedFile,
                     $baseOutputDirectory,
                 ),
             );
@@ -100,13 +107,7 @@ class Yassg
         );
 
         foreach ($finder as $file) {
-            $file = new InputFile($file);
-
-            $this->buildFile(
-                $file,
-                $this->processorResolver->getApplicableProcessor($file),
-                $outputDirectory,
-            );
+            $this->buildFile(new InputFile($file), $outputDirectory);
         }
     }
 

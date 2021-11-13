@@ -10,7 +10,7 @@ namespace Yassg\Files;
 
 use Symfony\Component\Finder\SplFileInfo;
 
-class InputFile
+class InputFile implements InputFileInterface
 {
     private SplFileInfo $file;
 
@@ -19,13 +19,23 @@ class InputFile
         $this->file = $file;
     }
 
-    public function getRelativeFilepath(): string
+    public function getContent(): string
     {
-        return $this->file->getRelativePathname();
+        return $this->file->getContents();
+    }
+
+    public function getOriginalInputFile(): InputFileInterface
+    {
+        return $this;
     }
 
     public function getRealFilepath(): string
     {
         return $this->file->getRealPath();
+    }
+
+    public function getRelativeFilepath(): string
+    {
+        return $this->file->getRelativePathname();
     }
 }

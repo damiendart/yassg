@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Yassg\Processors;
 
-use Yassg\Files\InputFile;
+use Yassg\Files\InputFileInterface;
 
 class ProcessorResolver
 {
@@ -35,7 +35,7 @@ class ProcessorResolver
     }
 
     public function getApplicableProcessor(
-        InputFile $inputFile,
+        InputFileInterface $inputFile,
     ): ProcessorInterface {
         foreach ($this->processors as $processor) {
             if ($processor->canProcess($inputFile)) {

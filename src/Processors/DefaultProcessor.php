@@ -10,16 +10,26 @@ namespace Yassg\Processors;
 
 use Yassg\Files\CopyFile;
 use Yassg\Files\InputFile;
+use Yassg\Files\InputFileInterface;
+use Yassg\Files\OutputFileInterface;
+use Yassg\Files\WriteFile;
 
 class DefaultProcessor implements ProcessorInterface
 {
-    public function canProcess(InputFile $file): bool
+    public function canProcess(InputFileInterface $file): bool
     {
         return true;
     }
 
-    public function process(InputFile $inputFile): CopyFile
+    public function process(InputFileInterface $inputFile): OutputFileInterface
     {
-        return new CopyFile($inputFile);
+        if ($inputFile instanceof InputFile) {
+            return new CopyFile($inputFile);
+        }
+
+        return new WriteFile(
+            $inputFile->getContent(),
+            $inputFile->getRelativeFilepath(),
+        );
     }
 }

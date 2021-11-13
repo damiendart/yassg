@@ -8,12 +8,12 @@ declare(strict_types=1);
 
 namespace Yassg\Processors;
 
-use Yassg\Files\InputFile;
+use Yassg\Files\InputFileInterface;
 use Yassg\Files\OutputFileInterface;
 
 interface ProcessorInterface
 {
-    public function canProcess(InputFile $file): bool;
+    public function canProcess(InputFileInterface $file): bool;
 
-    public function process(InputFile $inputFile): OutputFileInterface;
+    public function process(InputFileInterface $inputFile): InputFileInterface|OutputFileInterface;
 }

@@ -9,8 +9,8 @@ declare(strict_types=1);
 namespace Yassg\Processors;
 
 use League\CommonMark\MarkdownConverterInterface;
-use Yassg\Files\InputFile;
-use Yassg\Files\WriteFile;
+use Yassg\Files\InputFileInterface;
+use Yassg\Files\MutatedFile;
 
 class MarkdownProcessor implements ProcessorInterface
 {
@@ -21,19 +21,18 @@ class MarkdownProcessor implements ProcessorInterface
         $this->converter = $converter;
     }
 
-    public function canProcess(InputFile $file): bool
+    public function canProcess(InputFileInterface $file): bool
     {
-        return str_ends_with($file->getRealFilepath(), 'md');
+        return str_ends_with($file->getRelativeFilepath(), 'md');
     }
 
-    public function process(InputFile $inputFile): WriteFile
+    public function process(InputFileInterface $inputFile): MutatedFile
     {
-        return new WriteFile(
+        return new MutatedFile(
             $this->converter
-                ->convertToHtml(
-                    file_get_contents($inputFile->getRealFilepath()),
-                )
+                ->convertToHtml($inputFile->getContent())
                 ->getContent(),
+            $inputFile->getOriginalInputFile(),
             $this->processFilepath($inputFile->getRelativeFilepath()),
         );
     }
