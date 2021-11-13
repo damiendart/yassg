@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Yassg\Commands;
 
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Yassg\Configuration\Configuration;
@@ -52,6 +53,7 @@ class BuildCommand extends Command
         try {
             $this->yassg->build($this->configuration);
         } catch (InvalidConfigurationException $e) {
+            /** @var FormatterHelper $formatter */
             $formatter = $this->getHelper('formatter');
 
             $output->writeln(

@@ -14,6 +14,7 @@ use Psr\EventDispatcher\StoppableEventInterface;
 
 class EventDispatcher implements EventDispatcherInterface, ListenerProviderInterface
 {
+    /** @var array<string, callable[]> */
     private array $listeners = [];
 
     public function addEventListener(
@@ -43,6 +44,9 @@ class EventDispatcher implements EventDispatcherInterface, ListenerProviderInter
         return $event;
     }
 
+    /**
+     * @return callable[]
+     */
     public function getListenersForEvent(object $event): iterable
     {
         $eventType = $this->getEventType($event);

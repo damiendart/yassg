@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace Yassg\Application;
 
 use Exception;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Component\Console\Application as SymfonyApplication;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
@@ -27,11 +29,15 @@ class Application extends SymfonyApplication
     }
 
     /**
-     * @throws Exception
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     protected function getCommandName(InputInterface $input): ?string
     {
-        $this->initialise($input->getOption('config'));
+        /** @var string $configurationFilepath */
+        $configurationFilepath = $input->getOption('config');
+
+        $this->initialise($configurationFilepath);
 
         return parent::getCommandName($input);
     }
@@ -54,12 +60,17 @@ class Application extends SymfonyApplication
     }
 
     /**
+     * @throws ContainerExceptionInterface
      * @throws Exception
+     * @throws NotFoundExceptionInterface
      */
     private function initialise(string $configurationFilepath): void
     {
         $container = new Container($configurationFilepath);
 
-        $this->add($container->get(BuildCommand::class));
+        /** @var BuildCommand $buildCommand */
+        $buildCommand = $container->get(BuildCommand::class);
+
+        $this->add($buildCommand);
     }
 }
