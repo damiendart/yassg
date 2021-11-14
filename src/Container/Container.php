@@ -16,6 +16,12 @@ use Yassg\Exceptions\InvalidConfigurationException;
 
 class Container implements ContainerInterface
 {
+    /** @var string[] */
+    private static array $defaultDefinitionsFilenames = [
+        'markdown.php',
+        'processors.php',
+    ];
+
     private ContainerInterface $container;
 
     /**
@@ -71,12 +77,15 @@ class Container implements ContainerInterface
                 },
             ],
         );
-        $containerBuilder->addDefinitions(
-            join(
-                DIRECTORY_SEPARATOR,
-                [__DIR__, 'Definitions', 'markdown.php'],
-            ),
-        );
+
+        foreach (static::$defaultDefinitionsFilenames as $filename) {
+            $containerBuilder->addDefinitions(
+                join(
+                    DIRECTORY_SEPARATOR,
+                    [__DIR__, 'Definitions', $filename],
+                ),
+            );
+        }
 
         $this->container = $containerBuilder->build();
     }

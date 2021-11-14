@@ -19,14 +19,10 @@ class ProcessorResolver
 
     private DefaultProcessor $fallbackProcessor;
 
-    public function __construct(
-        DefaultProcessor $defaultProcessor,
-        MarkdownProcessor $markdownProcessor,
-    ) {
+    public function __construct(DefaultProcessor $defaultProcessor)
+    {
         $this->fallbackProcessor = $defaultProcessor;
         $this->processors = [];
-
-        $this->addProcessor($markdownProcessor);
     }
 
     public function addProcessor(ProcessorInterface $processor): void

@@ -15,16 +15,27 @@ use Psr\Container\ContainerInterface;
 
 return [
     MarkdownConverterInterface::class => function (ContainerInterface $c): MarkdownConverter {
-        return new MarkdownConverter($c->get(Environment::class));
+        /** @var Environment $environment */
+        $environment = $c->get(Environment::class);
+
+        return new MarkdownConverter($environment);
     },
     Environment::class => function (ContainerInterface $c): Environment {
+        /** @var CommonMarkCoreExtension $commonMarkCoreExtension */
+        $commonMarkCoreExtension = $c->get(
+            CommonMarkCoreExtension::class,
+        );
+
         $environment = new Environment();
 
+        /** @var GithubFlavoredMarkdownExtension $githubFlavouredMarkdownExtension */
+        $githubFlavouredMarkdownExtension = $c->get(
+            GithubFlavoredMarkdownExtension::class,
+        );
+
         $environment
-            ->addExtension($c->get(CommonMarkCoreExtension::class))
-            ->addExtension(
-                $c->get(GithubFlavoredMarkdownExtension::class),
-            );
+            ->addExtension($commonMarkCoreExtension)
+            ->addExtension($githubFlavouredMarkdownExtension);
 
         return $environment;
     },
