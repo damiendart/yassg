@@ -18,13 +18,13 @@ use Symfony\Component\Finder\Finder;
 abstract class CommandTestBase extends TestCase
 {
     protected static Filesystem $filesystem;
-    protected static string $fixturesDirectoryPath;
+    protected static string $fixturesDirectory;
     protected ?string $temporaryDirectoryPath = null;
 
     public static function setUpBeforeClass(): void
     {
         self::$filesystem = new Filesystem();
-        self::$fixturesDirectoryPath = dirname(__DIR__, 2)
+        self::$fixturesDirectory = dirname(__DIR__, 2)
             . DIRECTORY_SEPARATOR
             . 'Fixtures';
     }

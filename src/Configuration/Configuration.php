@@ -10,24 +10,24 @@ namespace Yassg\Configuration;
 
 class Configuration
 {
-    private string $inputDirectoryPath;
-    private string $outputDirectoryPath;
+    private string $inputDirectory;
+    private string $outputDirectory;
 
     public function __construct(
-        string $inputDirectoryPath,
-        string $outputDirectoryPath,
+        string $inputDirectory,
+        string $outputDirectory,
     ) {
-        $this->inputDirectoryPath = $inputDirectoryPath;
-        $this->outputDirectoryPath = $outputDirectoryPath;
+        $this->inputDirectory = $inputDirectory;
+        $this->outputDirectory = $outputDirectory;
     }
 
     public function getInputDirectory(): string
     {
-        return $this->inputDirectoryPath;
+        return $this->inputDirectory;
     }
 
     public function getOutputDirectory(): string
     {
-        return $this->outputDirectoryPath;
+        return $this->outputDirectory;
     }
 }

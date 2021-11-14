@@ -21,24 +21,24 @@ class BuildCommandTest extends CommandTestBase
 {
     public function testRunningTheBuildCommandWithAnInvalidInputDirectory(): void
     {
-        $fixtureDirectoryPath = self::$fixturesDirectoryPath
+        $fixtureDirectory = self::$fixturesDirectory
             . DIRECTORY_SEPARATOR
             . 'invalid-input-directory';
-        $fixtureConfigurationFilepath = $fixtureDirectoryPath
+        $fixtureConfigurationFilePathname = $fixtureDirectory
             . DIRECTORY_SEPARATOR
             . '.yassg.php';
 
         /** @var Configuration $configuration */
-        $configuration = include $fixtureConfigurationFilepath;
+        $configuration = include $fixtureConfigurationFilePathname;
 
         $this->setTemporaryDirectoryPath(
             $configuration->getOutputDirectory(),
         );
 
-        $command = (new Container($fixtureConfigurationFilepath))
+        $command = (new Container($fixtureConfigurationFilePathname))
             ->get(BuildCommand::class);
 
-        $commandTester = $this->runCommand($command, $fixtureDirectoryPath);
+        $commandTester = $this->runCommand($command, $fixtureDirectory);
 
         $this->assertEquals(
             Command::FAILURE,
@@ -51,24 +51,24 @@ class BuildCommandTest extends CommandTestBase
 
     public function testRunningTheBuildCommandWithADirectoryOfTextFiles(): void
     {
-        $fixtureDirectoryPath = self::$fixturesDirectoryPath
+        $fixtureDirectory = self::$fixturesDirectory
             . DIRECTORY_SEPARATOR
             . 'just-text-files';
-        $fixtureConfigurationFilepath = $fixtureDirectoryPath
+        $fixtureConfigurationFilePathname = $fixtureDirectory
             . DIRECTORY_SEPARATOR
             . '.yassg.php';
 
         /** @var Configuration $configuration */
-        $configuration = include $fixtureConfigurationFilepath;
+        $configuration = include $fixtureConfigurationFilePathname;
 
         $this->setTemporaryDirectoryPath(
             $configuration->getOutputDirectory(),
         );
 
-        $command = (new Container($fixtureConfigurationFilepath))
+        $command = (new Container($fixtureConfigurationFilePathname))
             ->get(BuildCommand::class);
 
-        $commandTester = $this->runCommand($command, $fixtureDirectoryPath);
+        $commandTester = $this->runCommand($command, $fixtureDirectory);
 
         $this->assertEquals(
             Command::SUCCESS,
@@ -82,31 +82,31 @@ class BuildCommandTest extends CommandTestBase
 
     public function testRunningTheBuildCommandWithADirectoryOfMarkdownFiles(): void
     {
-        $fixtureDirectoryPath = self::$fixturesDirectoryPath
+        $fixtureDirectory = self::$fixturesDirectory
             . DIRECTORY_SEPARATOR
             . 'just-markdown-files';
-        $fixtureConfigurationFilepath = $fixtureDirectoryPath
+        $fixtureConfigurationFilePathname = $fixtureDirectory
             . DIRECTORY_SEPARATOR
             . '.yassg.php';
 
         /** @var Configuration $configuration */
-        $configuration = include $fixtureConfigurationFilepath;
+        $configuration = include $fixtureConfigurationFilePathname;
 
         $this->setTemporaryDirectoryPath(
             $configuration->getOutputDirectory(),
         );
 
-        $command = (new Container($fixtureConfigurationFilepath))
+        $command = (new Container($fixtureConfigurationFilePathname))
             ->get(BuildCommand::class);
 
-        $commandTester = $this->runCommand($command, $fixtureDirectoryPath);
+        $commandTester = $this->runCommand($command, $fixtureDirectory);
 
         $this->assertEquals(
             Command::SUCCESS,
             $commandTester->getStatusCode(),
         );
         $this->assertDirectoryEquals(
-            $fixtureDirectoryPath . DIRECTORY_SEPARATOR . 'expected',
+            $fixtureDirectory . DIRECTORY_SEPARATOR . 'expected',
             $configuration->getOutputDirectory(),
         );
     }

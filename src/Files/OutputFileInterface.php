@@ -12,7 +12,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 interface OutputFileInterface
 {
-    public function getRelativeFilepath(): string;
+    public function getRelativePathname(): string;
 
     public function write(
         Filesystem $filesystem,

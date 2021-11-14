@@ -19,9 +19,9 @@ class CopyFile implements OutputFileInterface
         $this->inputFile = $inputFile;
     }
 
-    public function getRelativeFilepath(): string
+    public function getRelativePathname(): string
     {
-        return $this->inputFile->getRelativeFilepath();
+        return $this->inputFile->getRelativePathname();
     }
 
     public function write(
@@ -29,12 +29,12 @@ class CopyFile implements OutputFileInterface
         string $baseOutputDirectory,
     ): void {
         $filesystem->copy(
-            $this->inputFile->getRealFilepath(),
+            $this->inputFile->getOriginalAbsolutePathname(),
             join(
                 DIRECTORY_SEPARATOR,
                 [
                     $baseOutputDirectory,
-                    $this->inputFile->getRelativeFilepath(),
+                    $this->inputFile->getRelativePathname(),
                 ],
             ),
             true,

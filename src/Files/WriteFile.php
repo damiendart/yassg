@@ -13,19 +13,19 @@ use Symfony\Component\Filesystem\Filesystem;
 class WriteFile implements OutputFileInterface
 {
     private string $contents;
-    private string $relativeFilepath;
+    private string $relativePathname;
 
     public function __construct(
         string $contents,
-        string $relativeFilepath,
+        string $relativePathname,
     ) {
         $this->contents = $contents;
-        $this->relativeFilepath = $relativeFilepath;
+        $this->relativePathname = $relativePathname;
     }
 
-    public function getRelativeFilepath(): string
+    public function getRelativePathname(): string
     {
-        return $this->relativeFilepath;
+        return $this->relativePathname;
     }
 
     public function write(
@@ -37,7 +37,7 @@ class WriteFile implements OutputFileInterface
                 DIRECTORY_SEPARATOR,
                 [
                     $baseOutputDirectory,
-                    $this->getRelativeFilepath(),
+                    $this->getRelativePathname(),
                 ],
             ),
             $this->contents,

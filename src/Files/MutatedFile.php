@@ -12,16 +12,16 @@ class MutatedFile implements InputFileInterface
 {
     private string $content;
     private InputFileInterface $originalInputFile;
-    private string $relativeFilepath;
+    private string $relativePathname;
 
     public function __construct(
         string $content,
         InputFileInterface $originalInputFile,
-        string $relativeFilepath,
+        string $relativePathname,
     ) {
         $this->content = $content;
         $this->originalInputFile = $originalInputFile;
-        $this->relativeFilepath = $relativeFilepath;
+        $this->relativePathname = $relativePathname;
     }
 
     public function getContent(): string
@@ -29,18 +29,18 @@ class MutatedFile implements InputFileInterface
         return $this->content;
     }
 
+    public function getOriginalAbsolutePathname(): string
+    {
+        return $this->originalInputFile->getOriginalAbsolutePathname();
+    }
+
     public function getOriginalInputFile(): InputFileInterface
     {
         return $this->originalInputFile->getOriginalInputFile();
     }
 
-    public function getRealFilepath(): string
+    public function getRelativePathname(): string
     {
-        return $this->originalInputFile->getRealFilepath();
-    }
-
-    public function getRelativeFilepath(): string
-    {
-        return $this->relativeFilepath;
+        return $this->relativePathname;
     }
 }

@@ -23,7 +23,7 @@ class MarkdownProcessor implements ProcessorInterface
 
     public function canProcess(InputFileInterface $file): bool
     {
-        return str_ends_with($file->getRelativeFilepath(), 'md');
+        return str_ends_with($file->getRelativePathname(), 'md');
     }
 
     public function process(InputFileInterface $inputFile): MutatedFile
@@ -33,14 +33,14 @@ class MarkdownProcessor implements ProcessorInterface
                 ->convertToHtml($inputFile->getContent())
                 ->getContent(),
             $inputFile->getOriginalInputFile(),
-            $this->processFilepath($inputFile->getRelativeFilepath()),
+            $this->processPathname($inputFile->getRelativePathname()),
         );
     }
 
-    private function processFilepath(string $filepath): string
+    private function processPathname(string $pathname): string
     {
-        $extension = pathinfo($filepath, PATHINFO_EXTENSION);
+        $extension = pathinfo($pathname, PATHINFO_EXTENSION);
 
-        return preg_replace("/{$extension}$/i", 'html', $filepath);
+        return preg_replace("/{$extension}$/i", 'html', $pathname);
     }
 }

@@ -12,9 +12,9 @@ interface InputFileInterface
 {
     public function getContent(): string;
 
+    public function getOriginalAbsolutePathname(): string;
+
     public function getOriginalInputFile(): InputFileInterface;
 
-    public function getRealFilepath(): string;
-
-    public function getRelativeFilepath(): string;
+    public function getRelativePathname(): string;
 }

@@ -14,7 +14,7 @@ use Yassg\Files\OutputFileInterface;
 class FileWrittenEvent extends Event
 {
     private InputFile $inputFile;
-    private string $realOutputFilepath;
+    private string $absolutePathname;
 
     public function __construct(
         InputFile $inputFile,
@@ -22,22 +22,22 @@ class FileWrittenEvent extends Event
         string $baseOutputDirectory,
     ) {
         $this->inputFile = $inputFile;
-        $this->realOutputFilepath = join(
+        $this->absolutePathname = join(
             DIRECTORY_SEPARATOR,
             [
                 $baseOutputDirectory,
-                $outputFile->getRelativeFilepath(),
+                $outputFile->getRelativePathname(),
             ],
         );
     }
 
-    public function getRealInputFilepath(): string
+    public function getInputAbsolutePathname(): string
     {
-        return $this->inputFile->getRealFilepath();
+        return $this->inputFile->getOriginalAbsolutePathname();
     }
 
-    public function getRealOutputFilepath(): string
+    public function getOutputAbsolutePathname(): string
     {
-        return $this->realOutputFilepath;
+        return $this->absolutePathname;
     }
 }

@@ -21,9 +21,9 @@ class Container implements ContainerInterface
     /**
      * @throws Exception
      */
-    public function __construct(string $configurationFilepath)
+    public function __construct(string $configurationFilePathname)
     {
-        $this->initialise($configurationFilepath);
+        $this->initialise($configurationFilePathname);
     }
 
     public function get(string $id): mixed
@@ -39,29 +39,29 @@ class Container implements ContainerInterface
     /**
      * @throws Exception
      */
-    private function initialise(string $configurationFilepath): void
+    private function initialise(string $configurationFilePathname): void
     {
         $containerBuilder = new ContainerBuilder();
 
         $containerBuilder->addDefinitions(
             [
-                Configuration::class => function () use ($configurationFilepath) {
-                    if (false === file_exists($configurationFilepath)) {
+                Configuration::class => function () use ($configurationFilePathname) {
+                    if (false === file_exists($configurationFilePathname)) {
                         throw new InvalidConfigurationException(
                             sprintf(
                                 'The config file "%s" does not exist.',
-                                $configurationFilepath,
+                                $configurationFilePathname,
                             ),
                         );
                     }
 
-                    $configuration = include $configurationFilepath;
+                    $configuration = include $configurationFilePathname;
 
                     if (false === $configuration instanceof Configuration) {
                         throw new InvalidConfigurationException(
                             sprintf(
                                 'The config file "%s" does not return a "%s" instance.',
-                                $configurationFilepath,
+                                $configurationFilePathname,
                                 Configuration::class,
                             ),
                         );

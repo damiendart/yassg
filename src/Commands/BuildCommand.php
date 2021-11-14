@@ -76,12 +76,12 @@ class BuildCommand extends Command
             FileCopiedEvent::class,
             function (FileCopiedEvent $event) use ($output): void {
                 $output->writeln(
-                    "[✔] Copied file to \"{$event->getRealOutputFilepath()}\"",
+                    "[✔] Copied file to \"{$event->getOutputAbsolutePathname()}\"",
                 );
 
                 if ($output->isVerbose()) {
                     $output->writeln(
-                        "    <info>(Source file: \"{$event->getRealInputFilepath()}\")</info>",
+                        "    <info>(Source file: \"{$event->getInputAbsolutePathname()}\")</info>",
                     );
                 }
             },
@@ -91,12 +91,12 @@ class BuildCommand extends Command
             FileWrittenEvent::class,
             function (FileWrittenEvent $event) use ($output): void {
                 $output->writeln(
-                    "[✔] Written \"{$event->getRealOutputFilepath()}\"",
+                    "[✔] Written \"{$event->getOutputAbsolutePathname()}\"",
                 );
 
                 if ($output->isVerbose()) {
                     $output->writeln(
-                        "    <info>(Source file: \"{$event->getRealInputFilepath()}\")</info>",
+                        "    <info>(Source file: \"{$event->getInputAbsolutePathname()}\")</info>",
                     );
                 }
             },

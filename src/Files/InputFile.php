@@ -24,17 +24,17 @@ class InputFile implements InputFileInterface
         return $this->file->getContents();
     }
 
+    public function getOriginalAbsolutePathname(): string
+    {
+        return $this->file->getRealPath();
+    }
+
     public function getOriginalInputFile(): InputFileInterface
     {
         return $this;
     }
 
-    public function getRealFilepath(): string
-    {
-        return $this->file->getRealPath();
-    }
-
-    public function getRelativeFilepath(): string
+    public function getRelativePathname(): string
     {
         return $this->file->getRelativePathname();
     }

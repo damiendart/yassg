@@ -34,10 +34,10 @@ class Application extends SymfonyApplication
      */
     protected function getCommandName(InputInterface $input): ?string
     {
-        /** @var string $configurationFilepath */
-        $configurationFilepath = $input->getOption('config');
+        /** @var string $configurationFilePathname */
+        $configurationFilePathname = $input->getOption('config');
 
-        $this->initialise($configurationFilepath);
+        $this->initialise($configurationFilePathname);
 
         return parent::getCommandName($input);
     }
@@ -51,7 +51,7 @@ class Application extends SymfonyApplication
                 'config',
                 'c',
                 InputOption::VALUE_REQUIRED,
-                'The path to a ' . static::NAME . ' configuration file.',
+                'The pathname to a ' . static::NAME . ' configuration file.',
                 getcwd() . DIRECTORY_SEPARATOR . '.yassg.php',
             ),
         );
@@ -64,9 +64,9 @@ class Application extends SymfonyApplication
      * @throws Exception
      * @throws NotFoundExceptionInterface
      */
-    private function initialise(string $configurationFilepath): void
+    private function initialise(string $configurationFilePathname): void
     {
-        $container = new Container($configurationFilepath);
+        $container = new Container($configurationFilePathname);
 
         /** @var BuildCommand $buildCommand */
         $buildCommand = $container->get(BuildCommand::class);

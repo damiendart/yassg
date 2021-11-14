@@ -29,7 +29,7 @@ class DefaultProcessor implements ProcessorInterface
 
         return new WriteFile(
             $inputFile->getContent(),
-            $inputFile->getRelativeFilepath(),
+            $inputFile->getRelativePathname(),
         );
     }
 }
