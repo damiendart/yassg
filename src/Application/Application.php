@@ -25,7 +25,7 @@ class Application extends SymfonyApplication
 
     public function __construct()
     {
-        parent::__construct(static::NAME, static::VERSION);
+        parent::__construct(self::NAME, self::VERSION);
     }
 
     /**
@@ -51,7 +51,7 @@ class Application extends SymfonyApplication
                 'config',
                 'c',
                 InputOption::VALUE_REQUIRED,
-                'The pathname to a ' . static::NAME . ' configuration file.',
+                'The pathname to a ' . self::NAME . ' configuration file.',
                 getcwd() . DIRECTORY_SEPARATOR . '.yassg.php',
             ),
         );
