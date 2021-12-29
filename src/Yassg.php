@@ -10,7 +10,6 @@ namespace Yassg;
 
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\SplFileInfo;
 use Yassg\Configuration\Configuration;
 use Yassg\Events\EventDispatcher;
 use Yassg\Events\FileCopiedEvent;
@@ -107,7 +106,6 @@ class Yassg
             true,
         );
 
-        /** @var SplFileInfo $file */
         foreach ($finder as $file) {
             $this->buildFile(new InputFile($file), $outputDirectory);
         }
