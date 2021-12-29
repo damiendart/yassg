@@ -12,6 +12,7 @@ use Psr\Container\ContainerInterface;
 use Yassg\Processors\DefaultProcessor;
 use Yassg\Processors\MarkdownProcessor;
 use Yassg\Processors\ProcessorResolver;
+use Yassg\Processors\TwigProcessor;
 
 return [
     ProcessorResolver::class => function (ContainerInterface $c): ProcessorResolver {
@@ -21,9 +22,14 @@ return [
         /** @var MarkdownProcessor $markdownProcessor */
         $markdownProcessor = $c->get(MarkdownProcessor::class);
 
+        /** @var TwigProcessor $twigProcessor */
+        $twigProcessor = $c->get(TwigProcessor::class);
+
         $processorResolver = new ProcessorResolver($defaultProcessor);
 
-        $processorResolver->addProcessor($markdownProcessor);
+        $processorResolver
+            ->addProcessor($markdownProcessor)
+            ->addProcessor($twigProcessor);
 
         return $processorResolver;
     },
