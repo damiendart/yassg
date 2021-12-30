@@ -17,6 +17,7 @@ use Yassg\Events\FileWrittenEvent;
 use Yassg\Exceptions\InvalidConfigurationException;
 use Yassg\Files\CopyFile;
 use Yassg\Files\InputFile;
+use Yassg\Files\Metadata\MetadataExtractorInterface;
 use Yassg\Files\OutputFileInterface;
 use Yassg\Processors\ProcessorResolver;
 
@@ -25,17 +26,20 @@ class Yassg
     private EventDispatcher $eventDispatcher;
     private Filesystem $filesystem;
     private Finder $finder;
+    private MetadataExtractorInterface $metadataExtractor;
     private ProcessorResolver $processorResolver;
 
     public function __construct(
         EventDispatcher $eventDispatcher,
         Filesystem $filesystem,
         Finder $finder,
+        MetadataExtractorInterface $metadataExtractor,
         ProcessorResolver $processorResolver,
     ) {
         $this->eventDispatcher = $eventDispatcher;
         $this->filesystem = $filesystem;
         $this->finder = $finder;
+        $this->metadataExtractor = $metadataExtractor;
         $this->processorResolver = $processorResolver;
     }
 
@@ -107,7 +111,13 @@ class Yassg
         );
 
         foreach ($finder as $file) {
-            $this->buildFile(new InputFile($file), $outputDirectory);
+            $inputFile = new InputFile($file);
+
+            $inputFile->setMetadata(
+                $this->metadataExtractor->extractFromInputFile($inputFile),
+            );
+
+            $this->buildFile($inputFile, $outputDirectory);
         }
     }
 

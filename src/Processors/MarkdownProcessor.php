@@ -32,6 +32,7 @@ class MarkdownProcessor implements ProcessorInterface
             $this->converter
                 ->convertToHtml($inputFile->getContent())
                 ->getContent(),
+            $inputFile->getMetadata(),
             $inputFile->getOriginalInputFile(),
             $this->processPathname($inputFile->getRelativePathname()),
         );

@@ -18,21 +18,25 @@ use Twig\Loader\FilesystemLoader;
 use Yassg\Configuration\Configuration;
 use Yassg\Files\InputFileInterface;
 use Yassg\Files\MutatedFile;
+use Yassg\Services\FrontMatterService;
 
 class TwigProcessor implements ProcessorInterface
 {
     private ChainLoader $chainLoader;
     private Configuration $configuration;
     private FilesystemLoader $filesystemLoader;
+    private FrontMatterService $frontMatterService;
 
     public function __construct(
         ChainLoader $chainLoader,
         FilesystemLoader $filesystemLoader,
         Configuration $configuration,
+        FrontMatterService $frontMatterService,
     ) {
         $this->chainLoader = $chainLoader;
         $this->configuration = $configuration;
         $this->filesystemLoader = $filesystemLoader;
+        $this->frontMatterService = $frontMatterService;
     }
 
     public function canProcess(InputFileInterface $file): bool
@@ -53,7 +57,9 @@ class TwigProcessor implements ProcessorInterface
 
         $this->chainLoader->addLoader(
             new ArrayLoader([
-                $inputFile->getRelativePathname() => $inputFile->getContent(),
+                $inputFile->getRelativePathname() => $this->frontMatterService->stripFrontMatter(
+                    $inputFile->getContent(),
+                ),
             ]),
         );
         $this->chainLoader->addLoader($this->filesystemLoader);
@@ -64,7 +70,11 @@ class TwigProcessor implements ProcessorInterface
         );
 
         return new MutatedFile(
-            $environment->render($inputFile->getRelativePathname()),
+            $environment->render(
+                $inputFile->getRelativePathname(),
+                $inputFile->getMetadata(),
+            ),
+            $inputFile->getMetadata(),
             $inputFile->getOriginalInputFile(),
             $this->processPathname($inputFile->getRelativePathname()),
         );

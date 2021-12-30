@@ -8,20 +8,27 @@ declare(strict_types=1);
 
 namespace Yassg\Files;
 
+use Yassg\Traits\HasMetadata;
+
 class MutatedFile implements InputFileInterface
 {
+    use HasMetadata;
+
     private string $content;
     private InputFileInterface $originalInputFile;
     private string $relativePathname;
 
     public function __construct(
         string $content,
+        array $metadata,
         InputFileInterface $originalInputFile,
         string $relativePathname,
     ) {
         $this->content = $content;
         $this->originalInputFile = $originalInputFile;
         $this->relativePathname = $relativePathname;
+
+        $this->setMetadata($metadata);
     }
 
     public function getContent(): string

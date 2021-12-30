@@ -12,9 +12,13 @@ interface InputFileInterface
 {
     public function getContent(): string;
 
+    public function getMetadata(): array;
+
     public function getOriginalAbsolutePathname(): string;
 
     public function getOriginalInputFile(): InputFileInterface;
 
     public function getRelativePathname(): string;
+
+    public function setMetadata(array $metadata): void;
 }

@@ -18,6 +18,7 @@ class Container implements ContainerInterface
 {
     /** @var string[] */
     private static array $defaultDefinitionsFilenames = [
+        'files.php',
         'markdown.php',
         'processors.php',
     ];

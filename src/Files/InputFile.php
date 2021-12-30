@@ -9,9 +9,12 @@ declare(strict_types=1);
 namespace Yassg\Files;
 
 use Symfony\Component\Finder\SplFileInfo;
+use Yassg\Traits\HasMetadata;
 
 class InputFile implements InputFileInterface
 {
+    use HasMetadata;
+
     private SplFileInfo $file;
 
     public function __construct(SplFileInfo $file)
@@ -22,6 +25,11 @@ class InputFile implements InputFileInterface
     public function getContent(): string
     {
         return $this->file->getContents();
+    }
+
+    public function getFileInfo(): SplFileInfo
+    {
+        return $this->file;
     }
 
     public function getOriginalAbsolutePathname(): string
