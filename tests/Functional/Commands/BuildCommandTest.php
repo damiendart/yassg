@@ -142,11 +142,11 @@ class BuildCommandTest extends CommandTestBase
         );
     }
 
-    public function testRunningTheBuildCommandWithADirectoryOfFilesWithFrontmatter(): void
+    public function testRunningTheBuildCommandWithAProjectThatUsesMetadata(): void
     {
         $fixtureDirectory = self::$fixturesDirectory
             . DIRECTORY_SEPARATOR
-            . 'files-with-frontmatter';
+            . 'metadata';
         $fixtureConfigurationFilePathname = $fixtureDirectory
             . DIRECTORY_SEPARATOR
             . '.yassg.php';
