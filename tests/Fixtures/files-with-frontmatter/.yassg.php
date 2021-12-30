@@ -8,7 +8,8 @@ declare(strict_types=1);
 
 use Yassg\Configuration\Configuration;
 
-return new Configuration(
+return (new Configuration(
     __DIR__ . DIRECTORY_SEPARATOR . 'input',
     __DIR__ . DIRECTORY_SEPARATOR . 'output',
-);
+))
+    ->setMetadata(['world' => 'a test!']);

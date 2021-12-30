@@ -17,8 +17,10 @@ trait HasMetadata
         return $this->metadata;
     }
 
-    public function setMetadata(array $metadata): void
+    public function setMetadata(array $metadata): self
     {
         $this->metadata = array_merge($this->metadata, $metadata);
+
+        return $this;
     }
 }

@@ -8,8 +8,12 @@ declare(strict_types=1);
 
 namespace Yassg\Configuration;
 
+use Yassg\Traits\HasMetadata;
+
 class Configuration
 {
+    use HasMetadata;
+
     private string $inputDirectory;
     private string $outputDirectory;
 

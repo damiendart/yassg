@@ -72,7 +72,10 @@ class TwigProcessor implements ProcessorInterface
         return new MutatedFile(
             $environment->render(
                 $inputFile->getRelativePathname(),
-                $inputFile->getMetadata(),
+                array_merge(
+                    $this->configuration->getMetadata(),
+                    $inputFile->getMetadata(),
+                ),
             ),
             $inputFile->getMetadata(),
             $inputFile->getOriginalInputFile(),
