@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace Yassg\Tests\Functional\Commands;
 
 use Symfony\Component\Console\Command\Command;
-use Yassg\Commands\BuildCommand;
+use Yassg\Application\Commands\BuildCommand;
 use Yassg\Configuration\Configuration;
 use Yassg\Container\Container;
 
