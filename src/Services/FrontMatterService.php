@@ -24,10 +24,9 @@ class FrontMatterService
         $this->yamlParser = $yamlParser;
     }
 
-    public function parseFrontMatter(string $input): array
+    /** @return array{0: ?array<array-key, mixed>, 1: string} */
+    public function parseString(string $input): array
     {
-        $frontMatter = [];
-
         foreach (self::FRONT_MATTER_REGEXES as $regex) {
             if (
                 1 === preg_match($regex, $input, $matches)
@@ -36,21 +35,10 @@ class FrontMatterService
                 /** @var array $frontMatter */
                 $frontMatter = $this->yamlParser->parse($matches[1]);
 
-                break;
+                return [$frontMatter, $matches[2]];
             }
         }
 
-        return $frontMatter;
-    }
-
-    public function stripFrontMatter(string $input): string
-    {
-        foreach (self::FRONT_MATTER_REGEXES as $regex) {
-            if (1 === preg_match($regex, $input, $matches)) {
-                return $matches[2];
-            }
-        }
-
-        return $input;
+        return [null, $input];
     }
 }

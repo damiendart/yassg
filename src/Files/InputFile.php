@@ -15,6 +15,7 @@ class InputFile implements InputFileInterface
 {
     use HasMetadata;
 
+    private ?string $content = null;
     private SplFileInfo $file;
 
     public function __construct(SplFileInfo $file)
@@ -24,7 +25,7 @@ class InputFile implements InputFileInterface
 
     public function getContent(): string
     {
-        return $this->file->getContents();
+        return $this->content ?? $this->file->getContents();
     }
 
     public function getFileInfo(): SplFileInfo
@@ -45,5 +46,26 @@ class InputFile implements InputFileInterface
     public function getRelativePathname(): string
     {
         return $this->file->getRelativePathname();
+    }
+
+    /**
+     *  Returns whether the content of an input file has been pre-processed.
+     *
+     *  Input files can be pre-processed as part of metadata population;
+     *  for instance, if an input file has [front matter][] it is parsed
+     *  and stripped out before any further processing.
+     *
+     *    [front matter]: <https://gohugo.io/content-management/front-matter/>
+     */
+    public function isDirty(): bool
+    {
+        return null !== $this->content;
+    }
+
+    public function setContent(string $content): self
+    {
+        $this->content = $content;
+
+        return $this;
     }
 }

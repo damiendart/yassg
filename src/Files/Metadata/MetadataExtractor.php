@@ -12,10 +12,10 @@ use Yassg\Files\InputFile;
 
 class MetadataExtractor implements MetadataExtractorInterface
 {
-    public function extractFromInputFile(InputFile $inputFile): array
+    public function addMetadata(InputFile $inputFile): void
     {
-        return [
-            'lastModified' => $inputFile->getFileInfo()->getMTime(),
-        ];
+        $inputFile->setMetadata(
+            ['lastModified' => $inputFile->getFileInfo()->getMTime()],
+        );
     }
 }

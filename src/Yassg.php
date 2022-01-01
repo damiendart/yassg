@@ -113,10 +113,7 @@ class Yassg
         foreach ($finder as $file) {
             $inputFile = new InputFile($file);
 
-            $inputFile->setMetadata(
-                $this->metadataExtractor->extractFromInputFile($inputFile),
-            );
-
+            $this->metadataExtractor->addMetadata($inputFile);
             $this->buildFile($inputFile, $outputDirectory);
         }
     }

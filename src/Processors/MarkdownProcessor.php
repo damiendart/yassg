@@ -13,22 +13,18 @@ use RuntimeException;
 use Yassg\Configuration\Configuration;
 use Yassg\Files\InputFileInterface;
 use Yassg\Files\MutatedFile;
-use Yassg\Services\FrontMatterService;
 
 class MarkdownProcessor implements ProcessorInterface
 {
     private Configuration $configuration;
     private MarkdownConverterInterface $converter;
-    private FrontMatterService $frontMatterService;
 
     public function __construct(
         MarkdownConverterInterface $converter,
         Configuration $configuration,
-        FrontMatterService $frontMatterService,
     ) {
         $this->converter = $converter;
         $this->configuration = $configuration;
-        $this->frontMatterService = $frontMatterService;
     }
 
     public function canProcess(InputFileInterface $file): bool
@@ -40,9 +36,7 @@ class MarkdownProcessor implements ProcessorInterface
     {
         $renderedMarkdown =
             $this->converter->convertToHtml(
-                $this->frontMatterService->stripFrontMatter(
-                    $inputFile->getContent(),
-                ),
+                $inputFile->getContent(),
             )->getContent();
 
         if (array_key_exists('twigTemplate', $inputFile->getMetadata())) {

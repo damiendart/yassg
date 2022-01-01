@@ -24,10 +24,10 @@ class MutatedFile implements InputFileInterface
         InputFileInterface $originalInputFile,
         string $relativePathname,
     ) {
-        $this->content = $content;
         $this->originalInputFile = $originalInputFile;
         $this->relativePathname = $relativePathname;
 
+        $this->setContent($content);
         $this->setMetadata($metadata);
     }
 
@@ -49,5 +49,14 @@ class MutatedFile implements InputFileInterface
     public function getRelativePathname(): string
     {
         return $this->relativePathname;
+    }
+
+    // This method is final to appease Psalm; for more information,
+    // please see <https://psalm.dev/074>.
+    final public function setContent(string $content): self
+    {
+        $this->content = $content;
+
+        return $this;
     }
 }

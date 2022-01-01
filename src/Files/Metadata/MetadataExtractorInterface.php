@@ -12,5 +12,5 @@ use Yassg\Files\InputFile;
 
 interface MetadataExtractorInterface
 {
-    public function extractFromInputFile(InputFile $inputFile): array;
+    public function addMetadata(InputFile $inputFile): void;
 }

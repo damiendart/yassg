@@ -23,7 +23,10 @@ class DefaultProcessor implements ProcessorInterface
 
     public function process(InputFileInterface $inputFile): OutputFileInterface
     {
-        if ($inputFile instanceof InputFile) {
+        if (
+            $inputFile instanceof InputFile
+            && false === $inputFile->isDirty()
+        ) {
             return new CopyFile($inputFile);
         }
 

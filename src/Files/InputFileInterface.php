@@ -20,5 +20,7 @@ interface InputFileInterface
 
     public function getRelativePathname(): string;
 
+    public function setContent(string $content): self;
+
     public function setMetadata(array $metadata): self;
 }

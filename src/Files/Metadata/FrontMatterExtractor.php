@@ -24,13 +24,17 @@ class FrontMatterExtractor implements MetadataExtractorInterface
         $this->frontMatterService = $frontMatterService;
     }
 
-    public function extractFromInputFile(InputFile $inputFile): array
+    public function addMetadata(InputFile $inputFile): void
     {
-        return array_merge(
-            $this->frontMatterService->parseFrontMatter(
-                $inputFile->getContent(),
-            ),
-            $this->innerMetadataExtractor->extractFromInputFile($inputFile),
+        $this->innerMetadataExtractor->addMetadata($inputFile);
+
+        [$frontMatter, $content] = $this->frontMatterService->parseString(
+            $inputFile->getContent(),
         );
+
+        if (is_array($frontMatter)) {
+            $inputFile->setMetadata($frontMatter);
+            $inputFile->setContent($content);
+        }
     }
 }
