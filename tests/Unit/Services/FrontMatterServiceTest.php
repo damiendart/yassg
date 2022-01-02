@@ -81,4 +81,16 @@ class FrontMatterServiceTest extends TestCase
         $this->assertEquals(['---foo' => 'bar'], $frontMatter);
         $this->assertEquals('', $content);
     }
+
+    public function testParsingADocumentWithIndentedFrontMatter(): void
+    {
+        $frontMatterService = new FrontMatterService(new Parser());
+
+        [$frontMatter, $content] = $frontMatterService->parseString(
+            "---\n    foo: bar\n    baz: qux\n---\n",
+        );
+
+        $this->assertEquals(['foo' => 'bar', 'baz' => 'qux'], $frontMatter);
+        $this->assertEquals('', $content);
+    }
 }

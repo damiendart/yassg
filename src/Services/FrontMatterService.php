@@ -33,7 +33,7 @@ class FrontMatterService
                 && '' !== trim($matches[1])
             ) {
                 /** @var array $frontMatter */
-                $frontMatter = $this->yamlParser->parse($matches[1]);
+                $frontMatter = $this->yamlParser->parse(dedent($matches[1]));
 
                 return [$frontMatter, $matches[2]];
             }
