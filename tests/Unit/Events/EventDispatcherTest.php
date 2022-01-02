@@ -63,7 +63,7 @@ class EventDispatcherTest extends TestCase
         $this->assertEquals($listenerTwo->getEvent(), $eventTwo);
     }
 
-    public function testDispatchingAnEventReturnsIt(): void
+    public function testDispatchingAnEventShouldReturnIt(): void
     {
         $dispatcher = new EventDispatcher();
         $event = new stdClass();
