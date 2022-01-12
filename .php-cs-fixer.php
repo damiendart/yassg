@@ -15,6 +15,7 @@ return (new PhpCsFixer\Config())
             ->in(__DIR__ . DIRECTORY_SEPARATOR . 'bin')
             ->in(__DIR__ . DIRECTORY_SEPARATOR . 'src')
             ->in(__DIR__ . DIRECTORY_SEPARATOR . 'tests')
+            ->exclude('expected')
             ->name('*.php')
             ->name('yassg')
     );
