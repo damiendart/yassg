@@ -80,10 +80,10 @@ abstract class CommandTestBase extends TestCase
 
         foreach ($inputFiles as $file) {
             $this->assertFileEquals(
-                $file->getRealPath(),
                 $expectedDirectoryPath
                     . DIRECTORY_SEPARATOR
                     . $file->getRelativePathname(),
+                $file->getRealPath(),
             );
         }
     }
