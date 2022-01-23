@@ -15,6 +15,7 @@ class FrontMatterService
     private const FRONT_MATTER_REGEXES = [
         '/^---\n(.*?)\n---\n(.*)/s',
         '/^{#---\n(.*?)\n---#}\n(.*)/s',
+        '/^<!---\n(.*?)\n--->\n(.*)/s',
     ];
 
     private Parser $yamlParser;

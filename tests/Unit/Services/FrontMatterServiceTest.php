@@ -35,6 +35,7 @@ class FrontMatterServiceTest extends TestCase
     {
         $frontMatterService = new FrontMatterService(new Parser());
         $testStrings = [
+            "<!---\nfoo: bar\n--->\nLorem ipsum dolor sit amet.",
             "{#---\nfoo: bar\n---#}\nLorem ipsum dolor sit amet.",
         ];
 
@@ -92,5 +93,23 @@ class FrontMatterServiceTest extends TestCase
 
         $this->assertEquals(['foo' => 'bar', 'baz' => 'qux'], $frontMatter);
         $this->assertEquals('', $content);
+    }
+
+    public function testParsingDocumentsWithJustComments(): void
+    {
+        $frontMatterService = new FrontMatterService(new Parser());
+        $testStrings = [
+            "{# This shouldn't be parsed as front matter #}\n",
+            "<!-- This shouldn't be parsed as front matter -->\n",
+        ];
+
+        foreach ($testStrings as $testString) {
+            [$frontMatter, $content] = $frontMatterService->parseString(
+                $testString,
+            );
+
+            $this->assertNull($frontMatter);
+            $this->assertEquals($testString, $content);
+        }
     }
 }
