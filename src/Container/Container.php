@@ -48,32 +48,31 @@ class Container implements ContainerInterface
      */
     private function initialise(string $configurationFilePathname): void
     {
+        if (false === file_exists($configurationFilePathname)) {
+            throw new InvalidConfigurationException(
+                sprintf(
+                    'The config file "%s" does not exist.',
+                    $configurationFilePathname,
+                ),
+            );
+        }
+
+        $configuration = include $configurationFilePathname;
         $containerBuilder = new ContainerBuilder();
+
+        if (false === $configuration instanceof Configuration) {
+            throw new InvalidConfigurationException(
+                sprintf(
+                    'The config file "%s" does not return a "%s" instance.',
+                    $configurationFilePathname,
+                    Configuration::class,
+                ),
+            );
+        }
 
         $containerBuilder->addDefinitions(
             [
-                Configuration::class => function () use ($configurationFilePathname) {
-                    if (false === file_exists($configurationFilePathname)) {
-                        throw new InvalidConfigurationException(
-                            sprintf(
-                                'The config file "%s" does not exist.',
-                                $configurationFilePathname,
-                            ),
-                        );
-                    }
-
-                    $configuration = include $configurationFilePathname;
-
-                    if (false === $configuration instanceof Configuration) {
-                        throw new InvalidConfigurationException(
-                            sprintf(
-                                'The config file "%s" does not return a "%s" instance.',
-                                $configurationFilePathname,
-                                Configuration::class,
-                            ),
-                        );
-                    }
-
+                Configuration::class => function () use ($configuration): Configuration {
                     return $configuration;
                 },
             ],
@@ -85,6 +84,12 @@ class Container implements ContainerInterface
                     DIRECTORY_SEPARATOR,
                     [__DIR__, 'Definitions', $filename],
                 ),
+            );
+        }
+
+        foreach ($configuration->getPlugins() as $plugin) {
+            $containerBuilder->addDefinitions(
+                $plugin->getContainerDefinitions(),
             );
         }
 

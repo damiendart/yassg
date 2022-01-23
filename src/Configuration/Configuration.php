@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Yassg\Configuration;
 
+use Yassg\Plugins\PluginInterface;
 use Yassg\Traits\HasMetadata;
 
 class Configuration
@@ -17,12 +18,21 @@ class Configuration
     private string $inputDirectory;
     private string $outputDirectory;
 
+    /** @var PluginInterface[] */
+    private array $plugins = [];
+
     public function __construct(
         string $inputDirectory,
         string $outputDirectory,
     ) {
         $this->inputDirectory = $inputDirectory;
         $this->outputDirectory = $outputDirectory;
+    }
+
+    /** @return PluginInterface[] */
+    public function getPlugins(): array
+    {
+        return $this->plugins;
     }
 
     public function getInputDirectory(): string
@@ -33,5 +43,12 @@ class Configuration
     public function getOutputDirectory(): string
     {
         return $this->outputDirectory;
+    }
+
+    public function addPlugin(PluginInterface $plugin): self
+    {
+        $this->plugins[] = $plugin;
+
+        return $this;
     }
 }
