@@ -54,7 +54,7 @@ class FrontMatterServiceTest extends TestCase
         $frontMatterService = new FrontMatterService(new Parser());
         $this->expectException(ParseException::class);
 
-        [$frontMatter, $content] = $frontMatterService->parseString(
+        $frontMatterService->parseString(
             "---\n{foo: bar\n---\nLorem ipsum dolor sit amet.",
         );
     }
