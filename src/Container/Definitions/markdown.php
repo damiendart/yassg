@@ -6,15 +6,15 @@
 
 declare(strict_types=1);
 
+use League\CommonMark\ConverterInterface;
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
 use League\CommonMark\MarkdownConverter;
-use League\CommonMark\MarkdownConverterInterface;
 use Psr\Container\ContainerInterface;
 
 return [
-    MarkdownConverterInterface::class => function (ContainerInterface $c): MarkdownConverter {
+    ConverterInterface::class => function (ContainerInterface $c): ConverterInterface {
         /** @var Environment $environment */
         $environment = $c->get(Environment::class);
 

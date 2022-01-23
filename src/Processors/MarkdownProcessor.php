@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Yassg\Processors;
 
-use League\CommonMark\MarkdownConverterInterface;
+use League\CommonMark\ConverterInterface;
 use RuntimeException;
 use Yassg\Configuration\Configuration;
 use Yassg\Files\InputFileInterface;
@@ -17,10 +17,10 @@ use Yassg\Files\MutatedFile;
 class MarkdownProcessor implements ProcessorInterface
 {
     private Configuration $configuration;
-    private MarkdownConverterInterface $converter;
+    private ConverterInterface $converter;
 
     public function __construct(
-        MarkdownConverterInterface $converter,
+        ConverterInterface $converter,
         Configuration $configuration,
     ) {
         $this->converter = $converter;
@@ -35,7 +35,7 @@ class MarkdownProcessor implements ProcessorInterface
     public function process(InputFileInterface $inputFile): MutatedFile
     {
         $renderedMarkdown =
-            $this->converter->convertToHtml(
+            $this->converter->convert(
                 $inputFile->getContent(),
             )->getContent();
 
