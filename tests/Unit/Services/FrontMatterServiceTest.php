@@ -31,7 +31,7 @@ class FrontMatterServiceTest extends TestCase
         $this->assertEquals('Lorem ipsum dolor sit amet.', $content);
     }
 
-    public function testParsingADocumentWithCustomFrontMatterDelimeters(): void
+    public function testParsingDocumentsWithCustomFrontMatterDelimeters(): void
     {
         $frontMatterService = new FrontMatterService(new Parser());
         $testStrings = [
