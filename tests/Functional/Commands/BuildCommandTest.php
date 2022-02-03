@@ -78,6 +78,10 @@ class BuildCommandTest extends CommandTestBase
             $configuration->getInputDirectory(),
             $configuration->getOutputDirectory(),
         );
+        $this->assertSummaryMatches(
+            $configuration->getInputDirectory(),
+            $commandTester,
+        );
     }
 
     public function testRunningTheBuildCommandWithADirectoryOfMarkdownFiles(): void
@@ -108,6 +112,10 @@ class BuildCommandTest extends CommandTestBase
         $this->assertDirectoryEquals(
             $fixtureDirectory . DIRECTORY_SEPARATOR . 'expected',
             $configuration->getOutputDirectory(),
+        );
+        $this->assertSummaryMatches(
+            $fixtureDirectory . DIRECTORY_SEPARATOR . 'expected',
+            $commandTester,
         );
     }
 
@@ -140,6 +148,10 @@ class BuildCommandTest extends CommandTestBase
             $fixtureDirectory . DIRECTORY_SEPARATOR . 'expected',
             $configuration->getOutputDirectory(),
         );
+        $this->assertSummaryMatches(
+            $fixtureDirectory . DIRECTORY_SEPARATOR . 'expected',
+            $commandTester,
+        );
     }
 
     public function testRunningTheBuildCommandWithAProjectThatUsesMetadata(): void
@@ -171,6 +183,10 @@ class BuildCommandTest extends CommandTestBase
             $fixtureDirectory . DIRECTORY_SEPARATOR . 'expected',
             $configuration->getOutputDirectory(),
         );
+        $this->assertSummaryMatches(
+            $fixtureDirectory . DIRECTORY_SEPARATOR . 'expected',
+            $commandTester,
+        );
     }
 
     public function testRunningTheBuildCommandWithAProjectThatUsesAPlugin(): void
@@ -201,6 +217,10 @@ class BuildCommandTest extends CommandTestBase
         $this->assertDirectoryEquals(
             $fixtureDirectory . DIRECTORY_SEPARATOR . 'expected',
             $configuration->getOutputDirectory(),
+        );
+        $this->assertSummaryMatches(
+            $fixtureDirectory . DIRECTORY_SEPARATOR . 'expected',
+            $commandTester,
         );
     }
 }

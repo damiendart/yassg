@@ -87,4 +87,23 @@ abstract class CommandTestBase extends TestCase
             );
         }
     }
+
+    protected function assertSummaryMatches(
+        string $expectedDirectoryPath,
+        CommandTester $commandTester,
+    ): void {
+        $fileCount = (new Finder())
+            ->files()
+            ->in($expectedDirectoryPath)
+            ->count();
+
+        $this->assertStringContainsString(
+            sprintf(
+                '%d file%s created',
+                $fileCount,
+                1 === $fileCount ? '' : 's',
+            ),
+            $commandTester->getDisplay(),
+        );
+    }
 }

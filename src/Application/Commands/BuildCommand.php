@@ -21,6 +21,7 @@ use Yassg\Yassg;
 
 class BuildCommand extends Command
 {
+    private int $createdFileCount = 0;
     private Configuration $configuration;
     private EventDispatcher $eventDispatcher;
     private Yassg $yassg;
@@ -67,6 +68,17 @@ class BuildCommand extends Command
             return Command::FAILURE;
         }
 
+        $output->writeln(
+            [
+                '',
+                sprintf(
+                    '%d file%s created',
+                    $this->createdFileCount,
+                    1 === $this->createdFileCount ? '' : 's',
+                ),
+            ],
+        );
+
         return Command::SUCCESS;
     }
 
@@ -75,6 +87,7 @@ class BuildCommand extends Command
         $this->eventDispatcher->addEventListener(
             FileCopiedEvent::class,
             function (FileCopiedEvent $event) use ($output): void {
+                ++$this->createdFileCount;
                 $output->writeln(
                     "[✔] Copied file to \"{$event->getOutputAbsolutePathname()}\"",
                 );
@@ -90,6 +103,7 @@ class BuildCommand extends Command
         $this->eventDispatcher->addEventListener(
             FileWrittenEvent::class,
             function (FileWrittenEvent $event) use ($output): void {
+                ++$this->createdFileCount;
                 $output->writeln(
                     "[✔] Written \"{$event->getOutputAbsolutePathname()}\"",
                 );
