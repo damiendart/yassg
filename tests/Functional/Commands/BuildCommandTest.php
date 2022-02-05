@@ -223,4 +223,35 @@ class BuildCommandTest extends CommandTestBase
             $commandTester,
         );
     }
+
+    public function testRunningTheBuildCommandWithoutAConfigurationFile(): void
+    {
+        $fixtureDirectory = self::$fixturesDirectory
+            . DIRECTORY_SEPARATOR
+            . 'no-configuration';
+
+        $this->setTemporaryDirectoryPath(
+            $fixtureDirectory . DIRECTORY_SEPARATOR . 'public',
+        );
+
+        chdir($fixtureDirectory);
+
+        /** @var BuildCommand $command */
+        $command = (new Container(null))->get(BuildCommand::class);
+
+        $commandTester = $this->runCommand($command, $fixtureDirectory);
+
+        $this->assertEquals(
+            Command::SUCCESS,
+            $commandTester->getStatusCode(),
+        );
+        $this->assertDirectoryEquals(
+            $fixtureDirectory . DIRECTORY_SEPARATOR . 'src',
+            $fixtureDirectory . DIRECTORY_SEPARATOR . 'public',
+        );
+        $this->assertSummaryMatches(
+            $fixtureDirectory . DIRECTORY_SEPARATOR . 'src',
+            $commandTester,
+        );
+    }
 }

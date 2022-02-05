@@ -50,9 +50,9 @@ class Application extends SymfonyApplication
             new InputOption(
                 'config',
                 'c',
-                InputOption::VALUE_REQUIRED,
+                InputOption::VALUE_OPTIONAL | InputOption::VALUE_REQUIRED,
                 'The pathname to a ' . self::NAME . ' configuration file.',
-                getcwd() . DIRECTORY_SEPARATOR . '.yassg.php',
+                null,
             ),
         );
 
@@ -64,7 +64,7 @@ class Application extends SymfonyApplication
      * @throws Exception
      * @throws NotFoundExceptionInterface
      */
-    private function initialise(string $configurationFilePathname): void
+    private function initialise(?string $configurationFilePathname): void
     {
         $container = new Container($configurationFilePathname);
 

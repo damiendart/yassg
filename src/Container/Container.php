@@ -28,9 +28,11 @@ class Container implements ContainerInterface
     /**
      * @throws Exception
      */
-    public function __construct(string $configurationFilePathname)
+    public function __construct(?string $configurationFilePathname)
     {
-        $this->initialise($configurationFilePathname);
+        $this->initialiseContainer(
+            $this->resolveConfiguration($configurationFilePathname),
+        );
     }
 
     public function get(string $id): mixed
@@ -46,29 +48,9 @@ class Container implements ContainerInterface
     /**
      * @throws Exception
      */
-    private function initialise(string $configurationFilePathname): void
+    private function initialiseContainer(Configuration $configuration): void
     {
-        if (false === file_exists($configurationFilePathname)) {
-            throw new InvalidConfigurationException(
-                sprintf(
-                    'The config file "%s" does not exist.',
-                    $configurationFilePathname,
-                ),
-            );
-        }
-
-        $configuration = include $configurationFilePathname;
         $containerBuilder = new ContainerBuilder();
-
-        if (false === $configuration instanceof Configuration) {
-            throw new InvalidConfigurationException(
-                sprintf(
-                    'The config file "%s" does not return a "%s" instance.',
-                    $configurationFilePathname,
-                    Configuration::class,
-                ),
-            );
-        }
 
         $containerBuilder->addDefinitions(
             [
@@ -94,5 +76,43 @@ class Container implements ContainerInterface
         }
 
         $this->container = $containerBuilder->build();
+    }
+
+    /**
+     * @throws InvalidConfigurationException
+     */
+    private function resolveConfiguration(
+        ?string $configurationFilePathname,
+    ): Configuration {
+        if (null === $configurationFilePathname) {
+            return new Configuration(
+                getcwd() . DIRECTORY_SEPARATOR . 'src',
+                getcwd() . DIRECTORY_SEPARATOR . 'public',
+            );
+        }
+
+        if (false === file_exists($configurationFilePathname)) {
+            throw new InvalidConfigurationException(
+                sprintf(
+                    'The config file "%s" does not exist.',
+                    $configurationFilePathname,
+                ),
+            );
+        }
+
+        /** @var Configuration $configuration */
+        $configuration = include $configurationFilePathname;
+
+        if (false === $configuration instanceof Configuration) {
+            throw new InvalidConfigurationException(
+                sprintf(
+                    'The config file "%s" does not return a "%s" instance.',
+                    $configurationFilePathname,
+                    Configuration::class,
+                ),
+            );
+        }
+
+        return $configuration;
     }
 }
