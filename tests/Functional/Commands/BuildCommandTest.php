@@ -254,4 +254,39 @@ class BuildCommandTest extends CommandTestBase
             $commandTester,
         );
     }
+
+    public function testRunningTheBuildCommandWithAProjectThatUsesTheSlugPlugin(): void
+    {
+        $fixtureDirectory = self::$fixturesDirectory
+            . DIRECTORY_SEPARATOR
+            . 'plugin-slug-basic';
+        $fixtureConfigurationFilePathname = $fixtureDirectory
+            . DIRECTORY_SEPARATOR
+            . '.yassg.php';
+
+        /** @var Configuration $configuration */
+        $configuration = include $fixtureConfigurationFilePathname;
+
+        $this->setTemporaryDirectoryPath(
+            $configuration->getOutputDirectory(),
+        );
+
+        $command = (new Container($fixtureConfigurationFilePathname))
+            ->get(BuildCommand::class);
+
+        $commandTester = $this->runCommand($command, $fixtureDirectory);
+
+        $this->assertEquals(
+            Command::SUCCESS,
+            $commandTester->getStatusCode(),
+        );
+        $this->assertDirectoryEquals(
+            $fixtureDirectory . DIRECTORY_SEPARATOR . 'expected',
+            $configuration->getOutputDirectory(),
+        );
+        $this->assertSummaryMatches(
+            $fixtureDirectory . DIRECTORY_SEPARATOR . 'expected',
+            $commandTester,
+        );
+    }
 }
