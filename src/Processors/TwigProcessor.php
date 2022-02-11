@@ -21,16 +21,13 @@ use Yassg\Files\MutatedFile;
 
 class TwigProcessor implements ProcessorInterface
 {
-    private ChainLoader $chainLoader;
     private Configuration $configuration;
     private FilesystemLoader $filesystemLoader;
 
     public function __construct(
-        ChainLoader $chainLoader,
         FilesystemLoader $filesystemLoader,
         Configuration $configuration,
     ) {
-        $this->chainLoader = $chainLoader;
         $this->configuration = $configuration;
         $this->filesystemLoader = $filesystemLoader;
     }
@@ -47,19 +44,21 @@ class TwigProcessor implements ProcessorInterface
      */
     public function process(InputFileInterface $inputFile): MutatedFile
     {
+        $chainLoader = new ChainLoader();
+
         $this->filesystemLoader->addPath(
             $this->configuration->getInputDirectory(),
         );
 
-        $this->chainLoader->addLoader(
+        $chainLoader->addLoader(
             new ArrayLoader([
                 $inputFile->getRelativePathname() => $inputFile->getContent(),
             ]),
         );
-        $this->chainLoader->addLoader($this->filesystemLoader);
+        $chainLoader->addLoader($this->filesystemLoader);
 
         $environment = new Environment(
-            $this->chainLoader,
+            $chainLoader,
             ['strict_variables' => true],
         );
 
