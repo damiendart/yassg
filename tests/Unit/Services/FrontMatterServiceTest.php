@@ -14,8 +14,9 @@ use Symfony\Component\Yaml\Parser;
 use Yassg\Services\FrontMatterService;
 
 /**
+ * @covers \Yassg\Services\FrontMatterService
+ *
  * @internal
- * @coversNothing
  */
 class FrontMatterServiceTest extends TestCase
 {

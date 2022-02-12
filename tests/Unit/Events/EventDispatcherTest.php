@@ -14,8 +14,9 @@ use Yassg\Events\Event;
 use Yassg\Events\EventDispatcher;
 
 /**
+ * @covers \Yassg\Events\EventDispatcher
+ *
  * @internal
- * @coversNothing
  */
 class EventDispatcherTest extends TestCase
 {

@@ -12,8 +12,9 @@ use PHPUnit\Framework\TestCase;
 use Yassg\Services\Slug\BasicSlugStrategy;
 
 /**
+ * @covers \Yassg\Services\Slug\BasicSlugStrategy
+ *
  * @internal
- * @coversNothing
  */
 class BasicSlugStrategyTest extends TestCase
 {

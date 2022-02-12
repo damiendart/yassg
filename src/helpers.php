@@ -17,7 +17,7 @@ function dedent(string $input): string
     $shortestLeadingWhitespace = min(
         array_map(
             function ($line) {
-                if (1 === preg_match('/^[ \t]*/', $line, $matches)) {
+                if (1 === preg_match('/^[ \t]+/', $line, $matches)) {
                     return strlen($matches[0]);
                 }
 

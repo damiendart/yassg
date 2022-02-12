@@ -13,8 +13,9 @@ use Yassg\Services\Slug\SlugService;
 use Yassg\Services\Slug\SlugStrategyInterface;
 
 /**
+ * @covers \Yassg\Services\Slug\SlugService
+ *
  * @internal
- * @coversNothing
  */
 class SlugServiceTest extends TestCase
 {

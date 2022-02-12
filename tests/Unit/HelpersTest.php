@@ -11,8 +11,9 @@ namespace Yassg\Tests\Unit;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers \dedent
+ *
  * @internal
- * @coversNothing
  */
 class HelpersTest extends TestCase
 {

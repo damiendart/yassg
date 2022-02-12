@@ -12,8 +12,9 @@ use PHPUnit\Framework\TestCase;
 use Yassg\Events\Event;
 
 /**
+ * @covers \Yassg\Events\Event
+ *
  * @internal
- * @coversNothing
  */
 class EventTest extends TestCase
 {
