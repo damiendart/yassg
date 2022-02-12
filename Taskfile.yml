@@ -23,8 +23,26 @@ tasks:
 
   clean:
     cmds:
-      - 'rm -fr vendor composer.lock'
-    desc: 'Delete all third-party dependencies and lock files'
+      - 'rm -fr composer.lock coverage vendor'
+    desc: 'Delete all code coverage reports, third-party dependencies, and lock files'
+
+  coverage:
+    cmds:
+      - task: 'coverage:php'
+    desc: 'Run all code-coverage-related tasks'
+
+  coverage:php:
+    cmds:
+      - 'vendor/bin/phpunit --coverage-html=coverage/html --coverage-text=coverage/text/report.txt'
+    desc: 'Run PHP tests and generate a code coverage reports with PHPUnit'
+    env:
+      XDEBUG_MODE: 'coverage'
+
+  coverage:serve:
+    cmds:
+      - task: 'coverage'
+      - 'php -S localhost:8000 -t coverage/html'
+    desc: 'Run all code-coverage-related tasks and run a basic server for viewing HTML-based reports'
 
   dependencies:
     cmds:
