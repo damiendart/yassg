@@ -8,36 +8,30 @@ declare(strict_types=1);
 
 namespace Yassg\Events;
 
-use Yassg\Files\InputFile;
-use Yassg\Files\OutputFileInterface;
-
 class FileWrittenEvent extends Event
 {
-    private InputFile $inputFile;
-    private string $absolutePathname;
+    private string $inputAbsolutePathname;
+    private string $outputAbsolutePathname;
 
     public function __construct(
-        InputFile $inputFile,
-        OutputFileInterface $outputFile,
+        string $inputAbsolutePathname,
+        string $outputRelativePathname,
         string $baseOutputDirectory,
     ) {
-        $this->inputFile = $inputFile;
-        $this->absolutePathname = join(
+        $this->inputAbsolutePathname = $inputAbsolutePathname;
+        $this->outputAbsolutePathname = join(
             DIRECTORY_SEPARATOR,
-            [
-                $baseOutputDirectory,
-                $outputFile->getRelativePathname(),
-            ],
+            [$baseOutputDirectory, $outputRelativePathname],
         );
     }
 
     public function getInputAbsolutePathname(): string
     {
-        return $this->inputFile->getOriginalAbsolutePathname();
+        return $this->inputAbsolutePathname;
     }
 
     public function getOutputAbsolutePathname(): string
     {
-        return $this->absolutePathname;
+        return $this->outputAbsolutePathname;
     }
 }

@@ -75,16 +75,16 @@ class Yassg
         if ($processedFile instanceof CopyFile) {
             $this->eventDispatcher->dispatch(
                 new FileCopiedEvent(
-                    $inputFile,
-                    $processedFile,
+                    $inputFile->getOriginalAbsolutePathname(),
+                    $processedFile->getRelativePathname(),
                     $baseOutputDirectory,
                 ),
             );
         } else {
             $this->eventDispatcher->dispatch(
                 new FileWrittenEvent(
-                    $inputFile,
-                    $processedFile,
+                    $inputFile->getOriginalAbsolutePathname(),
+                    $processedFile->getRelativePathname(),
                     $baseOutputDirectory,
                 ),
             );
