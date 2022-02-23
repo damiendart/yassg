@@ -91,10 +91,10 @@ class Container implements ContainerInterface
             );
         }
 
-        if (false === file_exists($configurationFilePathname)) {
+        if (false === is_file($configurationFilePathname)) {
             throw new InvalidArgumentException(
                 sprintf(
-                    'The config file "%s" does not exist.',
+                    '"%s" does not exist or is not a configuration file.',
                     $configurationFilePathname,
                 ),
             );
