@@ -14,7 +14,7 @@ use Yassg\Configuration\Configuration;
 use Yassg\Events\EventDispatcher;
 use Yassg\Events\FileCopiedEvent;
 use Yassg\Events\FileWrittenEvent;
-use Yassg\Exceptions\InvalidConfigurationException;
+use Yassg\Exceptions\InvalidArgumentException;
 use Yassg\Files\CopyFile;
 use Yassg\Files\InputFile;
 use Yassg\Files\Metadata\MetadataExtractorInterface;
@@ -44,7 +44,7 @@ class Yassg
     }
 
     /**
-     * @throws InvalidConfigurationException
+     * @throws InvalidArgumentException
      */
     public function build(Configuration $configuration): void
     {
@@ -119,12 +119,12 @@ class Yassg
     }
 
     /**
-     * @throws InvalidConfigurationException
+     * @throws InvalidArgumentException
      */
     private function validateInputDirectory(string $inputDirectory): self
     {
         if (false === $this->filesystem->exists($inputDirectory)) {
-            throw new InvalidConfigurationException(
+            throw new InvalidArgumentException(
                 "The input directory (\"{$inputDirectory}\") does not exist.",
             );
         }

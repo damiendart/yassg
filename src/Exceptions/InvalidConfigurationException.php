@@ -8,8 +8,8 @@ declare(strict_types=1);
 
 namespace Yassg\Exceptions;
 
-use Exception;
+use RuntimeException;
 
-class InvalidConfigurationException extends Exception
+class InvalidConfigurationException extends RuntimeException
 {
 }

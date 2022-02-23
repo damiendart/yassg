@@ -8,8 +8,8 @@ declare(strict_types=1);
 
 namespace Yassg\Exceptions;
 
-use Exception;
+use RuntimeException;
 
-class InvalidInputDirectoryException extends Exception
+class InvalidInputDirectoryException extends RuntimeException
 {
 }

@@ -8,18 +8,14 @@ declare(strict_types=1);
 
 namespace Yassg\Application\Commands;
 
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\FormatterHelper;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
+use Yassg\Application\OutputInterface;
 use Yassg\Configuration\Configuration;
 use Yassg\Events\EventDispatcher;
 use Yassg\Events\FileCopiedEvent;
 use Yassg\Events\FileWrittenEvent;
-use Yassg\Exceptions\InvalidConfigurationException;
 use Yassg\Yassg;
 
-class BuildCommand extends Command
+class BuildCommand
 {
     private int $createdFileCount = 0;
     private Configuration $configuration;
@@ -34,52 +30,23 @@ class BuildCommand extends Command
         $this->configuration = $configuration;
         $this->eventDispatcher = $eventDispatcher;
         $this->yassg = $yassg;
-
-        parent::__construct();
     }
 
-    protected function configure(): void
+    public function run(OutputInterface $output): void
     {
-        $this
-            ->setName('build')
-            ->setDescription('Builds a site.');
-    }
-
-    protected function execute(
-        InputInterface $input,
-        OutputInterface $output,
-    ): int {
         $this->setupEventListeners($output);
 
-        try {
-            $this->yassg->build($this->configuration);
-        } catch (InvalidConfigurationException $e) {
-            /** @var FormatterHelper $formatter */
-            $formatter = $this->getHelper('formatter');
+        $this->yassg->build($this->configuration);
 
-            $output->writeln(
-                $formatter->formatBlock(
-                    ['[' . $e::class . ']', $e->getMessage()],
-                    'error',
-                    true,
-                ),
-            );
-
-            return Command::FAILURE;
-        }
-
-        $output->writeln(
-            [
-                '',
+        $output
+            ->write(PHP_EOL)
+            ->write(
                 sprintf(
-                    '%d file%s created',
+                    '%d file%s created' . PHP_EOL,
                     $this->createdFileCount,
                     1 === $this->createdFileCount ? '' : 's',
                 ),
-            ],
-        );
-
-        return Command::SUCCESS;
+            );
     }
 
     private function setupEventListeners(OutputInterface $output): void
@@ -88,13 +55,13 @@ class BuildCommand extends Command
             FileCopiedEvent::class,
             function (FileCopiedEvent $event) use ($output): void {
                 ++$this->createdFileCount;
-                $output->writeln(
-                    "[✔] Copied file to \"{$event->getOutputAbsolutePathname()}\"",
+                $output->write(
+                    "[✔] Copied file to \"{$event->getOutputAbsolutePathname()}\"" . PHP_EOL,
                 );
 
                 if ($output->isVerbose()) {
-                    $output->writeln(
-                        "    <info>(Source file: \"{$event->getInputAbsolutePathname()}\")</info>",
+                    $output->write(
+                        "    (Source file: \"{$event->getInputAbsolutePathname()}\")" . PHP_EOL,
                     );
                 }
             },
@@ -104,13 +71,13 @@ class BuildCommand extends Command
             FileWrittenEvent::class,
             function (FileWrittenEvent $event) use ($output): void {
                 ++$this->createdFileCount;
-                $output->writeln(
-                    "[✔] Written \"{$event->getOutputAbsolutePathname()}\"",
+                $output->write(
+                    "[✔] Written \"{$event->getOutputAbsolutePathname()}\"" . PHP_EOL,
                 );
 
                 if ($output->isVerbose()) {
-                    $output->writeln(
-                        "    <info>(Source file: \"{$event->getInputAbsolutePathname()}\")</info>",
+                    $output->write(
+                        "    (Source file: \"{$event->getInputAbsolutePathname()}\")" . PHP_EOL,
                     );
                 }
             },

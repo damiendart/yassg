@@ -6,18 +6,16 @@
 
 declare(strict_types=1);
 
-namespace Yassg\Tests\Functional\Commands;
+namespace Yassg\Tests\Functional\Application;
 
-use Symfony\Component\Console\Command\Command;
-use Yassg\Application\Commands\BuildCommand;
+use Yassg\Application\Application;
 use Yassg\Configuration\Configuration;
-use Yassg\Container\Container;
 
 /**
  * @internal
  * @coversNothing
  */
-class BuildCommandTest extends CommandTestBase
+class ApplicationTest extends ApplicationTestBase
 {
     public function testRunningTheBuildCommandWithAnInvalidInputDirectory(): void
     {
@@ -35,14 +33,13 @@ class BuildCommandTest extends CommandTestBase
             $configuration->getOutputDirectory(),
         );
 
-        $command = (new Container($fixtureConfigurationFilePathname))
-            ->get(BuildCommand::class);
-
-        $commandTester = $this->runCommand($command, $fixtureDirectory);
+        $application = new Application($this->consoleOutput);
 
         $this->assertEquals(
-            Command::FAILURE,
-            $commandTester->getStatusCode(),
+            Application::RETURN_FAILURE,
+            $application->run(
+                ['yassg', '--config', $fixtureConfigurationFilePathname],
+            ),
         );
         $this->assertDirectoryDoesNotExist(
             $configuration->getOutputDirectory(),
@@ -65,23 +62,19 @@ class BuildCommandTest extends CommandTestBase
             $configuration->getOutputDirectory(),
         );
 
-        $command = (new Container($fixtureConfigurationFilePathname))
-            ->get(BuildCommand::class);
-
-        $commandTester = $this->runCommand($command, $fixtureDirectory);
+        $application = new Application($this->consoleOutput);
 
         $this->assertEquals(
-            Command::SUCCESS,
-            $commandTester->getStatusCode(),
+            Application::RETURN_SUCCESS,
+            $application->run(
+                ['yassg', '--config', $fixtureConfigurationFilePathname],
+            ),
         );
         $this->assertDirectoryEquals(
             $configuration->getInputDirectory(),
             $configuration->getOutputDirectory(),
         );
-        $this->assertSummaryMatches(
-            $configuration->getInputDirectory(),
-            $commandTester,
-        );
+        $this->assertSummaryMatches($configuration->getInputDirectory());
     }
 
     public function testRunningTheBuildCommandWithADirectoryOfMarkdownFiles(): void
@@ -100,14 +93,13 @@ class BuildCommandTest extends CommandTestBase
             $configuration->getOutputDirectory(),
         );
 
-        $command = (new Container($fixtureConfigurationFilePathname))
-            ->get(BuildCommand::class);
-
-        $commandTester = $this->runCommand($command, $fixtureDirectory);
+        $application = new Application($this->consoleOutput);
 
         $this->assertEquals(
-            Command::SUCCESS,
-            $commandTester->getStatusCode(),
+            Application::RETURN_SUCCESS,
+            $application->run(
+                ['yassg', '--config', $fixtureConfigurationFilePathname],
+            ),
         );
         $this->assertDirectoryEquals(
             $fixtureDirectory . DIRECTORY_SEPARATOR . 'expected',
@@ -115,7 +107,6 @@ class BuildCommandTest extends CommandTestBase
         );
         $this->assertSummaryMatches(
             $fixtureDirectory . DIRECTORY_SEPARATOR . 'expected',
-            $commandTester,
         );
     }
 
@@ -135,14 +126,13 @@ class BuildCommandTest extends CommandTestBase
             $configuration->getOutputDirectory(),
         );
 
-        $command = (new Container($fixtureConfigurationFilePathname))
-            ->get(BuildCommand::class);
-
-        $commandTester = $this->runCommand($command, $fixtureDirectory);
+        $application = new Application($this->consoleOutput);
 
         $this->assertEquals(
-            Command::SUCCESS,
-            $commandTester->getStatusCode(),
+            Application::RETURN_SUCCESS,
+            $application->run(
+                ['yassg', '--config', $fixtureConfigurationFilePathname],
+            ),
         );
         $this->assertDirectoryEquals(
             $fixtureDirectory . DIRECTORY_SEPARATOR . 'expected',
@@ -150,7 +140,6 @@ class BuildCommandTest extends CommandTestBase
         );
         $this->assertSummaryMatches(
             $fixtureDirectory . DIRECTORY_SEPARATOR . 'expected',
-            $commandTester,
         );
     }
 
@@ -170,14 +159,13 @@ class BuildCommandTest extends CommandTestBase
             $configuration->getOutputDirectory(),
         );
 
-        $command = (new Container($fixtureConfigurationFilePathname))
-            ->get(BuildCommand::class);
-
-        $commandTester = $this->runCommand($command, $fixtureDirectory);
+        $application = new Application($this->consoleOutput);
 
         $this->assertEquals(
-            Command::SUCCESS,
-            $commandTester->getStatusCode(),
+            Application::RETURN_SUCCESS,
+            $application->run(
+                ['yassg', '--config', $fixtureConfigurationFilePathname],
+            ),
         );
         $this->assertDirectoryEquals(
             $fixtureDirectory . DIRECTORY_SEPARATOR . 'expected',
@@ -185,7 +173,6 @@ class BuildCommandTest extends CommandTestBase
         );
         $this->assertSummaryMatches(
             $fixtureDirectory . DIRECTORY_SEPARATOR . 'expected',
-            $commandTester,
         );
     }
 
@@ -205,14 +192,13 @@ class BuildCommandTest extends CommandTestBase
             $configuration->getOutputDirectory(),
         );
 
-        $command = (new Container($fixtureConfigurationFilePathname))
-            ->get(BuildCommand::class);
-
-        $commandTester = $this->runCommand($command, $fixtureDirectory);
+        $application = new Application($this->consoleOutput);
 
         $this->assertEquals(
-            Command::SUCCESS,
-            $commandTester->getStatusCode(),
+            Application::RETURN_SUCCESS,
+            $application->run(
+                ['yassg', '--config', $fixtureConfigurationFilePathname],
+            ),
         );
         $this->assertDirectoryEquals(
             $fixtureDirectory . DIRECTORY_SEPARATOR . 'expected',
@@ -220,7 +206,6 @@ class BuildCommandTest extends CommandTestBase
         );
         $this->assertSummaryMatches(
             $fixtureDirectory . DIRECTORY_SEPARATOR . 'expected',
-            $commandTester,
         );
     }
 
@@ -236,14 +221,11 @@ class BuildCommandTest extends CommandTestBase
 
         chdir($fixtureDirectory);
 
-        /** @var BuildCommand $command */
-        $command = (new Container(null))->get(BuildCommand::class);
-
-        $commandTester = $this->runCommand($command, $fixtureDirectory);
+        $application = new Application($this->consoleOutput);
 
         $this->assertEquals(
-            Command::SUCCESS,
-            $commandTester->getStatusCode(),
+            Application::RETURN_SUCCESS,
+            $application->run(['yassg']),
         );
         $this->assertDirectoryEquals(
             $fixtureDirectory . DIRECTORY_SEPARATOR . 'src',
@@ -251,7 +233,6 @@ class BuildCommandTest extends CommandTestBase
         );
         $this->assertSummaryMatches(
             $fixtureDirectory . DIRECTORY_SEPARATOR . 'src',
-            $commandTester,
         );
     }
 
@@ -271,14 +252,13 @@ class BuildCommandTest extends CommandTestBase
             $configuration->getOutputDirectory(),
         );
 
-        $command = (new Container($fixtureConfigurationFilePathname))
-            ->get(BuildCommand::class);
-
-        $commandTester = $this->runCommand($command, $fixtureDirectory);
+        $application = new Application($this->consoleOutput);
 
         $this->assertEquals(
-            Command::SUCCESS,
-            $commandTester->getStatusCode(),
+            Application::RETURN_SUCCESS,
+            $application->run(
+                ['yassg', '--config', $fixtureConfigurationFilePathname],
+            ),
         );
         $this->assertDirectoryEquals(
             $fixtureDirectory . DIRECTORY_SEPARATOR . 'expected',
@@ -286,7 +266,6 @@ class BuildCommandTest extends CommandTestBase
         );
         $this->assertSummaryMatches(
             $fixtureDirectory . DIRECTORY_SEPARATOR . 'expected',
-            $commandTester,
         );
     }
 }

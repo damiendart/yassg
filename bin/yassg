@@ -7,4 +7,16 @@
 
 declare(strict_types=1);
 
-require_once __DIR__ . '/../src/bootstrap.php';
+require dirname(__DIR__) . '/vendor/autoload.php';
+
+use Yassg\Application\Application;
+use Yassg\Application\ConsoleOutput;
+
+$application = new Application(
+    new ConsoleOutput(
+        fopen('php://stderr', 'a'),
+        fopen('php://stdout', 'a'),
+    ),
+);
+
+exit($application->run($argv));

@@ -6,19 +6,25 @@
 
 declare(strict_types=1);
 
-namespace Yassg\Tests\Functional\Commands;
+namespace Yassg\Tests\Functional\Application;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
+use Yassg\Application\ConsoleOutput;
 
-abstract class CommandTestBase extends TestCase
+abstract class ApplicationTestBase extends TestCase
 {
+    /** @var resource */
+    protected $errorStream;
+
     protected static Filesystem $filesystem;
     protected static string $fixturesDirectory;
+    protected ConsoleOutput $consoleOutput;
+
+    /** @var resource */
+    protected $standardStream;
+
     protected ?string $temporaryDirectoryPath = null;
 
     public static function setUpBeforeClass(): void
@@ -31,7 +37,14 @@ abstract class CommandTestBase extends TestCase
 
     protected function setUp(): void
     {
+        $this->errorStream = fopen('php://memory', 'a');
+        $this->standardStream = fopen('php://memory', 'a');
         $this->temporaryDirectoryPath = null;
+
+        $this->consoleOutput = new ConsoleOutput(
+            $this->errorStream,
+            $this->standardStream,
+        );
     }
 
     protected function tearDown(): void
@@ -39,24 +52,6 @@ abstract class CommandTestBase extends TestCase
         if ($this->temporaryDirectoryPath) {
             self::$filesystem->remove($this->temporaryDirectoryPath);
         }
-    }
-
-    protected function runCommand(
-        Command $command,
-        ?string $cwd = null,
-        array $input = [],
-    ): CommandTester {
-        if ($cwd) {
-            chdir($cwd);
-        }
-
-        $command->setApplication(new Application());
-
-        $commandTester = new CommandTester($command);
-
-        $commandTester->execute($input);
-
-        return $commandTester;
     }
 
     /**
@@ -90,12 +85,13 @@ abstract class CommandTestBase extends TestCase
 
     protected function assertSummaryMatches(
         string $expectedDirectoryPath,
-        CommandTester $commandTester,
     ): void {
         $fileCount = (new Finder())
             ->files()
             ->in($expectedDirectoryPath)
             ->count();
+
+        rewind($this->standardStream);
 
         $this->assertStringContainsString(
             sprintf(
@@ -103,7 +99,7 @@ abstract class CommandTestBase extends TestCase
                 $fileCount,
                 1 === $fileCount ? '' : 's',
             ),
-            $commandTester->getDisplay(),
+            stream_get_contents($this->standardStream),
         );
     }
 }

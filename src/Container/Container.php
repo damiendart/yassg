@@ -12,7 +12,7 @@ use DI\ContainerBuilder;
 use Exception;
 use Psr\Container\ContainerInterface;
 use Yassg\Configuration\Configuration;
-use Yassg\Exceptions\InvalidConfigurationException;
+use Yassg\Exceptions\InvalidArgumentException;
 
 class Container implements ContainerInterface
 {
@@ -79,7 +79,7 @@ class Container implements ContainerInterface
     }
 
     /**
-     * @throws InvalidConfigurationException
+     * @throws InvalidArgumentException
      */
     private function resolveConfiguration(
         ?string $configurationFilePathname,
@@ -92,7 +92,7 @@ class Container implements ContainerInterface
         }
 
         if (false === file_exists($configurationFilePathname)) {
-            throw new InvalidConfigurationException(
+            throw new InvalidArgumentException(
                 sprintf(
                     'The config file "%s" does not exist.',
                     $configurationFilePathname,
@@ -104,7 +104,7 @@ class Container implements ContainerInterface
         $configuration = include $configurationFilePathname;
 
         if (false === $configuration instanceof Configuration) {
-            throw new InvalidConfigurationException(
+            throw new InvalidArgumentException(
                 sprintf(
                     'The config file "%s" does not return a "%s" instance.',
                     $configurationFilePathname,

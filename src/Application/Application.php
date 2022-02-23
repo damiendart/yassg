@@ -8,69 +8,57 @@ declare(strict_types=1);
 
 namespace Yassg\Application;
 
-use Exception;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
-use Symfony\Component\Console\Application as SymfonyApplication;
-use Symfony\Component\Console\Input\InputDefinition;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
+use RuntimeException;
 use Yassg\Application\Commands\BuildCommand;
 use Yassg\Container\Container;
+use Yassg\Exceptions\InvalidArgumentException;
 
-class Application extends SymfonyApplication
+class Application
 {
-    const NAME = 'yassg';
-    const VERSION = '0.1.0';
+    public const RETURN_SUCCESS = 0;
+    public const RETURN_FAILURE = 1;
 
-    public function __construct()
+    public OutputInterface $output;
+
+    public function __construct(OutputInterface $output)
     {
-        parent::__construct(self::NAME, self::VERSION);
+        $this->output = $output;
     }
 
-    /**
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     */
-    protected function getCommandName(InputInterface $input): ?string
+    public function run(array $argv): int
     {
-        /** @var string $configurationFilePathname */
-        $configurationFilePathname = $input->getOption('config');
+        try {
+            $arguments = new ArgumentParser($argv);
+            $container = new Container(
+                $arguments->getConfigurationFilePathname(),
+            );
 
-        $this->initialise($configurationFilePathname);
+            /** @var BuildCommand $buildCommand */
+            $buildCommand = $container->get(BuildCommand::class);
 
-        return parent::getCommandName($input);
-    }
+            if ($arguments->isVerboseFlagSet()) {
+                $this->output->setVerbosity(
+                    OutputInterface::VERBOSITY_VERBOSE,
+                );
+            }
 
-    protected function getDefaultInputDefinition(): InputDefinition
-    {
-        $inputDefinition = parent::getDefaultInputDefinition();
+            $buildCommand->run($this->output);
+        } catch (InvalidArgumentException $exception) {
+            $this->output
+                ->writeError($exception->getMessage() . PHP_EOL)
+                ->writeError(
+                    'Use the "--help" flag for more information.' . PHP_EOL,
+                );
 
-        $inputDefinition->addOption(
-            new InputOption(
-                'config',
-                'c',
-                InputOption::VALUE_OPTIONAL | InputOption::VALUE_REQUIRED,
-                'The pathname to a ' . self::NAME . ' configuration file.',
-                null,
-            ),
-        );
+            return self::RETURN_FAILURE;
+        } catch (RuntimeException $exception) {
+            $this->output
+                ->writeError('[' . $exception::class . ']' . PHP_EOL)
+                ->writeError($exception->getMessage() . PHP_EOL);
 
-        return $inputDefinition;
-    }
+            return self::RETURN_FAILURE;
+        }
 
-    /**
-     * @throws ContainerExceptionInterface
-     * @throws Exception
-     * @throws NotFoundExceptionInterface
-     */
-    private function initialise(?string $configurationFilePathname): void
-    {
-        $container = new Container($configurationFilePathname);
-
-        /** @var BuildCommand $buildCommand */
-        $buildCommand = $container->get(BuildCommand::class);
-
-        $this->add($buildCommand);
+        return self::RETURN_SUCCESS;
     }
 }

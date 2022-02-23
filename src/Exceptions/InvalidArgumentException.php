@@ -6,8 +6,10 @@
 
 declare(strict_types=1);
 
-use Yassg\Application\Application;
+namespace Yassg\Exceptions;
 
-require __DIR__ . '/../vendor/autoload.php';
+use RuntimeException;
 
-(new Application())->run();
+class InvalidArgumentException extends RuntimeException
+{
+}
