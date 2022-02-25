@@ -26,11 +26,8 @@ class ApplicationTest extends ApplicationTestBase
             . DIRECTORY_SEPARATOR
             . '.yassg.php';
 
-        /** @var Configuration $configuration */
-        $configuration = include $fixtureConfigurationFilePathname;
-
         $this->setTemporaryDirectoryPath(
-            $configuration->getOutputDirectory(),
+            $fixtureDirectory . DIRECTORY_SEPARATOR . 'output',
         );
 
         $application = new Application($this->consoleOutput);
@@ -42,7 +39,7 @@ class ApplicationTest extends ApplicationTestBase
             ),
         );
         $this->assertDirectoryDoesNotExist(
-            $configuration->getOutputDirectory(),
+            $fixtureDirectory . DIRECTORY_SEPARATOR . 'output',
         );
     }
 

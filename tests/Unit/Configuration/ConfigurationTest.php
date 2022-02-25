@@ -10,6 +10,7 @@ namespace Yassg\Tests\Unit\Configuration;
 
 use PHPUnit\Framework\TestCase;
 use Yassg\Configuration\Configuration;
+use Yassg\Exceptions\InvalidInputDirectoryException;
 use Yassg\Plugins\HelloWorld\HelloWorldPlugin;
 use Yassg\Plugins\Slug\SlugPlugin;
 use Yassg\Services\Slug\BasicSlugStrategy;
@@ -21,15 +22,30 @@ use Yassg\Services\Slug\BasicSlugStrategy;
  */
 class ConfigurationTest extends TestCase
 {
+    private string $validInputDirectory;
+
+    public function setUp(): void
+    {
+        $this->validInputDirectory = join(
+            DIRECTORY_SEPARATOR,
+            [
+                dirname(__DIR__, 2),
+                'Fixtures',
+                'just-text-files',
+                'input',
+            ],
+        );
+    }
+
     public function testSettingInputAndOutputDirectories(): void
     {
         $configuration = new Configuration(
-            __DIR__ . DIRECTORY_SEPARATOR . 'input',
+            $this->validInputDirectory,
             __DIR__ . DIRECTORY_SEPARATOR . 'output',
         );
 
         $this->assertEquals(
-            __DIR__ . DIRECTORY_SEPARATOR . 'input',
+            $this->validInputDirectory,
             $configuration->getInputDirectory(),
         );
 
@@ -39,10 +55,20 @@ class ConfigurationTest extends TestCase
         );
     }
 
+    public function testSettingAnInvalidInputDirectory(): void
+    {
+        $this->expectException(InvalidInputDirectoryException::class);
+
+        new Configuration(
+            __DIR__ . DIRECTORY_SEPARATOR . 'input',
+            __DIR__ . DIRECTORY_SEPARATOR . 'output',
+        );
+    }
+
     public function testAddingPlugins(): void
     {
         $configuration = new Configuration(
-            __DIR__ . DIRECTORY_SEPARATOR . 'input',
+            $this->validInputDirectory,
             __DIR__ . DIRECTORY_SEPARATOR . 'output',
         );
         $helloWorldPlugin = new HelloWorldPlugin();
@@ -58,7 +84,7 @@ class ConfigurationTest extends TestCase
     public function testSettingGlobalMetadata(): void
     {
         $configuration = new Configuration(
-            __DIR__ . DIRECTORY_SEPARATOR . 'input',
+            $this->validInputDirectory,
             __DIR__ . DIRECTORY_SEPARATOR . 'output',
         );
 

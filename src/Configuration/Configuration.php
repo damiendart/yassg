@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Yassg\Configuration;
 
+use Yassg\Exceptions\InvalidInputDirectoryException;
 use Yassg\Plugins\PluginInterface;
 use Yassg\Traits\HasMetadata;
 
@@ -27,6 +28,8 @@ class Configuration
     ) {
         $this->inputDirectory = $inputDirectory;
         $this->outputDirectory = $outputDirectory;
+
+        $this->validateInputDirectory();
     }
 
     /** @return PluginInterface[] */
@@ -50,5 +53,14 @@ class Configuration
         $this->plugins[] = $plugin;
 
         return $this;
+    }
+
+    private function validateInputDirectory(): void
+    {
+        if (false === is_dir($this->inputDirectory)) {
+            throw new InvalidInputDirectoryException(
+                "The input directory (\"{$this->inputDirectory}\") does not exist.",
+            );
+        }
     }
 }

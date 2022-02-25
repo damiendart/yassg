@@ -48,12 +48,10 @@ class Yassg
      */
     public function build(Configuration $configuration): void
     {
-        $this
-            ->validateInputDirectory($configuration->getInputDirectory())
-            ->buildSite(
-                $configuration->getInputDirectory(),
-                $configuration->getOutputDirectory(),
-            );
+        $this->buildSite(
+            $configuration->getInputDirectory(),
+            $configuration->getOutputDirectory(),
+        );
     }
 
     private function buildFile(
@@ -116,19 +114,5 @@ class Yassg
             $this->metadataExtractor->addMetadata($inputFile);
             $this->buildFile($inputFile, $outputDirectory);
         }
-    }
-
-    /**
-     * @throws InvalidArgumentException
-     */
-    private function validateInputDirectory(string $inputDirectory): self
-    {
-        if (false === $this->filesystem->exists($inputDirectory)) {
-            throw new InvalidArgumentException(
-                "The input directory (\"{$inputDirectory}\") does not exist.",
-            );
-        }
-
-        return $this;
     }
 }
