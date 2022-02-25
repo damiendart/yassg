@@ -44,14 +44,29 @@ class Yassg
     }
 
     /**
+     * @psalm-suppress PossiblyNullArgument
+     *
      * @throws InvalidArgumentException
      */
     public function build(Configuration $configuration): void
     {
-        $this->buildSite(
-            $configuration->getInputDirectory(),
+        $finder = $this->finder
+            ->files()
+            ->in($configuration->getInputDirectory());
+
+        $this->filesystem->mkdir($configuration->getOutputDirectory());
+
+        $outputDirectory = $this->filesystem->readlink(
             $configuration->getOutputDirectory(),
+            true,
         );
+
+        foreach ($finder as $file) {
+            $inputFile = new InputFile($file);
+
+            $this->metadataExtractor->addMetadata($inputFile);
+            $this->buildFile($inputFile, $outputDirectory);
+        }
     }
 
     private function buildFile(
@@ -86,33 +101,6 @@ class Yassg
                     $baseOutputDirectory,
                 ),
             );
-        }
-    }
-
-    /**
-     * @psalm-suppress PossiblyNullArgument
-     */
-    private function buildSite(
-        string $inputDirectory,
-        string $outputDirectory,
-    ): void {
-        $finder = $this->finder
-            ->files()
-            ->in($inputDirectory)
-            ->ignoreDotFiles(true);
-
-        $this->filesystem->mkdir($outputDirectory);
-
-        $outputDirectory = $this->filesystem->readlink(
-            $outputDirectory,
-            true,
-        );
-
-        foreach ($finder as $file) {
-            $inputFile = new InputFile($file);
-
-            $this->metadataExtractor->addMetadata($inputFile);
-            $this->buildFile($inputFile, $outputDirectory);
         }
     }
 }
