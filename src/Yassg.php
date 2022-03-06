@@ -14,9 +14,11 @@ use Yassg\Configuration\Configuration;
 use Yassg\Events\EventDispatcher;
 use Yassg\Events\FileCopiedEvent;
 use Yassg\Events\FileWrittenEvent;
+use Yassg\Events\PreSiteBuildEvent;
 use Yassg\Exceptions\InvalidArgumentException;
 use Yassg\Files\CopyFile;
 use Yassg\Files\InputFile;
+use Yassg\Files\InputFileCollection;
 use Yassg\Files\Metadata\MetadataExtractorInterface;
 use Yassg\Files\OutputFileInterface;
 use Yassg\Processors\ProcessorResolver;
@@ -53,6 +55,7 @@ class Yassg
         $finder = $this->finder
             ->files()
             ->in($configuration->getInputDirectory());
+        $inputFiles = new InputFileCollection();
 
         $this->filesystem->mkdir($configuration->getOutputDirectory());
 
@@ -65,6 +68,12 @@ class Yassg
             $inputFile = new InputFile($file);
 
             $this->metadataExtractor->addMetadata($inputFile);
+            $inputFiles->addInputFile($inputFile);
+        }
+
+        $this->eventDispatcher->dispatch(new PreSiteBuildEvent($inputFiles));
+
+        foreach ($inputFiles as $inputFile) {
             $this->buildFile($inputFile, $outputDirectory);
         }
     }

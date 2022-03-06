@@ -1,0 +1,10 @@
+<ul>
+{% for item in collections.test | sort((a, b) => a.metadata.slug <=> b.metadata.slug) %}
+  <li>{{ item.metadata.slug }}</li>
+{% endfor %}
+</ul>
+<ul>
+{% for item in collections.test2 | sort((a, b) => a.metadata.slug <=> b.metadata.slug) %}
+  <li>{{ item.metadata.slug }}</li>
+{% endfor %}
+</ul>
