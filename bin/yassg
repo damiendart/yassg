@@ -7,7 +7,26 @@
 
 declare(strict_types=1);
 
-require dirname(__DIR__) . '/vendor/autoload.php';
+/** @var null|string $autoloader */
+$autoloader = null;
+$autoloaderLocations = [
+    dirname(__DIR__) . '/vendor/autoload.php',
+    dirname(__DIR__, 4) . '/vendor/autoload.php',
+];
+
+foreach ($autoloaderLocations as $location) {
+    if (file_exists($location)) {
+        $autoloader = $location;
+
+        break;
+    }
+}
+
+if (null === $autoloader) {
+    throw new RuntimeException('Unable to locate autoloader');
+}
+
+require_once $autoloader;
 
 use Yassg\Application\Application;
 use Yassg\Application\ConsoleOutput;
