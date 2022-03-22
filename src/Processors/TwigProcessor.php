@@ -16,19 +16,24 @@ use Twig\Loader\ArrayLoader;
 use Twig\Loader\ChainLoader;
 use Twig\Loader\FilesystemLoader;
 use Yassg\Configuration\Configuration;
+use Yassg\Events\EventDispatcher;
+use Yassg\Events\TwigEnvironmentCreatedEvent;
 use Yassg\Files\InputFileInterface;
 use Yassg\Files\MutatedFile;
 
 class TwigProcessor implements ProcessorInterface
 {
+    private EventDispatcher $eventDispatcher;
     private Configuration $configuration;
     private FilesystemLoader $filesystemLoader;
 
     public function __construct(
         FilesystemLoader $filesystemLoader,
         Configuration $configuration,
+        EventDispatcher $eventDispatcher,
     ) {
         $this->configuration = $configuration;
+        $this->eventDispatcher = $eventDispatcher;
         $this->filesystemLoader = $filesystemLoader;
     }
 
@@ -60,6 +65,10 @@ class TwigProcessor implements ProcessorInterface
         $environment = new Environment(
             $chainLoader,
             ['strict_variables' => true],
+        );
+
+        $this->eventDispatcher->dispatch(
+            new TwigEnvironmentCreatedEvent($environment),
         );
 
         return new MutatedFile(
