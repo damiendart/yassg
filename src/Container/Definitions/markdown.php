@@ -10,6 +10,7 @@ use League\CommonMark\ConverterInterface;
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
+use League\CommonMark\Extension\SmartPunct\SmartPunctExtension;
 use League\CommonMark\MarkdownConverter;
 use Psr\Container\ContainerInterface;
 
@@ -33,9 +34,13 @@ return [
             GithubFlavoredMarkdownExtension::class,
         );
 
+        /** @var SmartPunctExtension $smartPunctuationExtension */
+        $smartPunctuationExtension = $c->get(SmartPunctExtension::class);
+
         $environment
             ->addExtension($commonMarkCoreExtension)
-            ->addExtension($githubFlavouredMarkdownExtension);
+            ->addExtension($githubFlavouredMarkdownExtension)
+            ->addExtension($smartPunctuationExtension);
 
         return $environment;
     },
