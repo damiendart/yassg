@@ -15,10 +15,12 @@ class BasicSlugStrategy implements SlugStrategyInterface
         $input = preg_replace('/.twig$/', '', $input);
 
         if (1 !== preg_match('/(html?|md|php)$/', $input)) {
-            return str_starts_with($input, '/') ? $input : "/{$input}";
+            return ltrim($input, '/');
         }
 
-        return '/'
-            . preg_replace('/^\/|(index)?.(html?|md|php)$/', '', $input);
+        return ltrim(
+            preg_replace('/^\/|(index)?.(html?|md|php)$/', '', $input),
+            '/',
+        );
     }
 }
