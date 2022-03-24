@@ -29,6 +29,10 @@ class HelpersTest extends TestCase
     {
         return [
             [
+                "\n\n\n",
+                "\n\n\n",
+            ],
+            [
                 'Lorem ipsum.',
                 'Lorem ipsum.',
             ],
@@ -39,6 +43,10 @@ class HelpersTest extends TestCase
             [
                 "Lorem ipsum.\nLorem ipsum.\nLorem ipsum.",
                 "Lorem ipsum.\nLorem ipsum.\nLorem ipsum.",
+            ],
+            [
+                "Lorem ipsum.\n  Lorem ipsum.\n  Lorem ipsum.",
+                "Lorem ipsum.\n  Lorem ipsum.\n  Lorem ipsum.",
             ],
             [
                 "  Lorem ipsum.\n  Lorem ipsum.\n  Lorem ipsum.",
@@ -59,6 +67,10 @@ class HelpersTest extends TestCase
             [
                 "\t\tLorem ipsum.\n\tLorem ipsum.\n\t\t\tLorem ipsum.",
                 "\tLorem ipsum.\nLorem ipsum.\n\t\tLorem ipsum.",
+            ],
+            [
+                "  Lorem ipsum.\n\n  Lorem ipsum.\n  Lorem ipsum.",
+                "Lorem ipsum.\n\nLorem ipsum.\nLorem ipsum.",
             ],
         ];
     }

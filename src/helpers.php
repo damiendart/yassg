@@ -14,7 +14,16 @@ declare(strict_types=1);
 function dedent(string $input): string
 {
     $lines = explode("\n", $input);
-    $shortestLeadingWhitespace = min(
+    $nonEmptyLines = array_filter(
+        explode("\n", $input),
+        fn (string $line) => '' !== $line,
+    );
+
+    if (count($nonEmptyLines) < 1) {
+        return $input;
+    }
+
+    $shortestLeadingWhitespaceCount = min(
         array_map(
             function ($line) {
                 if (1 === preg_match('/^[ \t]+/', $line, $matches)) {
@@ -23,16 +32,17 @@ function dedent(string $input): string
 
                 return 0;
             },
-            $lines,
+            $nonEmptyLines,
         ),
     );
 
-    $lines = array_map(
-        function ($line) use ($shortestLeadingWhitespace) {
-            return substr($line, $shortestLeadingWhitespace);
-        },
-        $lines,
+    return join(
+        "\n",
+        array_map(
+            function ($line) use ($shortestLeadingWhitespaceCount) {
+                return substr($line, $shortestLeadingWhitespaceCount);
+            },
+            $lines,
+        ),
     );
-
-    return join("\n", $lines);
 }
