@@ -33,14 +33,14 @@ class Application
                 $arguments->getConfigurationFilePathname(),
             );
 
-            /** @var BuildCommand $buildCommand */
-            $buildCommand = $container->get(BuildCommand::class);
-
             if ($arguments->isVerboseFlagSet()) {
                 $this->output->setVerbosity(
                     OutputInterface::VERBOSITY_VERBOSE,
                 );
             }
+
+            /** @var BuildCommand $buildCommand */
+            $buildCommand = $container->get(BuildCommand::class);
 
             $buildCommand->run($this->output);
         } catch (InvalidArgumentException $exception) {

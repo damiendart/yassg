@@ -10,6 +10,7 @@ namespace Yassg\Tests\Unit\Events;
 
 use PHPUnit\Framework\TestCase;
 use Yassg\Events\Event;
+use Yassg\Events\FileEventInterface;
 use Yassg\Events\FileWrittenEvent;
 
 /**
@@ -28,6 +29,7 @@ class FileWrittenEventTest extends TestCase
         );
 
         $this->assertInstanceOf(Event::class, $event);
+        $this->assertInstanceOf(FileEventInterface::class, $event);
 
         $this->assertEquals(
             __FILE__,

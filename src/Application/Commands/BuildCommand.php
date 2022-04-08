@@ -12,6 +12,7 @@ use Yassg\Application\OutputInterface;
 use Yassg\Configuration\Configuration;
 use Yassg\Events\EventDispatcher;
 use Yassg\Events\FileCopiedEvent;
+use Yassg\Events\FileEventInterface;
 use Yassg\Events\FileWrittenEvent;
 use Yassg\Yassg;
 
@@ -49,37 +50,40 @@ class BuildCommand
             );
     }
 
+    private function handleFileEvent(
+        FileEventInterface $event,
+        OutputInterface $output,
+    ): void {
+        $action = ($event instanceof FileCopiedEvent)
+            ? 'Copied file to'
+            : 'Written';
+
+        ++$this->createdFileCount;
+
+        $output->write(
+            "[✔] {$action} \"{$event->getOutputAbsolutePathname()}\"" . PHP_EOL,
+        );
+
+        if ($output->isVerbose()) {
+            $output->write(
+                "    (Source file: \"{$event->getInputAbsolutePathname()}\")" . PHP_EOL,
+            );
+        }
+    }
+
     private function setupEventListeners(OutputInterface $output): void
     {
         $this->eventDispatcher->addEventListener(
             FileCopiedEvent::class,
-            function (FileCopiedEvent $event) use ($output): void {
-                ++$this->createdFileCount;
-                $output->write(
-                    "[✔] Copied file to \"{$event->getOutputAbsolutePathname()}\"" . PHP_EOL,
-                );
-
-                if ($output->isVerbose()) {
-                    $output->write(
-                        "    (Source file: \"{$event->getInputAbsolutePathname()}\")" . PHP_EOL,
-                    );
-                }
+            function (FileEventInterface $event) use ($output): void {
+                $this->handleFileEvent($event, $output);
             },
         );
 
         $this->eventDispatcher->addEventListener(
             FileWrittenEvent::class,
-            function (FileWrittenEvent $event) use ($output): void {
-                ++$this->createdFileCount;
-                $output->write(
-                    "[✔] Written \"{$event->getOutputAbsolutePathname()}\"" . PHP_EOL,
-                );
-
-                if ($output->isVerbose()) {
-                    $output->write(
-                        "    (Source file: \"{$event->getInputAbsolutePathname()}\")" . PHP_EOL,
-                    );
-                }
+            function (FileEventInterface $event) use ($output): void {
+                $this->handleFileEvent($event, $output);
             },
         );
     }

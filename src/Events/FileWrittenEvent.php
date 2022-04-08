@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Yassg\Events;
 
-class FileWrittenEvent extends Event
+class FileWrittenEvent extends Event implements FileEventInterface
 {
     private string $inputAbsolutePathname;
     private string $outputAbsolutePathname;
