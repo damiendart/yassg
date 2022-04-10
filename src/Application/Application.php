@@ -29,20 +29,6 @@ class Application
     {
         try {
             $arguments = new ArgumentParser($argv);
-            $container = new Container(
-                $arguments->getConfigurationFilePathname(),
-            );
-
-            if ($arguments->isVerboseFlagSet()) {
-                $this->output->setVerbosity(
-                    OutputInterface::VERBOSITY_VERBOSE,
-                );
-            }
-
-            /** @var BuildCommand $buildCommand */
-            $buildCommand = $container->get(BuildCommand::class);
-
-            $buildCommand->run($this->output);
         } catch (InvalidArgumentException $exception) {
             $this->output
                 ->writeError($exception->getMessage() . PHP_EOL)
@@ -51,6 +37,33 @@ class Application
                 );
 
             return self::RETURN_FAILURE;
+        }
+
+        $configurationFilePathname = $arguments
+            ->getConfigurationFilePathname();
+
+        if (
+            null === $configurationFilePathname
+            && is_file(getcwd() . DIRECTORY_SEPARATOR . '.yassg.php')
+        ) {
+            $configurationFilePathname = getcwd()
+                . DIRECTORY_SEPARATOR
+                . '.yassg.php';
+        }
+
+        if ($arguments->isVerboseFlagSet()) {
+            $this->output->setVerbosity(
+                OutputInterface::VERBOSITY_VERBOSE,
+            );
+        }
+
+        try {
+            $container = new Container($configurationFilePathname);
+
+            /** @var BuildCommand $buildCommand */
+            $buildCommand = $container->get(BuildCommand::class);
+
+            $buildCommand->run($this->output);
         } catch (RuntimeException $exception) {
             $this->output
                 ->writeError('[' . $exception::class . ']' . PHP_EOL)
