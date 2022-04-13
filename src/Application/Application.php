@@ -55,7 +55,10 @@ class Application
                 $this->getDefaultConfigurationFilePathname();
         }
 
-        if ($arguments->isVerboseFlagSet()) {
+        if (
+            $arguments->isVerboseFlagSet()
+            || false !== getenv('YASSG_VERBOSE')
+        ) {
             $this->output->setVerbosity(
                 OutputInterface::VERBOSITY_VERBOSE,
             );

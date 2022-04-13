@@ -39,15 +39,17 @@ class BuildCommand
 
         $this->yassg->build($this->configuration);
 
-        $output
-            ->write(PHP_EOL)
-            ->write(
-                sprintf(
-                    '%d file%s created' . PHP_EOL,
-                    $this->createdFileCount,
-                    1 === $this->createdFileCount ? '' : 's',
-                ),
-            );
+        if ($output->isVerbose()) {
+            $output->write(PHP_EOL);
+        }
+
+        $output->write(
+            sprintf(
+                '%d file%s created' . PHP_EOL,
+                $this->createdFileCount,
+                1 === $this->createdFileCount ? '' : 's',
+            ),
+        );
     }
 
     private function handleFileEvent(
@@ -60,14 +62,14 @@ class BuildCommand
 
         ++$this->createdFileCount;
 
-        $output->write(
-            "[✔] {$action} \"{$event->getOutputAbsolutePathname()}\"" . PHP_EOL,
-        );
-
         if ($output->isVerbose()) {
-            $output->write(
-                "    (Source file: \"{$event->getInputAbsolutePathname()}\")" . PHP_EOL,
-            );
+            $output
+                ->write(
+                    "[✔] {$action} \"{$event->getOutputAbsolutePathname()}\"" . PHP_EOL,
+                )
+                ->write(
+                    "    (Source file: \"{$event->getInputAbsolutePathname()}\")" . PHP_EOL,
+                );
         }
     }
 
