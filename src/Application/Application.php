@@ -44,11 +44,10 @@ class Application
 
         if (
             null === $configurationFilePathname
-            && is_file(getcwd() . DIRECTORY_SEPARATOR . '.yassg.php')
+            && is_file($this->getDefaultConfigurationFilePathname())
         ) {
-            $configurationFilePathname = getcwd()
-                . DIRECTORY_SEPARATOR
-                . '.yassg.php';
+            $configurationFilePathname =
+                $this->getDefaultConfigurationFilePathname();
         }
 
         if ($arguments->isVerboseFlagSet()) {
@@ -73,5 +72,10 @@ class Application
         }
 
         return self::RETURN_SUCCESS;
+    }
+
+    private function getDefaultConfigurationFilePathname(): string
+    {
+        return getcwd() . DIRECTORY_SEPARATOR . '.yassg.php';
     }
 }
