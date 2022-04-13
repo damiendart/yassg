@@ -20,9 +20,14 @@ class Application
 
     public OutputInterface $output;
 
-    public function __construct(OutputInterface $output)
-    {
+    private ?float $startTime;
+
+    public function __construct(
+        OutputInterface $output,
+        ?float $startTime = null,
+    ) {
         $this->output = $output;
+        $this->startTime = $startTime;
     }
 
     public function run(array $argv): int
@@ -69,6 +74,16 @@ class Application
                 ->writeError($exception->getMessage() . PHP_EOL);
 
             return self::RETURN_FAILURE;
+        }
+
+        if (is_float($this->startTime) && $this->output->isVerbose()) {
+            $this->output->write(
+                sprintf(
+                    'yassg took %d ms, %.2F MiB memory used' . PHP_EOL,
+                    round((microtime(true) - $this->startTime) * 1000),
+                    memory_get_usage(true) / 1024 / 1024,
+                ),
+            );
         }
 
         return self::RETURN_SUCCESS;

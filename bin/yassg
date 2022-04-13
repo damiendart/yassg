@@ -7,6 +7,8 @@
 
 declare(strict_types=1);
 
+$timingStart = microtime(true);
+
 /** @var null|string $autoloader */
 $autoloader = null;
 $autoloaderLocations = [
@@ -36,6 +38,7 @@ $application = new Application(
         fopen('php://stderr', 'a'),
         fopen('php://stdout', 'a'),
     ),
+    $timingStart,
 );
 
 exit($application->run($argv));
