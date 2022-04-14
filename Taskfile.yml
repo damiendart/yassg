@@ -51,7 +51,7 @@ tasks:
 
   dependencies:php:
     cmds:
-      - 'composer install --no-ansi --no-interaction --no-progress'
+      - 'composer update --no-ansi --no-interaction --no-progress --prefer-dist {{ .COMPOSER_ADDITIONAL_FLAGS }}'
     desc: 'Install PHP dependencies'
 
   lint:

@@ -36,12 +36,14 @@ class Container implements ContainerInterface
         );
     }
 
-    public function get(string $id): mixed
+    /** {@inheritDoc} */
+    public function get($id): mixed
     {
         return $this->container->get($id);
     }
 
-    public function has(string $id): bool
+    /** {@inheritDoc} */
+    public function has($id): bool
     {
         return $this->container->has($id);
     }

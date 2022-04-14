@@ -26,7 +26,10 @@
   "config": {
     "optimize-autoloader": true,
     "preferred-install": "dist",
-    "sort-packages": true
+    "sort-packages": true,
+    "allow-plugins": {
+      "composer/package-versions-deprecated": false
+    }
   },
   "description": "Yet another static site generator.",
   "license": "MIT",
@@ -40,18 +43,18 @@
   ],
   "require": {
     "php": "^8.0",
-    "league/commonmark": "^2.2",
-    "php-di/php-di": "^6.3",
+    "league/commonmark": "^2.3",
+    "php-di/php-di": "^6.4",
     "psr/event-dispatcher": "^1.0",
-    "symfony/filesystem": "^5.3",
-    "symfony/finder": "^5.3",
-    "symfony/yaml": "^6.0",
-    "twig/twig": "^3.3"
+    "symfony/filesystem": "^6.0.7",
+    "symfony/finder": "^6.0.3",
+    "symfony/yaml": "^6.0.3",
+    "twig/twig": "^3.3.10"
   },
   "require-dev": {
     "damiendart/toolbox-sass": "dev-master",
-    "friendsofphp/php-cs-fixer": "^3.1",
-    "phpunit/phpunit": "^9.5",
-    "vimeo/psalm": "^4.10"
+    "friendsofphp/php-cs-fixer": "^3.8",
+    "phpunit/phpunit": "^9.5.20",
+    "vimeo/psalm": "^4.22"
   }
 }

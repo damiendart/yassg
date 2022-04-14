@@ -14,6 +14,8 @@ on:
 
 jobs:
   lint-analyse-and-test:
+    env:
+      COMPOSER_ADDITIONAL_FLAGS: '--${{ matrix.stability }}'
     name: 'Lint, analyse, and test project'
     runs-on: 'ubuntu-20.04'
     steps:
@@ -36,3 +38,6 @@ jobs:
         php:
           - '8.0'
           - '8.1'
+        stability:
+          - 'prefer-lowest'
+          - 'prefer-stable'
