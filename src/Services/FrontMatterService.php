@@ -25,7 +25,7 @@ class FrontMatterService
         $this->yamlParser = $yamlParser;
     }
 
-    /** @return array{0: ?array<array-key, mixed>, 1: string} */
+    /** @return array{0: ?array, 1: string} */
     public function parseString(string $input): array
     {
         foreach (self::FRONT_MATTER_REGEXES as $regex) {
