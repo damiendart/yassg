@@ -65,7 +65,10 @@ class Yassg
         );
 
         foreach ($finder as $file) {
-            $inputFile = new InputFile($file);
+            $inputFile = new InputFile(
+                $file->getRealPath(),
+                $file->getRelativePathname(),
+            );
 
             $this->metadataExtractor->addMetadata($inputFile);
             $inputFiles->addInputFile($inputFile);

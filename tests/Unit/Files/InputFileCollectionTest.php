@@ -10,7 +10,6 @@ namespace Yassg\Tests\Unit\Files;
 
 use Iterator;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Finder\SplFileInfo;
 use Traversable;
 use Yassg\Files\InputFile;
 use Yassg\Files\InputFileCollection;
@@ -36,11 +35,8 @@ class InputFileCollectionTest extends TestCase
 
         foreach (range(0, 4) as $i) {
             $inputFiles[] = new InputFile(
-                new SplFileInfo(
-                    __FILE__ . ".{$i}",
-                    dirname(__FILE__),
-                    __FILE__ . ".{$i}",
-                ),
+                __FILE__ . ".{$i}",
+                __FILE__ . ".{$i}",
             );
 
             $collection->addInputFile($inputFiles[$i]);
