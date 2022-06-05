@@ -35,12 +35,6 @@
   "license": "MIT",
   "name": "damiendart/yassg",
   "prefer-stable": true,
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://www.robotinaponcho.net/git/toolbox-sass.git"
-    }
-  ],
   "require": {
     "php": "^8.0",
     "league/commonmark": "^2.3",
@@ -52,7 +46,6 @@
     "twig/twig": "^3.3.10"
   },
   "require-dev": {
-    "damiendart/toolbox-sass": "dev-master",
     "friendsofphp/php-cs-fixer": "^3.8",
     "phpunit/phpunit": "^9.5.20",
     "vimeo/psalm": "^4.22"
