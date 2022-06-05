@@ -10,15 +10,15 @@ return (new PhpCsFixer\Config())
     ->setRules(
         [
             '@PhpCsFixer' => true,
-            '@PSR2' => true,
+            '@PSR12' => true,
             'array_syntax' => ['syntax' => 'short'],
             'concat_space' => ['spacing' => 'one'],
             'declare_strict_types' => true,
-            'ordered_imports' => ['sort_algorithm' => 'alpha'],
             'no_unused_imports' => true,
             'multiline_whitespace_before_semicolons' => [
                 'strategy' => 'no_multi_line'
             ],
+            'ordered_imports' => ['sort_algorithm' => 'alpha'],
             'trailing_comma_in_multiline' => [
                 'elements' => ['arrays', 'arguments', 'parameters'],
             ],
