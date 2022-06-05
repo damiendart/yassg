@@ -1,10 +1,18 @@
 <?php
 
-// Copyright (c) 2022 Damien Dart, <damiendart@pobox.com>.
-// This file is distributed under the MIT licence. For more information,
-// please refer to the accompanying "LICENCE" file.
+/*
+ * Copyright (c) 2022 Damien Dart, <damiendart@pobox.com>.
+ * This file is distributed under the MIT licence. For more information,
+ * please refer to the accompanying "LICENCE" file.
+ */
 
 declare(strict_types=1);
+
+$header = <<<HEADER
+Copyright (c) 2022 Damien Dart, <damiendart@pobox.com>.
+This file is distributed under the MIT licence. For more information,
+please refer to the accompanying "LICENCE" file.
+HEADER;
 
 return (new PhpCsFixer\Config())
     ->setRules(
@@ -14,6 +22,11 @@ return (new PhpCsFixer\Config())
             'array_syntax' => ['syntax' => 'short'],
             'concat_space' => ['spacing' => 'one'],
             'declare_strict_types' => true,
+            'header_comment' => [
+                'header' => $header,
+                'location' => 'after_open',
+                'separate' => 'both',
+            ],
             'no_unused_imports' => true,
             'multiline_whitespace_before_semicolons' => [
                 'strategy' => 'no_multi_line'
