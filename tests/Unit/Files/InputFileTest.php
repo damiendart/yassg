@@ -8,7 +8,10 @@
 
 declare(strict_types=1);
 
+namespace Yassg\Tests\Unit\Files;
+
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Yassg\Files\InputFile;
 
 /**
