@@ -8,15 +8,15 @@
 
 declare(strict_types=1);
 
-namespace Yassg\Tests\Unit\Services;
+namespace Yassg\Tests\Unit\Services\FrontMatter;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Parser;
-use Yassg\Services\FrontMatterService;
+use Yassg\Services\FrontMatter\FrontMatterService;
 
 /**
- * @covers \Yassg\Services\FrontMatterService
+ * @covers \Yassg\Services\FrontMatter\FrontMatterService
  *
  * @internal
  */
@@ -26,12 +26,15 @@ class FrontMatterServiceTest extends TestCase
     {
         $frontMatterService = new FrontMatterService(new Parser());
 
-        [$frontMatter, $content] = $frontMatterService->parseString(
+        $document = $frontMatterService->parseString(
             "---\nfoo: bar\n---\nLorem ipsum dolor sit amet.",
         );
 
-        $this->assertEquals(['foo' => 'bar'], $frontMatter);
-        $this->assertEquals('Lorem ipsum dolor sit amet.', $content);
+        $this->assertEquals(['foo' => 'bar'], $document->getMetadata());
+        $this->assertEquals(
+            'Lorem ipsum dolor sit amet.',
+            $document->getContent(),
+        );
     }
 
     public function testParsingDocumentsWithCustomFrontMatterDelimeters(): void
@@ -43,12 +46,15 @@ class FrontMatterServiceTest extends TestCase
         ];
 
         foreach ($testStrings as $testString) {
-            [$frontMatter, $content] = $frontMatterService->parseString(
+            $document = $frontMatterService->parseString(
                 $testString,
             );
 
-            $this->assertEquals(['foo' => 'bar'], $frontMatter);
-            $this->assertEquals('Lorem ipsum dolor sit amet.', $content);
+            $this->assertEquals(['foo' => 'bar'], $document->getMetadata());
+            $this->assertEquals(
+                'Lorem ipsum dolor sit amet.',
+                $document->getContent(),
+            );
         }
     }
 
@@ -66,36 +72,39 @@ class FrontMatterServiceTest extends TestCase
     {
         $frontMatterService = new FrontMatterService(new Parser());
 
-        [$frontMatter, $content] = $frontMatterService->parseString(
+        $document = $frontMatterService->parseString(
             "---\nfoo: bar\n---\n",
         );
 
-        $this->assertEquals(['foo' => 'bar'], $frontMatter);
-        $this->assertEquals('', $content);
+        $this->assertEquals(['foo' => 'bar'], $document->getMetadata());
+        $this->assertEquals('', $document->getContent());
     }
 
     public function testParsingADocumentWithFrontMatterContainingADelimeter(): void
     {
         $frontMatterService = new FrontMatterService(new Parser());
 
-        [$frontMatter, $content] = $frontMatterService->parseString(
+        $document = $frontMatterService->parseString(
             "---\n---foo: bar\n---\n",
         );
 
-        $this->assertEquals(['---foo' => 'bar'], $frontMatter);
-        $this->assertEquals('', $content);
+        $this->assertEquals(['---foo' => 'bar'], $document->getMetadata());
+        $this->assertEquals('', $document->getContent());
     }
 
     public function testParsingADocumentWithIndentedFrontMatter(): void
     {
         $frontMatterService = new FrontMatterService(new Parser());
 
-        [$frontMatter, $content] = $frontMatterService->parseString(
+        $document = $frontMatterService->parseString(
             "---\n    foo: bar\n    baz: qux\n---\n",
         );
 
-        $this->assertEquals(['foo' => 'bar', 'baz' => 'qux'], $frontMatter);
-        $this->assertEquals('', $content);
+        $this->assertEquals(
+            ['foo' => 'bar', 'baz' => 'qux'],
+            $document->getMetadata(),
+        );
+        $this->assertEquals('', $document->getContent());
     }
 
     public function testParsingDocumentsWithJustComments(): void
@@ -107,12 +116,10 @@ class FrontMatterServiceTest extends TestCase
         ];
 
         foreach ($testStrings as $testString) {
-            [$frontMatter, $content] = $frontMatterService->parseString(
-                $testString,
-            );
+            $document = $frontMatterService->parseString($testString);
 
-            $this->assertNull($frontMatter);
-            $this->assertEquals($testString, $content);
+            $this->assertEmpty($document->getMetadata());
+            $this->assertEquals($testString, $document->getContent());
         }
     }
 }

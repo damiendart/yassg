@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace Yassg\Files\Metadata;
 
 use Yassg\Files\InputFile;
-use Yassg\Services\FrontMatterService;
+use Yassg\Services\FrontMatter\FrontMatterService;
 
 class FrontMatterExtractor implements MetadataExtractorInterface
 {
@@ -30,13 +30,11 @@ class FrontMatterExtractor implements MetadataExtractorInterface
     {
         $this->innerMetadataExtractor->addMetadata($inputFile);
 
-        [$frontMatter, $content] = $this->frontMatterService->parseString(
+        $parsedDocument = $this->frontMatterService->parseString(
             $inputFile->getContent(),
         );
 
-        if (is_array($frontMatter)) {
-            $inputFile->setMetadata($frontMatter);
-            $inputFile->setContent($content);
-        }
+        $inputFile->setMetadata($parsedDocument->getMetadata());
+        $inputFile->setContent($parsedDocument->getContent());
     }
 }

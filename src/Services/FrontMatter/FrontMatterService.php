@@ -8,7 +8,7 @@
 
 declare(strict_types=1);
 
-namespace Yassg\Services;
+namespace Yassg\Services\FrontMatter;
 
 use Symfony\Component\Yaml\Parser;
 
@@ -27,8 +27,7 @@ class FrontMatterService
         $this->yamlParser = $yamlParser;
     }
 
-    /** @return array{0: ?array, 1: string} */
-    public function parseString(string $input): array
+    public function parseString(string $input): DocumentWithMetadata
     {
         foreach (self::FRONT_MATTER_REGEXES as $regex) {
             if (
@@ -38,10 +37,13 @@ class FrontMatterService
                 /** @var array $frontMatter */
                 $frontMatter = $this->yamlParser->parse(dedent($matches[1]));
 
-                return [$frontMatter, $matches[2]];
+                return new DocumentWithMetadata(
+                    $frontMatter,
+                    $matches[2],
+                );
             }
         }
 
-        return [null, $input];
+        return new DocumentWithMetadata([], $input);
     }
 }

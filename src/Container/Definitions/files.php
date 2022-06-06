@@ -14,7 +14,7 @@ use Psr\Container\ContainerInterface;
 use Yassg\Files\Metadata\FrontMatterExtractor;
 use Yassg\Files\Metadata\MetadataExtractor;
 use Yassg\Files\Metadata\MetadataExtractorInterface;
-use Yassg\Services\FrontMatterService;
+use Yassg\Services\FrontMatter\FrontMatterService;
 
 return [
     MetadataExtractorInterface::class => function (ContainerInterface $c): FrontMatterExtractor {
