@@ -16,6 +16,7 @@ use Yassg\Plugins\PluginInterface;
 
 class HelloWorldPlugin implements PluginInterface
 {
+    /** @codeCoverageIgnore  */
     public function getContainerDefinitions(): array
     {
         return [

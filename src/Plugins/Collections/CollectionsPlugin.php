@@ -20,6 +20,7 @@ use Yassg\Plugins\PluginInterface;
 
 class CollectionsPlugin implements PluginInterface
 {
+    /** @codeCoverageIgnore  */
     public function getContainerDefinitions(): array
     {
         return [

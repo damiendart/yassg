@@ -19,6 +19,9 @@
     </testsuite>
   </testsuites>
   <coverage processUncoveredFiles="true">
+    <exclude>
+      <directory suffix=".php">./src/Container/Definitions</directory>
+    </exclude>
     <include>
       <directory suffix=".php">./src</directory>
     </include>

@@ -15,6 +15,7 @@ use Yassg\Files\Metadata\MetadataExtractorInterface;
 use Yassg\Plugins\PluginInterface;
 use Yassg\Services\Slug\SlugStrategyInterface;
 
+/** @codeCoverageIgnore  */
 class SlugPlugin implements PluginInterface
 {
     private SlugStrategyInterface $slugStrategy;
