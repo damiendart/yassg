@@ -30,7 +30,7 @@ class FrontMatterExtractor implements MetadataExtractorInterface
     {
         $this->innerMetadataExtractor->addMetadata($inputFile);
 
-        $parsedDocument = $this->frontMatterService->parseString(
+        $parsedDocument = $this->frontMatterService->parse(
             $inputFile->getContent(),
         );
 

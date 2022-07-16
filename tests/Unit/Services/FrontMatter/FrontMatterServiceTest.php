@@ -26,7 +26,7 @@ class FrontMatterServiceTest extends TestCase
     {
         $frontMatterService = new FrontMatterService(new Parser());
 
-        $document = $frontMatterService->parseString(
+        $document = $frontMatterService->parse(
             "---\nfoo: bar\n---\nLorem ipsum dolor sit amet.",
         );
 
@@ -46,7 +46,7 @@ class FrontMatterServiceTest extends TestCase
         ];
 
         foreach ($testStrings as $testString) {
-            $document = $frontMatterService->parseString(
+            $document = $frontMatterService->parse(
                 $testString,
             );
 
@@ -63,7 +63,7 @@ class FrontMatterServiceTest extends TestCase
         $frontMatterService = new FrontMatterService(new Parser());
         $this->expectException(ParseException::class);
 
-        $frontMatterService->parseString(
+        $frontMatterService->parse(
             "---\n{foo: bar\n---\nLorem ipsum dolor sit amet.",
         );
     }
@@ -72,7 +72,7 @@ class FrontMatterServiceTest extends TestCase
     {
         $frontMatterService = new FrontMatterService(new Parser());
 
-        $document = $frontMatterService->parseString(
+        $document = $frontMatterService->parse(
             "---\nfoo: bar\n---\n",
         );
 
@@ -84,7 +84,7 @@ class FrontMatterServiceTest extends TestCase
     {
         $frontMatterService = new FrontMatterService(new Parser());
 
-        $document = $frontMatterService->parseString(
+        $document = $frontMatterService->parse(
             "---\n---foo: bar\n---\n",
         );
 
@@ -96,7 +96,7 @@ class FrontMatterServiceTest extends TestCase
     {
         $frontMatterService = new FrontMatterService(new Parser());
 
-        $document = $frontMatterService->parseString(
+        $document = $frontMatterService->parse(
             "---\n    foo: bar\n    baz: qux\n---\n",
         );
 
@@ -116,7 +116,7 @@ class FrontMatterServiceTest extends TestCase
         ];
 
         foreach ($testStrings as $testString) {
-            $document = $frontMatterService->parseString($testString);
+            $document = $frontMatterService->parse($testString);
 
             $this->assertEmpty($document->getMetadata());
             $this->assertEquals($testString, $document->getContent());

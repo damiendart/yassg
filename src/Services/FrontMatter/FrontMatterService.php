@@ -27,7 +27,7 @@ class FrontMatterService
         $this->yamlParser = $yamlParser;
     }
 
-    public function parseString(string $input): DocumentWithMetadata
+    public function parse(string $input): DocumentWithMetadata
     {
         foreach (self::FRONT_MATTER_REGEXES as $regex) {
             if (
