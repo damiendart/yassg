@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace Yassg\Plugins\Collections;
 
 use function DI\decorate;
+
 use Psr\Container\ContainerInterface;
 use Yassg\Configuration\Configuration;
 use Yassg\Events\EventDispatcher;

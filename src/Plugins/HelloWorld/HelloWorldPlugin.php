@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace Yassg\Plugins\HelloWorld;
 
 use function DI\decorate;
+
 use Yassg\Files\Metadata\MetadataExtractorInterface;
 use Yassg\Plugins\PluginInterface;
 

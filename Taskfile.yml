@@ -61,7 +61,7 @@ tasks:
 
   lint:php:
     cmds:
-      - 'vendor/bin/php-cs-fixer fix --allow-risky=yes --dry-run --diff'
+      - 'vendor/bin/php-cs-fixer fix --allow-risky=yes --diff --dry-run --verbose'
     desc: 'Lint PHP files with PHP Coding Standards Fixer'
 
   static-analysis:

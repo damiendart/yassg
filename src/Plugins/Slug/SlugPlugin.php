@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace Yassg\Plugins\Slug;
 
 use function DI\decorate;
+
 use Yassg\Files\Metadata\MetadataExtractorInterface;
 use Yassg\Plugins\PluginInterface;
 use Yassg\Services\Slug\SlugStrategyInterface;
