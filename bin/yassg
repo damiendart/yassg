@@ -11,26 +11,30 @@ declare(strict_types=1);
 
 $timingStart = microtime(true);
 
-/** @var null|string $autoloader */
-$autoloader = null;
 $autoloaderLocations = [
     dirname(__DIR__) . '/vendor/autoload.php',
     dirname(__DIR__, 4) . '/vendor/autoload.php',
 ];
+$isAutoloaderFound = false;
 
 foreach ($autoloaderLocations as $location) {
     if (file_exists($location)) {
-        $autoloader = $location;
+        require_once $location;
+
+        $isAutoloaderFound = true;
 
         break;
     }
 }
 
-if (null === $autoloader) {
-    throw new RuntimeException('Unable to locate autoloader');
+if (false === $isAutoloaderFound) {
+    throw new RuntimeException(
+        sprintf(
+            'Unable to locate autoloader (searched for "%s")',
+            implode('", "', $autoloaderLocations),
+        ),
+    );
 }
-
-require_once $autoloader;
 
 use Yassg\Application\Application;
 use Yassg\Application\ConsoleOutput;
