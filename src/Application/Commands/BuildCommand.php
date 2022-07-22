@@ -18,7 +18,7 @@ use Yassg\Events\FileEventInterface;
 use Yassg\Events\FileWrittenEvent;
 use Yassg\Yassg;
 
-class BuildCommand
+class BuildCommand implements CommandInterface
 {
     private int $createdFileCount = 0;
     private Configuration $configuration;

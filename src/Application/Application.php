@@ -12,6 +12,8 @@ namespace Yassg\Application;
 
 use RuntimeException;
 use Yassg\Application\Commands\BuildCommand;
+use Yassg\Application\Commands\CommandInterface;
+use Yassg\Application\Commands\HelpCommand;
 use Yassg\Container\Container;
 use Yassg\Exceptions\InvalidArgumentException;
 
@@ -69,10 +71,15 @@ class Application
         try {
             $container = new Container($configurationFilePathname);
 
-            /** @var BuildCommand $buildCommand */
-            $buildCommand = $container->get(BuildCommand::class);
+            /** @var CommandInterface $command */
+            $command = $container->get(
+                match (true) {
+                    $arguments->isHelpFlagSet() => HelpCommand::class,
+                    default => BuildCommand::class,
+                },
+            );
 
-            $buildCommand->run($this->output);
+            $command->run($this->output);
         } catch (RuntimeException $exception) {
             $this->output
                 ->writeError('[' . $exception::class . ']' . PHP_EOL)
