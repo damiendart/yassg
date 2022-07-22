@@ -28,7 +28,7 @@ class HelpCommand implements CommandInterface
                                 file (if not set, yassg will default to reading
                                 ".yassg.php" in the current directory).
             -h, --help          Display this help text and exists.
-            -v                  Increase verbosity of command output (setting the
+            -v, --verbose       Increase verbosity of command output (setting the
                                 YASSG_VERBOSE environment variable will also enable
                                 verbose mode).
 

@@ -100,6 +100,15 @@ class ArgumentParserTest extends TestCase
         $this->assertFalse($parser->isVerboseFlagSet());
     }
 
+    public function testParsingConcatenatedSingleLetterOptions(): void
+    {
+        $parser = new ArgumentParser(['yassg', '-hv']);
+
+        $this->assertNull($parser->getConfigurationFilePathname());
+        $this->assertTrue($parser->isHelpFlagSet());
+        $this->assertTrue($parser->isVerboseFlagSet());
+    }
+
     /** @dataProvider invalidArgumentsProvider */
     public function testParsingInvalidArguments(
         string $expectedErrorMessage,
@@ -118,9 +127,21 @@ class ArgumentParserTest extends TestCase
                 'Invalid argument or option: "-n".',
                 ['yassg', '-n'],
             ],
-            'invalid long option' => [
+            'invalid concatenated short options #1' => [
+                'Invalid argument or option: "-l".',
+                ['yassg', '-hl'],
+            ],
+            'invalid concatenated short options #2' => [
+                'Missing value for "-c".',
+                ['yassg', '-ch'],
+            ],
+            'invalid long option #1' => [
                 'Invalid argument or option: "--nope".',
                 ['yassg', '--nope'],
+            ],
+            'invalid long option #2' => [
+                'Invalid argument or option: "--confi".',
+                ['yassg', '--confi'],
             ],
             'missing value' => [
                 'Missing value for "--config".',

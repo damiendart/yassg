@@ -53,6 +53,14 @@ class ArgumentParser
                     $normalisedArguments,
                     explode('=', $token, 2),
                 );
+            } elseif (preg_match('/^-[a-zA-Z\d]{2,}/', $token)) {
+                $normalisedArguments = array_merge(
+                    $normalisedArguments,
+                    array_map(
+                        fn (string $item): string => "-{$item}",
+                        str_split(ltrim($token, '-')),
+                    ),
+                );
             } else {
                 $normalisedArguments[] = $token;
             }
@@ -65,17 +73,20 @@ class ArgumentParser
                 );
             }
 
-            if (in_array($normalisedArguments[$i], ['-h', '--help'], true)) {
+            if (in_array($normalisedArguments[$i], ['-h', '--help'])) {
                 $this->helpFlag = true;
-            } elseif ('--verbose' === $normalisedArguments[$i]) {
+            } elseif (in_array($normalisedArguments[$i], ['-v', '--verbose'])) {
                 $this->verboseFlag = true;
-            } elseif (
-                str_starts_with($normalisedArguments[$i], '-c')
-                || str_starts_with($normalisedArguments[$i], '--config')
-            ) {
+            } elseif (in_array($normalisedArguments[$i], ['-c', '--config'])) {
                 $currentOption = $normalisedArguments[$i];
             } else {
                 if (in_array($currentOption, ['-c', '--config'])) {
+                    if (str_starts_with($normalisedArguments[$i], '-')) {
+                        throw new InvalidArgumentException(
+                            "Missing value for \"{$currentOption}\".",
+                        );
+                    }
+
                     if (!$this->isHelpFlagSet()) {
                         $this->configurationFilePathname = $normalisedArguments[$i];
                     }
