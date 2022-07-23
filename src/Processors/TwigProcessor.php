@@ -57,6 +57,10 @@ class TwigProcessor implements ProcessorInterface
             $this->configuration->getInputDirectory(),
         );
 
+        // If the input file content has been modified internally by
+        // yassg (during the metadata extraction process, by another
+        // processor, etc), the "ArrayLoader" ensures the modified
+        // content is used by Twig instead of the original file content.
         $chainLoader->addLoader(
             new ArrayLoader([
                 $inputFile->getRelativePathname() => $inputFile->getContent(),
