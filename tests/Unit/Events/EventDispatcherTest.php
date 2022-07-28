@@ -31,7 +31,7 @@ class EventDispatcherTest extends TestCase
         $dispatcher->addEventListener($event::class, $listener);
         $dispatcher->dispatch($event);
 
-        $this->assertEquals($listener->getEvent(), $event);
+        $this->assertSame($listener->getEvent(), $event);
     }
 
     public function testDispatchingAnEventToMultipleListeners(): void
@@ -45,15 +45,15 @@ class EventDispatcherTest extends TestCase
         $dispatcher->addEventListener($event::class, $listenerTwo);
         $dispatcher->dispatch($event);
 
-        $this->assertEquals($listenerOne->getEvent(), $event);
-        $this->assertEquals($listenerTwo->getEvent(), $event);
+        $this->assertSame($listenerOne->getEvent(), $event);
+        $this->assertSame($listenerTwo->getEvent(), $event);
     }
 
     public function testDispatchingAnEventToTheCorrectListener(): void
     {
         $dispatcher = new EventDispatcher();
         $eventOne = new TestEvent();
-        $eventTwo = new stdClass();
+        $eventTwo = new TestEventTheSecond();
         $listenerOne = new TestEventListener();
         $listenerTwo = new TestEventListener();
 
@@ -62,8 +62,8 @@ class EventDispatcherTest extends TestCase
         $dispatcher->dispatch($eventOne);
         $dispatcher->dispatch($eventTwo);
 
-        $this->assertEquals($listenerOne->getEvent(), $eventOne);
-        $this->assertEquals($listenerTwo->getEvent(), $eventTwo);
+        $this->assertSame($listenerOne->getEvent(), $eventOne);
+        $this->assertSame($listenerTwo->getEvent(), $eventTwo);
     }
 
     public function testDispatchingAnEventShouldReturnIt(): void
@@ -95,8 +95,8 @@ class EventDispatcherTest extends TestCase
     public function testRemovingEventListeners(): void
     {
         $dispatcher = new EventDispatcher();
-        $eventOne = new stdClass();
-        $eventTwo = new TestEvent();
+        $eventOne = new TestEvent();
+        $eventTwo = new TestEventTheSecond();
         $listener = new TestEventListener();
 
         $dispatcher->addEventListener($eventOne::class, $listener);
@@ -105,11 +105,34 @@ class EventDispatcherTest extends TestCase
         $dispatcher->removeEventListeners($eventTwo::class);
         $dispatcher->dispatch($eventTwo);
 
-        $this->assertEquals($listener->getEvent(), $eventOne);
+        $this->assertSame($listener->getEvent(), $eventOne);
+    }
+
+    public function testRegisteringAListenerToMultipleEvents(): void
+    {
+        $dispatcher = new EventDispatcher();
+        $eventOne = new TestEvent();
+        $eventTwo = new TestEventTheSecond();
+        $listener = new TestEventListener();
+
+        $dispatcher->addEventListener(
+            [$eventOne::class, $eventTwo::class],
+            $listener,
+        );
+
+        $dispatcher->dispatch($eventOne);
+        $this->assertSame($listener->getEvent(), $eventOne);
+
+        $dispatcher->dispatch($eventTwo);
+        $this->assertSame($listener->getEvent(), $eventTwo);
     }
 }
 
 class TestEvent extends Event
+{
+}
+
+class TestEventTheSecond extends Event
 {
 }
 

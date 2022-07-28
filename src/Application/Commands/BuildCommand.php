@@ -78,14 +78,7 @@ class BuildCommand implements CommandInterface
     private function setupEventListeners(OutputInterface $output): void
     {
         $this->eventDispatcher->addEventListener(
-            FileCopiedEvent::class,
-            function (FileEventInterface $event) use ($output): void {
-                $this->handleFileEvent($event, $output);
-            },
-        );
-
-        $this->eventDispatcher->addEventListener(
-            FileWrittenEvent::class,
+            [FileCopiedEvent::class, FileWrittenEvent::class],
             function (FileEventInterface $event) use ($output): void {
                 $this->handleFileEvent($event, $output);
             },

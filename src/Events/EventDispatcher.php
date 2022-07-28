@@ -16,14 +16,21 @@ use Psr\EventDispatcher\StoppableEventInterface;
 
 class EventDispatcher implements EventDispatcherInterface, ListenerProviderInterface
 {
-    /** @var array<string, callable[]> */
+    /** @var array<class-string, callable[]> */
     private array $listeners = [];
 
+    /** @param class-string|class-string[] $eventClasses */
     public function addEventListener(
-        string $eventClass,
+        array|string $eventClasses,
         callable $listener,
     ): self {
-        $this->listeners[$eventClass][] = $listener;
+        if (is_string($eventClasses)) {
+            $eventClasses = [$eventClasses];
+        }
+
+        foreach ($eventClasses as $eventClass) {
+            $this->listeners[$eventClass][] = $listener;
+        }
 
         return $this;
     }
@@ -60,6 +67,7 @@ class EventDispatcher implements EventDispatcherInterface, ListenerProviderInter
         return [];
     }
 
+    /** @param class-string $eventClass */
     public function removeEventListeners(string $eventClass): void
     {
         if (array_key_exists($eventClass, $this->listeners)) {
@@ -67,6 +75,7 @@ class EventDispatcher implements EventDispatcherInterface, ListenerProviderInter
         }
     }
 
+    /** @return class-string */
     private function getEventType(object $event): string
     {
         return get_class($event);
