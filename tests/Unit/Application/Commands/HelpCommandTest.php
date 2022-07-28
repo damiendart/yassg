@@ -34,7 +34,10 @@ class HelpCommandTest extends TestCase
         rewind($stdout);
         $outputContent = stream_get_contents($stdout);
 
-        $this->assertStringContainsString('-c, --config=', $outputContent);
+        $this->assertStringContainsString(
+            '-c FILE, --config=FILE',
+            $outputContent,
+        );
         $this->assertStringContainsString('-h, --help', $outputContent);
         $this->assertStringContainsString('-v, --verbose', $outputContent);
 

@@ -22,15 +22,20 @@ class HelpCommand implements CommandInterface
 
             Yet Another Static Site Generator.
 
+
             FLAGS:
 
-            -c, --config=FILE   Specify a custom location to a yassg configuration
-                                file (if not set, yassg will default to reading
-                                ".yassg.php" in the current directory).
-            -h, --help          Display this help text and exists.
-            -v, --verbose       Increase verbosity of command output (setting the
-                                YASSG_VERBOSE environment variable will also enable
-                                verbose mode).
+            -c FILE, --config=FILE
+                Specify a custom location to a yassg configuration file (by default
+                yassg will attempt to load ".yassg.php" in the current directory).
+
+            -h, --help
+                Display this help text and exit.
+
+            -v, --verbose
+                Increase verbosity of command output (setting the YASSG_VERBOSE
+                environment variable will also enable verbose mode).
+
 
             POSITIONAL ARGUMENTS
 
@@ -38,5 +43,11 @@ class HelpCommand implements CommandInterface
 
             HELP
         );
+
+        if ($output->isVerbose()) {
+            // A few newlines are added to separate the help text and
+            // the yassg runtime statistics.
+            $output->write("\n\n");
+        }
     }
 }
