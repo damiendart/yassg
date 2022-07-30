@@ -300,4 +300,37 @@ class ApplicationTest extends ApplicationTestBase
             $fixtureDirectory . DIRECTORY_SEPARATOR . 'expected',
         );
     }
+
+    public function testRunningTheBuildCommandWithAProjectThatSetsTheTwigTemplateVariableGlobally(): void
+    {
+        $fixtureDirectory = self::$fixturesDirectory
+            . DIRECTORY_SEPARATOR
+            . 'markdown-using-global-twigTemplate';
+        $fixtureConfigurationFilePathname = $fixtureDirectory
+            . DIRECTORY_SEPARATOR
+            . '.yassg.php';
+
+        /** @var Configuration $configuration */
+        $configuration = include $fixtureConfigurationFilePathname;
+
+        $this->setTemporaryDirectoryPath(
+            $configuration->getOutputDirectory(),
+        );
+
+        $application = new Application($this->consoleOutput);
+
+        $this->assertEquals(
+            Application::RETURN_SUCCESS,
+            $application->run(
+                ['yassg', '--config', $fixtureConfigurationFilePathname],
+            ),
+        );
+        $this->assertDirectoryEquals(
+            $fixtureDirectory . DIRECTORY_SEPARATOR . 'expected',
+            $configuration->getOutputDirectory(),
+        );
+        $this->assertSummaryMatches(
+            $fixtureDirectory . DIRECTORY_SEPARATOR . 'expected',
+        );
+    }
 }

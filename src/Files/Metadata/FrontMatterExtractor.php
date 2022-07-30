@@ -34,7 +34,7 @@ class FrontMatterExtractor implements MetadataExtractorInterface
             $inputFile->getContent(),
         );
 
-        $inputFile->setMetadata($parsedDocument->getMetadata());
+        $inputFile->mergeMetadata($parsedDocument->getMetadata());
         $inputFile->setContent($parsedDocument->getContent());
     }
 }

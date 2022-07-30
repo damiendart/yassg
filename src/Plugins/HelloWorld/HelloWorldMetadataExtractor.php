@@ -27,7 +27,7 @@ class HelloWorldMetadataExtractor implements MetadataExtractorInterface
     {
         $this->innerMetadataExtractor->addMetadata($inputFile);
 
-        $inputFile->setMetadata(
+        $inputFile->mergeMetadata(
             [
                 'hello' => 'Hello, World!',
             ],

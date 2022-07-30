@@ -32,7 +32,7 @@ class SlugMetadataExtractor implements MetadataExtractorInterface
         $this->innerMetadataExtractor->addMetadata($inputFile);
 
         if (false === array_key_exists('slug', $inputFile->getMetadata())) {
-            $inputFile->setMetadata(
+            $inputFile->mergeMetadata(
                 [
                     'slug' => $this->slugStrategy->slugify(
                         $inputFile->getRelativePathname(),

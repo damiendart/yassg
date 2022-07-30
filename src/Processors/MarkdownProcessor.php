@@ -47,11 +47,11 @@ class MarkdownProcessor implements ProcessorInterface
 
             return new MutatedFile(
                 $this->getTwigTemplateContent($twigTemplate),
-                array_merge(
-                    $this->configuration->getMetadata(),
-                    $inputFile->getMetadata(),
-                    ['renderedMarkdown' => $renderedMarkdown],
-                ),
+                $inputFile
+                    ->mergeMetadata(
+                        ['renderedMarkdown' => $renderedMarkdown],
+                    )
+                    ->getMetadata(),
                 $inputFile->getOriginalInputFile(),
                 $this->processPathname($inputFile->getRelativePathname()) . '.twig',
             );

@@ -27,6 +27,7 @@ use Yassg\Processors\ProcessorResolver;
 
 class Yassg
 {
+    private Configuration $configuration;
     private EventDispatcher $eventDispatcher;
     private Filesystem $filesystem;
     private Finder $finder;
@@ -34,12 +35,14 @@ class Yassg
     private ProcessorResolver $processorResolver;
 
     public function __construct(
+        Configuration $configuration,
         EventDispatcher $eventDispatcher,
         Filesystem $filesystem,
         Finder $finder,
         MetadataExtractorInterface $metadataExtractor,
         ProcessorResolver $processorResolver,
     ) {
+        $this->configuration = $configuration;
         $this->eventDispatcher = $eventDispatcher;
         $this->filesystem = $filesystem;
         $this->finder = $finder;
@@ -79,6 +82,12 @@ class Yassg
         $this->eventDispatcher->dispatch(new PreSiteBuildEvent($inputFiles));
 
         foreach ($inputFiles as $inputFile) {
+            $inputFile->setMetadata(
+                array_merge(
+                    $this->configuration->getMetadata(),
+                    $inputFile->getMetadata(),
+                ),
+            );
             $this->buildFile($inputFile, $outputDirectory);
         }
     }

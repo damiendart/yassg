@@ -19,9 +19,16 @@ trait HasMetadata
         return $this->metadata;
     }
 
-    public function setMetadata(array $metadata): self
+    public function mergeMetadata(array $metadata): self
     {
         $this->metadata = array_merge($this->metadata, $metadata);
+
+        return $this;
+    }
+
+    public function setMetadata(array $metadata): self
+    {
+        $this->metadata = $metadata;
 
         return $this;
     }
