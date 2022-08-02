@@ -12,15 +12,18 @@ namespace Yassg;
 
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
+use Throwable;
 use Yassg\Configuration\Configuration;
 use Yassg\Events\EventDispatcher;
 use Yassg\Events\FileCopiedEvent;
 use Yassg\Events\FileWrittenEvent;
 use Yassg\Events\PreSiteBuildEvent;
+use Yassg\Exceptions\BuildException;
 use Yassg\Exceptions\InvalidArgumentException;
 use Yassg\Files\CopyFile;
 use Yassg\Files\InputFile;
 use Yassg\Files\InputFileCollection;
+use Yassg\Files\InputFileInterface;
 use Yassg\Files\Metadata\MetadataExtractorInterface;
 use Yassg\Files\OutputFileInterface;
 use Yassg\Processors\ProcessorResolver;
@@ -70,30 +73,54 @@ class Yassg
         );
 
         foreach ($finder as $file) {
-            $inputFile = new InputFile(
-                $file->getRealPath(),
-                $file->getRelativePathname(),
-            );
+            try {
+                $inputFile = new InputFile(
+                    $file->getRealPath(),
+                    $file->getRelativePathname(),
+                );
 
-            $this->metadataExtractor->addMetadata($inputFile);
+                $this->metadataExtractor->addMetadata($inputFile);
+            } catch (Throwable $throwable) {
+                throw new BuildException(
+                    sprintf(
+                        'Unable to pre-process "%s"',
+                        $file->getRealPath(),
+                    ),
+                    is_int($throwable->getCode()) ? $throwable->getCode() : 0,
+                    $throwable,
+                );
+            }
+
             $inputFiles->addInputFile($inputFile);
         }
 
         $this->eventDispatcher->dispatch(new PreSiteBuildEvent($inputFiles));
 
+        /** @var InputFileInterface $inputFile */
         foreach ($inputFiles as $inputFile) {
-            $inputFile->setMetadata(
-                array_merge(
-                    $this->configuration->getMetadata(),
-                    $inputFile->getMetadata(),
-                ),
-            );
-            $this->buildFile($inputFile, $outputDirectory);
+            try {
+                $inputFile->setMetadata(
+                    array_merge(
+                        $this->configuration->getMetadata(),
+                        $inputFile->getMetadata(),
+                    ),
+                );
+                $this->buildFile($inputFile, $outputDirectory);
+            } catch (Throwable $throwable) {
+                throw new BuildException(
+                    sprintf(
+                        'Unable to process "%s"',
+                        $inputFile->getOriginalAbsolutePathname(),
+                    ),
+                    is_int($throwable->getCode()) ? $throwable->getCode() : 0,
+                    $throwable,
+                );
+            }
         }
     }
 
     private function buildFile(
-        InputFile $inputFile,
+        InputFileInterface $inputFile,
         string $baseOutputDirectory,
     ): void {
         $processedFile = $inputFile;

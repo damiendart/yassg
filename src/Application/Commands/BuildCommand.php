@@ -10,12 +10,14 @@ declare(strict_types=1);
 
 namespace Yassg\Application\Commands;
 
+use Throwable;
 use Yassg\Application\OutputInterface;
 use Yassg\Configuration\Configuration;
 use Yassg\Events\EventDispatcher;
 use Yassg\Events\FileCopiedEvent;
 use Yassg\Events\FileEventInterface;
 use Yassg\Events\FileWrittenEvent;
+use Yassg\Exceptions\BuildException;
 use Yassg\Yassg;
 
 class BuildCommand implements CommandInterface
@@ -35,11 +37,22 @@ class BuildCommand implements CommandInterface
         $this->yassg = $yassg;
     }
 
+    /**
+     * @throws Throwable
+     */
     public function run(OutputInterface $output): void
     {
         $this->setupEventListeners($output);
 
-        $this->yassg->build($this->configuration);
+        try {
+            $this->yassg->build($this->configuration);
+        } catch (BuildException $exception) {
+            $output->write("[x] {$exception->getMessage()}" . PHP_EOL . PHP_EOL);
+
+            if (null !== $exception->getPrevious()) {
+                throw $exception->getPrevious();
+            }
+        }
 
         if ($output->isVerbose()) {
             $output->write(PHP_EOL);

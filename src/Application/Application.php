@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace Yassg\Application;
 
-use RuntimeException;
+use Throwable;
 use Yassg\Application\Commands\BuildCommand;
 use Yassg\Application\Commands\CommandInterface;
 use Yassg\Application\Commands\HelpCommand;
@@ -80,10 +80,8 @@ class Application
             );
 
             $command->run($this->output);
-        } catch (RuntimeException $exception) {
-            $this->output
-                ->writeError('[' . $exception::class . ']' . PHP_EOL)
-                ->writeError($exception->getMessage() . PHP_EOL);
+        } catch (Throwable $throwable) {
+            $this->renderThrowable($throwable);
 
             return self::RETURN_FAILURE;
         }
@@ -104,5 +102,28 @@ class Application
     private function getDefaultConfigurationFilePathname(): string
     {
         return getcwd() . DIRECTORY_SEPARATOR . '.yassg.php';
+    }
+
+    private function renderThrowable(Throwable $throwable): void
+    {
+        $this->output
+            ->writeError('[' . $throwable::class . ']' . PHP_EOL)
+            ->writeError($throwable->getMessage() . PHP_EOL);
+
+        $this->output->writeError(PHP_EOL);
+
+        if ($this->output->isVerbose()) {
+            $this->output->writeError('Stacktrace:' . PHP_EOL);
+            $this->output->writeError($throwable->getTraceAsString() . PHP_EOL);
+
+            if (null !== $throwable->getPrevious()) {
+                $this->output->writeError(PHP_EOL);
+                $this->renderThrowable($throwable->getPrevious());
+            }
+        } else {
+            $this->output->writeError(
+                'Enable verbose mode to display stacktrace.' . PHP_EOL,
+            );
+        }
     }
 }
