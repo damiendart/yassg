@@ -15,6 +15,7 @@ use Yassg\Configuration\Configuration;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 class ApplicationTest extends ApplicationTestBase
