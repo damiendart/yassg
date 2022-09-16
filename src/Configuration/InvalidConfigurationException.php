@@ -8,7 +8,7 @@
 
 declare(strict_types=1);
 
-namespace Yassg\Exceptions;
+namespace Yassg\Configuration;
 
 use RuntimeException;
 

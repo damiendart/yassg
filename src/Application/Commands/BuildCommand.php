@@ -12,12 +12,12 @@ namespace Yassg\Application\Commands;
 
 use Throwable;
 use Yassg\Application\OutputInterface;
+use Yassg\BuildException;
 use Yassg\Configuration\Configuration;
 use Yassg\Events\EventDispatcher;
 use Yassg\Events\FileCopiedEvent;
 use Yassg\Events\FileEventInterface;
 use Yassg\Events\FileWrittenEvent;
-use Yassg\Exceptions\BuildException;
 use Yassg\Yassg;
 
 class BuildCommand implements CommandInterface

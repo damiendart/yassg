@@ -8,10 +8,10 @@
 
 declare(strict_types=1);
 
-namespace Yassg\Exceptions;
+namespace Yassg\Configuration;
 
 use RuntimeException;
 
-class InvalidArgumentException extends RuntimeException
+class InvalidInputDirectoryException extends RuntimeException
 {
 }

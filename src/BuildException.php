@@ -8,11 +8,14 @@
 
 declare(strict_types=1);
 
-namespace Yassg\Exceptions;
+namespace Yassg;
 
 use RuntimeException;
 use Throwable;
 
+/**
+ * @codeCoverageIgnore
+ */
 class BuildException extends RuntimeException
 {
     public function __construct(

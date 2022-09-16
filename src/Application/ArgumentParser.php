@@ -10,8 +10,6 @@ declare(strict_types=1);
 
 namespace Yassg\Application;
 
-use Yassg\Exceptions\InvalidArgumentException;
-
 class ArgumentParser
 {
     private ?string $configurationFilePathname = null;

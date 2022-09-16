@@ -12,7 +12,7 @@ namespace Yassg\Tests\Unit\Application;
 
 use PHPUnit\Framework\TestCase;
 use Yassg\Application\ArgumentParser;
-use Yassg\Exceptions\InvalidArgumentException;
+use Yassg\Application\InvalidArgumentException;
 
 /**
  * @covers \Yassg\Application\ArgumentParser

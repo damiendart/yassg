@@ -15,7 +15,6 @@ use Yassg\Application\Commands\BuildCommand;
 use Yassg\Application\Commands\CommandInterface;
 use Yassg\Application\Commands\HelpCommand;
 use Yassg\Container\Container;
-use Yassg\Exceptions\InvalidArgumentException;
 
 class Application
 {

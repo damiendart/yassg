@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Yassg\Configuration;
 
-use Yassg\Exceptions\InvalidInputDirectoryException;
 use Yassg\Metadata\MetadataTrait;
 use Yassg\Plugins\PluginInterface;
 
