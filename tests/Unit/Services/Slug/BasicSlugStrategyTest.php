@@ -11,10 +11,10 @@ declare(strict_types=1);
 namespace Yassg\Tests\Unit\Services\Slug;
 
 use PHPUnit\Framework\TestCase;
-use Yassg\Services\Slug\BasicSlugStrategy;
+use Yassg\Slug\BasicSlugStrategy;
 
 /**
- * @covers \Yassg\Services\Slug\BasicSlugStrategy
+ * @covers \Yassg\Slug\BasicSlugStrategy
  *
  * @internal
  */

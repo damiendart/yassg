@@ -8,7 +8,7 @@
 
 declare(strict_types=1);
 
-namespace Yassg\Processors;
+namespace Yassg\Files\Processors;
 
 use Yassg\Files\InputFileInterface;
 use Yassg\Files\OutputFileInterface;

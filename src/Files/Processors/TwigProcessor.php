@@ -8,7 +8,7 @@
 
 declare(strict_types=1);
 
-namespace Yassg\Processors;
+namespace Yassg\Files\Processors;
 
 use Twig\Environment;
 use Twig\Error\LoaderError;

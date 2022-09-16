@@ -15,7 +15,7 @@ use Yassg\Configuration\Configuration;
 use Yassg\Configuration\InvalidInputDirectoryException;
 use Yassg\Plugins\HelloWorld\HelloWorldPlugin;
 use Yassg\Plugins\Slug\SlugPlugin;
-use Yassg\Services\Slug\BasicSlugStrategy;
+use Yassg\Slug\BasicSlugStrategy;
 
 /**
  * @covers \Yassg\Configuration\Configuration

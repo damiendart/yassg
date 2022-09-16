@@ -8,13 +8,13 @@
 
 declare(strict_types=1);
 
-namespace Yassg\Tests\Unit\Services\FrontMatter;
+namespace Yassg\Tests\Unit\Files\FrontMatter;
 
 use PHPUnit\Framework\TestCase;
-use Yassg\Services\FrontMatter\DocumentWithMetadata;
+use Yassg\Files\FrontMatter\DocumentWithMetadata;
 
 /**
- * @covers \Yassg\Services\FrontMatter\DocumentWithMetadata
+ * @covers \Yassg\Files\FrontMatter\DocumentWithMetadata
  *
  * @internal
  */

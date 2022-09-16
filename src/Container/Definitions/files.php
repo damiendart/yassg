@@ -11,10 +11,10 @@ declare(strict_types=1);
 namespace Yassg\Container\Definitions;
 
 use Psr\Container\ContainerInterface;
+use Yassg\Files\FrontMatter\FrontMatterService;
 use Yassg\Files\Metadata\FrontMatterExtractor;
 use Yassg\Files\Metadata\MetadataExtractor;
 use Yassg\Files\Metadata\MetadataExtractorInterface;
-use Yassg\Services\FrontMatter\FrontMatterService;
 
 return [
     MetadataExtractorInterface::class => function (ContainerInterface $c): FrontMatterExtractor {

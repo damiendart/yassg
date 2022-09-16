@@ -10,8 +10,8 @@ declare(strict_types=1);
 
 namespace Yassg\Files\Metadata;
 
+use Yassg\Files\FrontMatter\FrontMatterService;
 use Yassg\Files\InputFile;
-use Yassg\Services\FrontMatter\FrontMatterService;
 
 class FrontMatterExtractor implements MetadataExtractorInterface
 {

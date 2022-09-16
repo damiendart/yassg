@@ -8,7 +8,7 @@
 
 declare(strict_types=1);
 
-namespace Yassg\Services\Slug;
+namespace Yassg\Slug;
 
 interface SlugStrategyInterface
 {

@@ -25,7 +25,7 @@ use Yassg\Files\InputFileCollection;
 use Yassg\Files\InputFileInterface;
 use Yassg\Files\Metadata\MetadataExtractorInterface;
 use Yassg\Files\OutputFileInterface;
-use Yassg\Processors\ProcessorResolver;
+use Yassg\Files\Processors\ProcessorResolver;
 
 class Yassg
 {

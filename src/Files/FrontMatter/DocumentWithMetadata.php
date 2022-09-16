@@ -8,7 +8,7 @@
 
 declare(strict_types=1);
 
-namespace Yassg\Services\FrontMatter;
+namespace Yassg\Files\FrontMatter;
 
 class DocumentWithMetadata
 {

@@ -8,15 +8,15 @@
 
 declare(strict_types=1);
 
-namespace Yassg\Tests\Unit\Services\FrontMatter;
+namespace Yassg\Tests\Unit\Files\FrontMatter;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Parser;
-use Yassg\Services\FrontMatter\FrontMatterService;
+use Yassg\Files\FrontMatter\FrontMatterService;
 
 /**
- * @covers \Yassg\Services\FrontMatter\FrontMatterService
+ * @covers \Yassg\Files\FrontMatter\FrontMatterService
  *
  * @internal
  */

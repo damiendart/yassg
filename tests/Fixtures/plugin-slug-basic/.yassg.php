@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 use Yassg\Configuration\Configuration;
 use Yassg\Plugins\Slug\SlugPlugin;
-use Yassg\Services\Slug\BasicSlugStrategy;
+use Yassg\Slug\BasicSlugStrategy;
 
 return (new Configuration(
     __DIR__ . DIRECTORY_SEPARATOR . 'input',

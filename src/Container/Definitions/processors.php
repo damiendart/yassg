@@ -11,10 +11,10 @@ declare(strict_types=1);
 namespace Yassg\Container\Definitions;
 
 use Psr\Container\ContainerInterface;
-use Yassg\Processors\DefaultProcessor;
-use Yassg\Processors\MarkdownProcessor;
-use Yassg\Processors\ProcessorResolver;
-use Yassg\Processors\TwigProcessor;
+use Yassg\Files\Processors\DefaultProcessor;
+use Yassg\Files\Processors\MarkdownProcessor;
+use Yassg\Files\Processors\ProcessorResolver;
+use Yassg\Files\Processors\TwigProcessor;
 
 return [
     ProcessorResolver::class => function (ContainerInterface $c): ProcessorResolver {
