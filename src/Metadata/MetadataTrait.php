@@ -8,9 +8,9 @@
 
 declare(strict_types=1);
 
-namespace Yassg\Traits;
+namespace Yassg\Metadata;
 
-trait HasMetadata
+trait MetadataTrait
 {
     private array $metadata = [];
 

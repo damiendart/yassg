@@ -11,11 +11,11 @@ declare(strict_types=1);
 namespace Yassg\Files;
 
 use RuntimeException;
-use Yassg\Traits\HasMetadata;
+use Yassg\Metadata\MetadataTrait;
 
 class InputFile implements InputFileInterface
 {
-    use HasMetadata;
+    use MetadataTrait;
 
     private string $absolutePathname;
     private ?string $content = null;

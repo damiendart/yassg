@@ -10,11 +10,11 @@ declare(strict_types=1);
 
 namespace Yassg\Files;
 
-use Yassg\Traits\HasMetadata;
+use Yassg\Metadata\MetadataTrait;
 
 class MutatedFile implements InputFileInterface
 {
-    use HasMetadata;
+    use MetadataTrait;
 
     private string $content;
     private InputFileInterface $originalInputFile;
