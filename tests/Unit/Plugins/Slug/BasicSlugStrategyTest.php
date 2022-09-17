@@ -8,13 +8,13 @@
 
 declare(strict_types=1);
 
-namespace Yassg\Tests\Unit\Services\Slug;
+namespace Yassg\Tests\Unit\Plugins\Slug;
 
 use PHPUnit\Framework\TestCase;
-use Yassg\Slug\BasicSlugStrategy;
+use Yassg\Plugins\Slug\BasicSlugStrategy;
 
 /**
- * @covers \Yassg\Slug\BasicSlugStrategy
+ * @covers \Yassg\Plugins\Slug\BasicSlugStrategy
  *
  * @internal
  */

@@ -8,7 +8,7 @@
 
 declare(strict_types=1);
 
-namespace Yassg\Slug;
+namespace Yassg\Plugins\Slug;
 
 class SlugService
 {

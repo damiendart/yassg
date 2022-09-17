@@ -14,7 +14,6 @@ use function DI\decorate;
 
 use Yassg\Files\Metadata\MetadataExtractorInterface;
 use Yassg\Plugins\PluginInterface;
-use Yassg\Slug\SlugStrategyInterface;
 
 /** @codeCoverageIgnore  */
 class SlugPlugin implements PluginInterface

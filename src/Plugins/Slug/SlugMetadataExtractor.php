@@ -12,7 +12,6 @@ namespace Yassg\Plugins\Slug;
 
 use Yassg\Files\InputFile;
 use Yassg\Files\Metadata\MetadataExtractorInterface;
-use Yassg\Slug\SlugStrategyInterface;
 
 class SlugMetadataExtractor implements MetadataExtractorInterface
 {

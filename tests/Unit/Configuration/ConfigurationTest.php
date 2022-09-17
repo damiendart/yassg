@@ -14,8 +14,8 @@ use PHPUnit\Framework\TestCase;
 use Yassg\Configuration\Configuration;
 use Yassg\Configuration\InvalidInputDirectoryException;
 use Yassg\Plugins\HelloWorld\HelloWorldPlugin;
+use Yassg\Plugins\Slug\BasicSlugStrategy;
 use Yassg\Plugins\Slug\SlugPlugin;
-use Yassg\Slug\BasicSlugStrategy;
 
 /**
  * @covers \Yassg\Configuration\Configuration
