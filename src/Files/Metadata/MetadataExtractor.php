@@ -16,7 +16,7 @@ class MetadataExtractor implements MetadataExtractorInterface
 {
     public function addMetadata(InputFile $inputFile): void
     {
-        $inputFile->setMetadata(
+        $inputFile->mergeMetadata(
             [
                 'lastModified' => filemtime(
                     $inputFile->getOriginalAbsolutePathname(),
