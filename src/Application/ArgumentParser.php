@@ -38,7 +38,7 @@ class ArgumentParser
 
     private function parseArguments(array $arguments): void
     {
-        /** @var ?string $currentArgument */
+        /** @var ?string $currentOption */
         $currentOption = null;
 
         /** @var string[] $normalisedArguments */

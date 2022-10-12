@@ -55,6 +55,7 @@ class Yassg
     /**
      * @psalm-suppress PossiblyNullArgument
      *
+     * @throws BuildException
      * @throws InvalidArgumentException
      */
     public function build(Configuration $configuration): void

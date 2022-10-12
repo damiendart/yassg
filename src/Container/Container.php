@@ -65,7 +65,7 @@ class Container implements ContainerInterface
             ],
         );
 
-        foreach (static::$defaultDefinitionsFilenames as $filename) {
+        foreach (self::$defaultDefinitionsFilenames as $filename) {
             $containerBuilder->addDefinitions(
                 join(
                     DIRECTORY_SEPARATOR,
@@ -105,7 +105,6 @@ class Container implements ContainerInterface
             );
         }
 
-        /** @var Configuration $configuration */
         $configuration = include $configurationFilePathname;
 
         if (false === $configuration instanceof Configuration) {

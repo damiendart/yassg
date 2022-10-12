@@ -71,6 +71,17 @@ tasks:
 
   static-analysis:php:
     cmds:
+      - task: 'static-analysis:php:phpstan'
+      - task: 'static-analysis:php:psalm'
+    desc: 'Run all PHP static-analysis-related tasks'
+
+  static-analysis:php:phpstan:
+    cmds:
+      - 'vendor/bin/phpstan analyse --no-progress'
+    desc: 'Analyse PHP files with PHPStan'
+
+  static-analysis:php:psalm:
+    cmds:
       - 'vendor/bin/psalm --no-diff --show-info=true --stats'
     desc: 'Analyse PHP files with Psalm'
 
