@@ -13,6 +13,7 @@ namespace Yassg\Tests\Unit\Application\Commands;
 use PHPUnit\Framework\TestCase;
 use Yassg\Application\Commands\HelpCommand;
 use Yassg\Application\ConsoleOutput;
+use Yassg\Application\OutputInterface;
 
 /**
  * @covers \Yassg\Application\Commands\HelpCommand
@@ -45,5 +46,22 @@ class HelpCommandTest extends TestCase
             '/.{73,}/m',
             $outputContent,
         );
+    }
+
+    public function testVerboseHelpTextOutput(): void
+    {
+        $helpCommand = new HelpCommand();
+        $output = new ConsoleOutput(
+            fopen('php://memory', 'a'),
+            $stdout = fopen('php://memory', 'a'),
+        );
+
+        $output->setVerbosity(OutputInterface::VERBOSITY_VERBOSE);
+        $helpCommand->run($output);
+
+        rewind($stdout);
+        $outputContent = stream_get_contents($stdout);
+
+        $this->assertStringEndsWith("\n\n", $outputContent);
     }
 }
