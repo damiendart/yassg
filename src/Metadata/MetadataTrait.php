@@ -12,13 +12,16 @@ namespace Yassg\Metadata;
 
 trait MetadataTrait
 {
+    /** @var array<array-key, mixed> */
     private array $metadata = [];
 
+    /** @return array<array-key, mixed> */
     public function getMetadata(): array
     {
         return $this->metadata;
     }
 
+    /** @param array<array-key, mixed> $metadata */
     public function mergeMetadata(array $metadata): self
     {
         $this->metadata = array_merge($this->metadata, $metadata);
@@ -26,6 +29,7 @@ trait MetadataTrait
         return $this;
     }
 
+    /** @param array<array-key, mixed> $metadata */
     public function setMetadata(array $metadata): self
     {
         $this->metadata = $metadata;

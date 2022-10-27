@@ -27,6 +27,7 @@ class HelpersTest extends TestCase
         $this->assertEquals($expected, dedent($input));
     }
 
+    /** @return array<array{string, string}> */
     public function dedentTestStringProvider(): array
     {
         return [

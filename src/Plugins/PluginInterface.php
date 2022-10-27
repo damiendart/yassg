@@ -12,5 +12,6 @@ namespace Yassg\Plugins;
 
 interface PluginInterface
 {
+    /** @return array<class-string, callable|object> */
     public function getContainerDefinitions(): array;
 }

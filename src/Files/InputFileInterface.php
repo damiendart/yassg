@@ -14,6 +14,7 @@ interface InputFileInterface
 {
     public function getContent(): string;
 
+    /** @return array<array-key, mixed> */
     public function getMetadata(): array;
 
     public function getOriginalAbsolutePathname(): string;
@@ -22,9 +23,11 @@ interface InputFileInterface
 
     public function getRelativePathname(): string;
 
+    /** @param array<array-key, mixed> $metadata */
     public function mergeMetadata(array $metadata): self;
 
     public function setContent(string $content): self;
 
+    /** @param array<array-key, mixed> $metadata */
     public function setMetadata(array $metadata): self;
 }

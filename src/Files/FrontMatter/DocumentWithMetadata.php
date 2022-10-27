@@ -12,6 +12,7 @@ namespace Yassg\Files\FrontMatter;
 
 class DocumentWithMetadata
 {
+    /** @param mixed[] $metadata */
     public function __construct(
         private array $metadata = [],
         private string $content = '',
@@ -23,6 +24,7 @@ class DocumentWithMetadata
         return $this->content;
     }
 
+    /** @return mixed[] */
     public function getMetadata(): array
     {
         return $this->metadata;

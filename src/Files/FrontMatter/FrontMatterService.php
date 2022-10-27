@@ -34,7 +34,7 @@ class FrontMatterService
                 1 === preg_match($regex, $input, $matches)
                 && '' !== trim($matches[1])
             ) {
-                /** @var array $frontMatter */
+                /** @var array{array-key, mixed} $frontMatter */
                 $frontMatter = $this->yamlParser->parse(dedent($matches[1]));
 
                 return new DocumentWithMetadata(

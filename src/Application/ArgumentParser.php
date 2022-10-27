@@ -16,6 +16,7 @@ class ArgumentParser
     private bool $helpFlag = false;
     private bool $verboseFlag = false;
 
+    /** @param string[] $argv */
     public function __construct(array $argv)
     {
         $this->parseArguments($argv);
@@ -36,6 +37,7 @@ class ArgumentParser
         return $this->verboseFlag;
     }
 
+    /** @param string[] $arguments */
     private function parseArguments(array $arguments): void
     {
         /** @var ?string $currentOption */
@@ -44,7 +46,6 @@ class ArgumentParser
         /** @var string[] $normalisedArguments */
         $normalisedArguments = [];
 
-        /** @var string $token */
         foreach ($arguments as $token) {
             if (str_contains($token, '=')) {
                 $normalisedArguments = array_merge(

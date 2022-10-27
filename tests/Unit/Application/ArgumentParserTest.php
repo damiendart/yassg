@@ -109,7 +109,11 @@ class ArgumentParserTest extends TestCase
         $this->assertTrue($parser->isVerboseFlagSet());
     }
 
-    /** @dataProvider invalidArgumentsProvider */
+    /**
+     * @dataProvider invalidArgumentsProvider
+     *
+     * @param string[] $input
+     */
     public function testParsingInvalidArguments(
         string $expectedErrorMessage,
         array $input,
@@ -120,6 +124,7 @@ class ArgumentParserTest extends TestCase
         new ArgumentParser($input);
     }
 
+    /** @return array<string, array{string, string[]}> */
     public function invalidArgumentsProvider(): array
     {
         return [

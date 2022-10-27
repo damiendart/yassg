@@ -13,6 +13,7 @@ namespace Yassg\Files;
 use ArrayIterator;
 use IteratorAggregate;
 
+/** @implements IteratorAggregate<array-key, InputFile> */
 class InputFileCollection implements IteratorAggregate
 {
     /** @var InputFile[] */

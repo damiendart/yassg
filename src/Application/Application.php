@@ -33,6 +33,7 @@ class Application
         $this->startTime = $startTime;
     }
 
+    /** @param string[] $argv */
     public function run(array $argv): int
     {
         try {

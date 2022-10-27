@@ -20,6 +20,7 @@ class MutatedFile implements InputFileInterface
     private InputFileInterface $originalInputFile;
     private string $relativePathname;
 
+    /** @param array<array-key, mixed> $metadata */
     public function __construct(
         string $content,
         array $metadata,
