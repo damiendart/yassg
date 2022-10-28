@@ -67,6 +67,7 @@ class Yassg
 
         $this->filesystem->mkdir($configuration->getOutputDirectory());
 
+        /** @var string $outputDirectory */
         $outputDirectory = $this->filesystem->readlink(
             $configuration->getOutputDirectory(),
             true,

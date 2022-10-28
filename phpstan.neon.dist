@@ -3,7 +3,7 @@
 # please refer to the accompanying "LICENCE" file.
 
 parameters:
-  level: 7
+  level: 9
   paths:
     - 'bin/yassg'
     - 'src'

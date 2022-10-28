@@ -11,10 +11,14 @@ declare(strict_types=1);
 namespace Yassg\Files\Processors;
 
 use League\CommonMark\ConverterInterface;
-use RuntimeException;
 use Yassg\Configuration\Configuration;
+
+use function Yassg\file_get_contents_safe;
+
 use Yassg\Files\InputFileInterface;
 use Yassg\Files\MutatedFile;
+
+use function Yassg\preg_replace_safe;
 
 class MarkdownProcessor implements ProcessorInterface
 {
@@ -67,7 +71,7 @@ class MarkdownProcessor implements ProcessorInterface
 
     private function getTwigTemplateContent(string $relativePathname): string
     {
-        $twigTemplate = file_get_contents(
+        return file_get_contents_safe(
             join(
                 DIRECTORY_SEPARATOR,
                 [
@@ -76,25 +80,12 @@ class MarkdownProcessor implements ProcessorInterface
                 ],
             ),
         );
-
-        if (false === $twigTemplate) {
-            /**
-             * @psalm-suppress PossiblyNullArrayAccess
-             *
-             * @var string $errorMessage
-             */
-            $errorMessage = error_get_last()['message'];
-
-            throw new RuntimeException($errorMessage);
-        }
-
-        return $twigTemplate;
     }
 
     private function processPathname(string $pathname): string
     {
         $extension = pathinfo($pathname, PATHINFO_EXTENSION);
 
-        return preg_replace("/{$extension}$/i", 'html', $pathname);
+        return preg_replace_safe("/{$extension}$/i", 'html', $pathname);
     }
 }

@@ -12,6 +12,9 @@ namespace Yassg\Tests\Unit\Files;
 
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
+
+use function Yassg\file_get_contents_safe;
+
 use Yassg\Files\InputFile;
 
 /**
@@ -41,7 +44,7 @@ class InputFileTest extends TestCase
 
         $this->assertFalse($inputFile->isDirty());
         $this->assertEquals(
-            file_get_contents(__FILE__),
+            file_get_contents_safe(__FILE__),
             $inputFile->getContent(),
         );
 

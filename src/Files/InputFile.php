@@ -10,7 +10,8 @@ declare(strict_types=1);
 
 namespace Yassg\Files;
 
-use RuntimeException;
+use function Yassg\file_get_contents_safe;
+
 use Yassg\Metadata\MetadataTrait;
 
 class InputFile implements InputFileInterface
@@ -72,19 +73,6 @@ class InputFile implements InputFileInterface
 
     private function readFile(): string
     {
-        set_error_handler(
-            function (int $_, string $message): void {
-                throw new RuntimeException($message);
-            },
-        );
-
-        try {
-            /** @var string $content */
-            $content = file_get_contents($this->absolutePathname);
-        } finally {
-            restore_error_handler();
-        }
-
-        return $content;
+        return file_get_contents_safe($this->absolutePathname);
     }
 }

@@ -32,6 +32,7 @@ return (new PhpCsFixer\Config())
                 'strategy' => 'no_multi_line'
             ],
             'ordered_imports' => ['sort_algorithm' => 'alpha'],
+            'phpdoc_align' => ['align' => 'left'],
             'trailing_comma_in_multiline' => [
                 'elements' => ['arrays', 'arguments', 'parameters'],
             ],
