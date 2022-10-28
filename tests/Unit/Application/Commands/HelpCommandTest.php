@@ -15,6 +15,9 @@ use Yassg\Application\Commands\HelpCommand;
 use Yassg\Application\ConsoleOutput;
 use Yassg\Application\OutputInterface;
 
+use function Yassg\fopen_safe;
+use function Yassg\Tests\stream_get_contents_safe;
+
 /**
  * @covers \Yassg\Application\Commands\HelpCommand
  *
@@ -26,14 +29,14 @@ class HelpCommandTest extends TestCase
     {
         $helpCommand = new HelpCommand();
         $output = new ConsoleOutput(
-            fopen('php://memory', 'a'),
-            $stdout = fopen('php://memory', 'a'),
+            fopen_safe('php://memory', 'a'),
+            $stdout = fopen_safe('php://memory', 'a'),
         );
 
         $helpCommand->run($output);
 
         rewind($stdout);
-        $outputContent = stream_get_contents($stdout);
+        $outputContent = stream_get_contents_safe($stdout);
 
         $this->assertStringContainsString(
             '-c FILE, --config=FILE',
@@ -52,15 +55,15 @@ class HelpCommandTest extends TestCase
     {
         $helpCommand = new HelpCommand();
         $output = new ConsoleOutput(
-            fopen('php://memory', 'a'),
-            $stdout = fopen('php://memory', 'a'),
+            fopen_safe('php://memory', 'a'),
+            $stdout = fopen_safe('php://memory', 'a'),
         );
 
         $output->setVerbosity(OutputInterface::VERBOSITY_VERBOSE);
         $helpCommand->run($output);
 
         rewind($stdout);
-        $outputContent = stream_get_contents($stdout);
+        $outputContent = stream_get_contents_safe($stdout);
 
         $this->assertStringEndsWith("\n\n", $outputContent);
     }

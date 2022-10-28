@@ -12,6 +12,8 @@ namespace Yassg\Files\FrontMatter;
 
 use Symfony\Component\Yaml\Parser;
 
+use function Yassg\dedent;
+
 class FrontMatterService
 {
     private const FRONT_MATTER_REGEXES = [

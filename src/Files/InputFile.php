@@ -79,6 +79,7 @@ class InputFile implements InputFileInterface
         );
 
         try {
+            /** @var string $content */
             $content = file_get_contents($this->absolutePathname);
         } finally {
             restore_error_handler();

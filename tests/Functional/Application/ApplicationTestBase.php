@@ -15,6 +15,9 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Yassg\Application\ConsoleOutput;
 
+use function Yassg\fopen_safe;
+use function Yassg\Tests\stream_get_contents_safe;
+
 abstract class ApplicationTestBase extends TestCase
 {
     /** @var resource */
@@ -39,8 +42,8 @@ abstract class ApplicationTestBase extends TestCase
 
     protected function setUp(): void
     {
-        $this->errorStream = fopen('php://memory', 'a');
-        $this->standardStream = fopen('php://memory', 'a');
+        $this->errorStream = fopen_safe('php://memory', 'a');
+        $this->standardStream = fopen_safe('php://memory', 'a');
         $this->temporaryDirectoryPath = null;
 
         $this->consoleOutput = new ConsoleOutput(
@@ -101,7 +104,7 @@ abstract class ApplicationTestBase extends TestCase
                 $fileCount,
                 1 === $fileCount ? '' : 's',
             ),
-            stream_get_contents($this->standardStream),
+            stream_get_contents_safe($this->standardStream),
         );
     }
 }

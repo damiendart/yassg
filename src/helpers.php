@@ -8,6 +8,10 @@
 
 declare(strict_types=1);
 
+namespace Yassg;
+
+use RuntimeException;
+
 /**
  * Removes extraneous leading whitespace from multi-line strings.
  *
@@ -45,4 +49,39 @@ function dedent(string $input): string
             $lines,
         ),
     );
+}
+
+/**
+ * A wrapper for `\fopen()` that always returns a `resource` and throws
+ * an exception when encountering an error instead of returning `false`.
+ *
+ * @param null|resource $context
+ *
+ * @see \fopen() The core PHP function being wrapped
+ *
+ * @return resource
+ *
+ * @throws RuntimeException
+ */
+function fopen_safe(
+    string $filename,
+    string $mode,
+    bool $useIncludePath = false,
+    $context = null,
+) {
+    error_clear_last();
+    set_error_handler(
+        function (int $_, string $message): void {
+            throw new RuntimeException($message);
+        },
+    );
+
+    try {
+        /** @var resource $resource */
+        $resource = fopen($filename, $mode, $useIncludePath, $context);
+    } finally {
+        restore_error_handler();
+    }
+
+    return $resource;
 }

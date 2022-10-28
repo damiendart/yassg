@@ -14,6 +14,9 @@ use PHPUnit\Framework\TestCase;
 use Yassg\Application\ConsoleOutput;
 use Yassg\Application\OutputInterface;
 
+use function Yassg\fopen_safe;
+use function Yassg\Tests\stream_get_contents_safe;
+
 /**
  * @covers \Yassg\Application\ConsoleOutput
  *
@@ -29,8 +32,8 @@ class ConsoleOutputTest extends TestCase
 
     public function setUp(): void
     {
-        $this->errorStream = fopen('php://memory', 'a');
-        $this->standardStream = fopen('php://memory', 'a');
+        $this->errorStream = fopen_safe('php://memory', 'a');
+        $this->standardStream = fopen_safe('php://memory', 'a');
     }
 
     public function testWritingToStreams(): void
@@ -49,11 +52,11 @@ class ConsoleOutputTest extends TestCase
 
         $this->assertEquals(
             'This is a test!',
-            stream_get_contents($this->standardStream),
+            stream_get_contents_safe($this->standardStream),
         );
         $this->assertEquals(
             'This is another test!',
-            stream_get_contents($this->errorStream),
+            stream_get_contents_safe($this->errorStream),
         );
     }
 

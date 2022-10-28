@@ -55,10 +55,12 @@ if (false === $isAutoloaderFound) {
 use Yassg\Application\Application;
 use Yassg\Application\ConsoleOutput;
 
+use function Yassg\fopen_safe;
+
 $application = new Application(
     new ConsoleOutput(
-        fopen('php://stderr', 'a'),
-        fopen('php://stdout', 'a'),
+        fopen_safe('php://stderr', 'a'),
+        fopen_safe('php://stdout', 'a'),
     ),
     $timingStart,
 );

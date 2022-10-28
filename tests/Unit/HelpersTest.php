@@ -12,8 +12,10 @@ namespace Yassg\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 
+use function Yassg\dedent;
+
 /**
- * @covers \dedent
+ * @covers \Yassg\dedent
  *
  * @internal
  */
