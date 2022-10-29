@@ -60,6 +60,10 @@ function dedent(string $input): string
  * @param null|int<0, max> $length
  *
  * @see \file_get_contents() The core PHP function being wrapped
+ *
+ * @throws RuntimeException
+ *
+ * @codeCoverageIgnore
  */
 function file_get_contents_safe(
     string $filename,
@@ -112,6 +116,8 @@ function file_get_contents_safe(
  * @return resource
  *
  * @throws RuntimeException
+ *
+ * @codeCoverageIgnore
  */
 function fopen_safe(
     string $filename,
@@ -150,6 +156,8 @@ function fopen_safe(
  * @return ($subject is array ? array<string> : string)
  *
  * @throws RuntimeException
+ *
+ * @codeCoverageIgnore
  */
 function preg_replace_safe(
     array|string $pattern,
