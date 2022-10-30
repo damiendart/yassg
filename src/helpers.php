@@ -25,7 +25,7 @@ function dedent(string $input): string
         fn (string $line): bool => '' !== $line,
     );
 
-    if (count($nonEmptyLines) < 1) {
+    if (\count($nonEmptyLines) < 1) {
         return $input;
     }
 
@@ -33,7 +33,7 @@ function dedent(string $input): string
         array_map(
             function ($line): int {
                 if (1 === preg_match_safe('/^[ \t]+/', $line, $matches)) {
-                    return strlen($matches[0]);
+                    return \strlen($matches[0]);
                 }
 
                 return 0;
@@ -213,7 +213,7 @@ function preg_replace_safe(
 ): string|array {
     error_clear_last();
 
-    $result = \preg_replace($pattern, $replacement, $subject, $limit, $count);
+    $result = preg_replace($pattern, $replacement, $subject, $limit, $count);
 
     if (PREG_NO_ERROR !== preg_last_error() || null === $result) {
         throw new RuntimeException(preg_last_error_msg());

@@ -35,7 +35,7 @@ abstract class ApplicationTestBase extends TestCase
     public static function setUpBeforeClass(): void
     {
         self::$filesystem = new Filesystem();
-        self::$fixturesDirectory = dirname(__DIR__, 2)
+        self::$fixturesDirectory = \dirname(__DIR__, 2)
             . DIRECTORY_SEPARATOR
             . 'Fixtures';
     }

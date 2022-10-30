@@ -24,7 +24,7 @@ class EventDispatcher implements EventDispatcherInterface, ListenerProviderInter
         array|string $eventClasses,
         callable $listener,
     ): self {
-        if (is_string($eventClasses)) {
+        if (\is_string($eventClasses)) {
             $eventClasses = [$eventClasses];
         }
 
@@ -60,7 +60,7 @@ class EventDispatcher implements EventDispatcherInterface, ListenerProviderInter
     {
         $eventType = $this->getEventType($event);
 
-        if (array_key_exists($eventType, $this->listeners)) {
+        if (\array_key_exists($eventType, $this->listeners)) {
             return $this->listeners[$eventType];
         }
 
@@ -70,7 +70,7 @@ class EventDispatcher implements EventDispatcherInterface, ListenerProviderInter
     /** @param class-string $eventClass */
     public function removeEventListeners(string $eventClass): void
     {
-        if (array_key_exists($eventClass, $this->listeners)) {
+        if (\array_key_exists($eventClass, $this->listeners)) {
             unset($this->listeners[$eventClass]);
         }
     }
@@ -78,6 +78,6 @@ class EventDispatcher implements EventDispatcherInterface, ListenerProviderInter
     /** @return class-string */
     private function getEventType(object $event): string
     {
-        return get_class($event);
+        return \get_class($event);
     }
 }

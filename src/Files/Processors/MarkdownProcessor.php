@@ -45,7 +45,7 @@ class MarkdownProcessor implements ProcessorInterface
                 $inputFile->getContent(),
             )->getContent();
 
-        if (array_key_exists('twigTemplate', $inputFile->getMetadata())) {
+        if (\array_key_exists('twigTemplate', $inputFile->getMetadata())) {
             /** @var string $twigTemplate */
             $twigTemplate = $inputFile->getMetadata()['twigTemplate'];
 

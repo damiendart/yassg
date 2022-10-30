@@ -87,7 +87,7 @@ class Yassg
                         'Unable to pre-process "%s"',
                         $file->getRealPath(),
                     ),
-                    is_int($throwable->getCode()) ? $throwable->getCode() : 0,
+                    \is_int($throwable->getCode()) ? $throwable->getCode() : 0,
                     $throwable,
                 );
             }
@@ -113,7 +113,7 @@ class Yassg
                         'Unable to process "%s"',
                         $inputFile->getOriginalAbsolutePathname(),
                     ),
-                    is_int($throwable->getCode()) ? $throwable->getCode() : 0,
+                    \is_int($throwable->getCode()) ? $throwable->getCode() : 0,
                     $throwable,
                 );
             }

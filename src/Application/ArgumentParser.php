@@ -67,21 +67,21 @@ class ArgumentParser
             }
         }
 
-        for ($i = 1; $i < count($normalisedArguments); ++$i) {
+        for ($i = 1; $i < \count($normalisedArguments); ++$i) {
             if ('--' === $normalisedArguments[$i]) {
                 throw new InvalidArgumentException(
                     'Positional command-line arguments are not accepted.',
                 );
             }
 
-            if (in_array($normalisedArguments[$i], ['-h', '--help'])) {
+            if (\in_array($normalisedArguments[$i], ['-h', '--help'])) {
                 $this->helpFlag = true;
-            } elseif (in_array($normalisedArguments[$i], ['-v', '--verbose'])) {
+            } elseif (\in_array($normalisedArguments[$i], ['-v', '--verbose'])) {
                 $this->verboseFlag = true;
-            } elseif (in_array($normalisedArguments[$i], ['-c', '--config'])) {
+            } elseif (\in_array($normalisedArguments[$i], ['-c', '--config'])) {
                 $currentOption = $normalisedArguments[$i];
             } else {
-                if (in_array($currentOption, ['-c', '--config'])) {
+                if (\in_array($currentOption, ['-c', '--config'])) {
                     if (str_starts_with($normalisedArguments[$i], '-')) {
                         throw new InvalidArgumentException(
                             "Missing value for \"{$currentOption}\".",

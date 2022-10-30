@@ -31,7 +31,7 @@ class ConfigurationTest extends TestCase
         $this->validInputDirectory = join(
             DIRECTORY_SEPARATOR,
             [
-                dirname(__DIR__, 2),
+                \dirname(__DIR__, 2),
                 'Fixtures',
                 'just-text-files',
                 'input',

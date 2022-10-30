@@ -38,7 +38,7 @@ class CollectionsPlugin implements PluginInterface
 
                             foreach ($event->getInputFiles() as $inputFile) {
                                 if (
-                                    array_key_exists(
+                                    \array_key_exists(
                                         'collections',
                                         $inputFile->getMetadata(),
                                     )

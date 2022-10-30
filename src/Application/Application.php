@@ -86,7 +86,7 @@ class Application
             return self::RETURN_FAILURE;
         }
 
-        if (is_float($this->startTime) && $this->output->isVerbose()) {
+        if (\is_float($this->startTime) && $this->output->isVerbose()) {
             $this->output->write(
                 sprintf(
                     'yassg took %d ms, %.2F MiB memory used' . PHP_EOL,
