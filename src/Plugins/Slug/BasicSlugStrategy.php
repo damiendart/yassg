@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace Yassg\Plugins\Slug;
 
+use function Yassg\preg_match_safe;
 use function Yassg\preg_replace_safe;
 
 class BasicSlugStrategy implements SlugStrategyInterface
@@ -18,7 +19,7 @@ class BasicSlugStrategy implements SlugStrategyInterface
     {
         $input = preg_replace_safe('/.twig$/', '', $input);
 
-        if (1 !== preg_match('/(html?|md|php)$/', $input)) {
+        if (1 !== preg_match_safe('/(html?|md|php)$/', $input)) {
             return ltrim($input, '/');
         }
 

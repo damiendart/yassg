@@ -10,6 +10,8 @@ declare(strict_types=1);
 
 namespace Yassg\Application;
 
+use function Yassg\preg_match_safe;
+
 class ArgumentParser
 {
     private ?string $configurationFilePathname = null;
@@ -52,7 +54,7 @@ class ArgumentParser
                     $normalisedArguments,
                     explode('=', $token, 2),
                 );
-            } elseif (preg_match('/^-[a-zA-Z\d]{2,}/', $token)) {
+            } elseif (1 === preg_match_safe('/^-[a-zA-Z\d]{2,}/', $token)) {
                 $normalisedArguments = array_merge(
                     $normalisedArguments,
                     array_map(

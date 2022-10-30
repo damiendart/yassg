@@ -32,7 +32,7 @@ function dedent(string $input): string
     $shortestLeadingWhitespaceCount = min(
         array_map(
             function ($line): int {
-                if (1 === preg_match('/^[ \t]+/', $line, $matches)) {
+                if (1 === preg_match_safe('/^[ \t]+/', $line, $matches)) {
                     return strlen($matches[0]);
                 }
 
@@ -140,6 +140,51 @@ function fopen_safe(
     }
 
     return $resource;
+}
+
+/**
+ * A wrapper for `\preg_match()` that always returns an integer (either
+ * 1 or 0 depending on whether a match was made or not) and throws an
+ * exception when encountering an error instead of returning `false`.
+ *
+ * @template TFlags as int-mask<0, 256, 512, 768>
+ *
+ * @param TFlags $flags
+ *
+ * @param-out (
+ *     TFlags is 256
+ *         ? array<array-key, array{string, 0|positive-int}|array{'', -1}>
+ *         : TFlags is 512
+ *             ? array<array-key, string|null>
+ *             : TFlags is 768
+ *                 ? array<array-key, array{string, 0|positive-int}|array{null, -1}>
+ *                 : array<array-key, string>
+ * ) $matches
+ *
+ * @see \preg_match() The core PHP function being wrapped
+ *
+ * @return int<0,1>
+ *
+ * @throws RuntimeException
+ *
+ * @codeCoverageIgnore
+ */
+function preg_match_safe(
+    string $pattern,
+    string $subject,
+    mixed &$matches = [],
+    int $flags = 0,
+    int $offset = 0,
+): int {
+    error_clear_last();
+
+    $result = preg_match($pattern, $subject, $matches, $flags, $offset);
+
+    if (PREG_NO_ERROR !== preg_last_error() || false === $result) {
+        throw new RuntimeException(preg_last_error_msg());
+    }
+
+    return $result;
 }
 
 /**

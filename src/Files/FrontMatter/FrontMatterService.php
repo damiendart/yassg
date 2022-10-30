@@ -13,6 +13,7 @@ namespace Yassg\Files\FrontMatter;
 use Symfony\Component\Yaml\Parser;
 
 use function Yassg\dedent;
+use function Yassg\preg_match_safe;
 
 class FrontMatterService
 {
@@ -33,7 +34,7 @@ class FrontMatterService
     {
         foreach (self::FRONT_MATTER_REGEXES as $regex) {
             if (
-                1 === preg_match($regex, $input, $matches)
+                1 === preg_match_safe($regex, $input, $matches)
                 && '' !== trim($matches[1])
             ) {
                 /** @var array{array-key, mixed} $frontMatter */
