@@ -12,7 +12,6 @@ namespace Yassg;
 
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
-use Throwable;
 use Yassg\Application\InvalidArgumentException;
 use Yassg\Configuration\Configuration;
 use Yassg\Events\EventDispatcher;
@@ -81,7 +80,7 @@ class Yassg
                 );
 
                 $this->metadataExtractor->addMetadata($inputFile);
-            } catch (Throwable $throwable) {
+            } catch (\Throwable $throwable) {
                 throw new BuildException(
                     sprintf(
                         'Unable to pre-process "%s"',
@@ -107,7 +106,7 @@ class Yassg
                     ),
                 );
                 $this->buildFile($inputFile, $outputDirectory);
-            } catch (Throwable $throwable) {
+            } catch (\Throwable $throwable) {
                 throw new BuildException(
                     sprintf(
                         'Unable to process "%s"',

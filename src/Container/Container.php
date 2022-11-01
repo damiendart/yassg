@@ -11,7 +11,6 @@ declare(strict_types=1);
 namespace Yassg\Container;
 
 use DI\ContainerBuilder;
-use Exception;
 use Psr\Container\ContainerInterface;
 use Yassg\Configuration\Configuration;
 use Yassg\Configuration\InvalidConfigurationException;
@@ -29,7 +28,7 @@ class Container implements ContainerInterface
     private ContainerInterface $container;
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function __construct(?string $configurationFilePathname)
     {
@@ -51,7 +50,7 @@ class Container implements ContainerInterface
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     private function initialiseContainer(Configuration $configuration): void
     {

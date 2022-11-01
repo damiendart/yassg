@@ -10,8 +10,6 @@ declare(strict_types=1);
 
 namespace Yassg;
 
-use RuntimeException;
-
 /**
  * Removes extraneous leading whitespace from multi-line strings.
  *
@@ -61,7 +59,7 @@ function dedent(string $input): string
  *
  * @see \file_get_contents() The core PHP function being wrapped
  *
- * @throws RuntimeException
+ * @throws \RuntimeException
  *
  * @codeCoverageIgnore
  */
@@ -75,7 +73,7 @@ function file_get_contents_safe(
     error_clear_last();
     set_error_handler(
         function (int $_, string $message): void {
-            throw new RuntimeException($message);
+            throw new \RuntimeException($message);
         },
     );
 
@@ -115,7 +113,7 @@ function file_get_contents_safe(
  *
  * @return resource
  *
- * @throws RuntimeException
+ * @throws \RuntimeException
  *
  * @codeCoverageIgnore
  */
@@ -128,7 +126,7 @@ function fopen_safe(
     error_clear_last();
     set_error_handler(
         function (int $_, string $message): void {
-            throw new RuntimeException($message);
+            throw new \RuntimeException($message);
         },
     );
 
@@ -165,7 +163,7 @@ function fopen_safe(
  *
  * @return int<0,1>
  *
- * @throws RuntimeException
+ * @throws \RuntimeException
  *
  * @codeCoverageIgnore
  */
@@ -181,7 +179,7 @@ function preg_match_safe(
     $result = preg_match($pattern, $subject, $matches, $flags, $offset);
 
     if (PREG_NO_ERROR !== preg_last_error() || false === $result) {
-        throw new RuntimeException(preg_last_error_msg());
+        throw new \RuntimeException(preg_last_error_msg());
     }
 
     return $result;
@@ -200,7 +198,7 @@ function preg_match_safe(
  *
  * @return ($subject is array ? array<string> : string)
  *
- * @throws RuntimeException
+ * @throws \RuntimeException
  *
  * @codeCoverageIgnore
  */
@@ -216,7 +214,7 @@ function preg_replace_safe(
     $result = preg_replace($pattern, $replacement, $subject, $limit, $count);
 
     if (PREG_NO_ERROR !== preg_last_error() || null === $result) {
-        throw new RuntimeException(preg_last_error_msg());
+        throw new \RuntimeException(preg_last_error_msg());
     }
 
     return $result;

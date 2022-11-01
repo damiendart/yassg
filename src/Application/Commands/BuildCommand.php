@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Yassg\Application\Commands;
 
-use Throwable;
 use Yassg\Application\OutputInterface;
 use Yassg\BuildException;
 use Yassg\Configuration\Configuration;
@@ -38,7 +37,7 @@ class BuildCommand implements CommandInterface
     }
 
     /**
-     * @throws Throwable
+     * @throws \Throwable
      */
     public function run(OutputInterface $output): void
     {

@@ -11,7 +11,6 @@ declare(strict_types=1);
 namespace Yassg\Tests\Unit\Files;
 
 use PHPUnit\Framework\TestCase;
-use RuntimeException;
 
 use function Yassg\file_get_contents_safe;
 
@@ -74,7 +73,7 @@ class InputFileTest extends TestCase
             'does-not-exist',
         );
 
-        $this->expectException(RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
         $inputFile->getContent();
     }
 }

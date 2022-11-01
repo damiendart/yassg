@@ -10,8 +10,6 @@ declare(strict_types=1);
 
 namespace Yassg\Application;
 
-use RuntimeException;
-
-class InvalidArgumentException extends RuntimeException
+class InvalidArgumentException extends \RuntimeException
 {
 }

@@ -11,7 +11,6 @@ declare(strict_types=1);
 namespace Yassg\Tests\Unit\Events;
 
 use PHPUnit\Framework\TestCase;
-use stdClass;
 use Yassg\Events\Event;
 use Yassg\Events\EventDispatcher;
 
@@ -69,7 +68,7 @@ class EventDispatcherTest extends TestCase
     public function testDispatchingAnEventShouldReturnIt(): void
     {
         $dispatcher = new EventDispatcher();
-        $event = new stdClass();
+        $event = new \stdClass();
 
         $this->assertSame($dispatcher->dispatch($event), $event);
     }

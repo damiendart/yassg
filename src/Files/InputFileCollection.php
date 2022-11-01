@@ -10,11 +10,10 @@ declare(strict_types=1);
 
 namespace Yassg\Files;
 
-use ArrayIterator;
 use IteratorAggregate;
 
 /** @implements IteratorAggregate<array-key, InputFile> */
-class InputFileCollection implements IteratorAggregate
+class InputFileCollection implements \IteratorAggregate
 {
     /** @var InputFile[] */
     private array $inputFiles = [];
@@ -26,9 +25,9 @@ class InputFileCollection implements IteratorAggregate
         return $this;
     }
 
-    /** @return ArrayIterator<array-key, InputFile> */
-    public function getIterator(): ArrayIterator
+    /** @return \ArrayIterator<array-key, InputFile> */
+    public function getIterator(): \ArrayIterator
     {
-        return new ArrayIterator($this->inputFiles);
+        return new \ArrayIterator($this->inputFiles);
     }
 }

@@ -10,8 +10,6 @@ declare(strict_types=1);
 
 namespace Yassg\Tests;
 
-use RuntimeException;
-
 /**
  * A wrapper for `\stream_get_contents()` that always returns a string
  * and throws an exception when encountering an error instead of
@@ -21,7 +19,7 @@ use RuntimeException;
  *
  * @see \stream_get_contents() The core PHP function being wrapped
  *
- * @throws RuntimeException
+ * @throws \RuntimeException
  */
 function stream_get_contents_safe(
     $stream,
@@ -31,7 +29,7 @@ function stream_get_contents_safe(
     error_clear_last();
     set_error_handler(
         function (int $_, string $message): void {
-            throw new RuntimeException($message);
+            throw new \RuntimeException($message);
         },
     );
 

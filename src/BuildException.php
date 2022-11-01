@@ -10,18 +10,15 @@ declare(strict_types=1);
 
 namespace Yassg;
 
-use RuntimeException;
-use Throwable;
-
 /**
  * @codeCoverageIgnore
  */
-class BuildException extends RuntimeException
+class BuildException extends \RuntimeException
 {
     public function __construct(
         string $message,
         int $code,
-        Throwable $previous,
+        \Throwable $previous,
     ) {
         parent::__construct($message, $code, $previous);
     }

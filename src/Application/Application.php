@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Yassg\Application;
 
-use Throwable;
 use Yassg\Application\Commands\BuildCommand;
 use Yassg\Application\Commands\CommandInterface;
 use Yassg\Application\Commands\HelpCommand;
@@ -80,7 +79,7 @@ class Application
             );
 
             $command->run($this->output);
-        } catch (Throwable $throwable) {
+        } catch (\Throwable $throwable) {
             $this->renderThrowable($throwable);
 
             return self::RETURN_FAILURE;
@@ -104,7 +103,7 @@ class Application
         return getcwd() . DIRECTORY_SEPARATOR . '.yassg.php';
     }
 
-    private function renderThrowable(Throwable $throwable): void
+    private function renderThrowable(\Throwable $throwable): void
     {
         $this->output
             ->writeError('[' . $throwable::class . ']' . PHP_EOL)

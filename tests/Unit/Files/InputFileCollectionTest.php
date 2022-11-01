@@ -10,9 +10,7 @@ declare(strict_types=1);
 
 namespace Yassg\Tests\Unit\Files;
 
-use Iterator;
 use PHPUnit\Framework\TestCase;
-use Traversable;
 use Yassg\Files\InputFile;
 use Yassg\Files\InputFileCollection;
 
@@ -27,7 +25,7 @@ class InputFileCollectionTest extends TestCase
     {
         $collection = new InputFileCollection();
 
-        $this->assertInstanceOf(Traversable::class, $collection);
+        $this->assertInstanceOf(\Traversable::class, $collection);
     }
 
     public function testGetIterator(): void
@@ -45,7 +43,7 @@ class InputFileCollectionTest extends TestCase
         }
 
         $this->assertInstanceOf(
-            Iterator::class,
+            \Iterator::class,
             $collection->getIterator(),
         );
         $this->assertEquals(
