@@ -8,42 +8,11 @@
 
 declare(strict_types=1);
 
+use League\CommonMark\CommonMarkConverter;
 use League\CommonMark\ConverterInterface;
-use League\CommonMark\Environment\Environment;
-use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
-use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
-use League\CommonMark\Extension\SmartPunct\SmartPunctExtension;
-use League\CommonMark\MarkdownConverter;
-use Psr\Container\ContainerInterface;
 
 return [
-    ConverterInterface::class => function (ContainerInterface $c): ConverterInterface {
-        /** @var Environment $environment */
-        $environment = $c->get(Environment::class);
-
-        return new MarkdownConverter($environment);
-    },
-    Environment::class => function (ContainerInterface $c): Environment {
-        /** @var CommonMarkCoreExtension $commonMarkCoreExtension */
-        $commonMarkCoreExtension = $c->get(
-            CommonMarkCoreExtension::class,
-        );
-
-        $environment = new Environment();
-
-        /** @var GithubFlavoredMarkdownExtension $githubFlavouredMarkdownExtension */
-        $githubFlavouredMarkdownExtension = $c->get(
-            GithubFlavoredMarkdownExtension::class,
-        );
-
-        /** @var SmartPunctExtension $smartPunctuationExtension */
-        $smartPunctuationExtension = $c->get(SmartPunctExtension::class);
-
-        $environment
-            ->addExtension($commonMarkCoreExtension)
-            ->addExtension($githubFlavouredMarkdownExtension)
-            ->addExtension($smartPunctuationExtension);
-
-        return $environment;
+    ConverterInterface::class => function (): ConverterInterface {
+        return new CommonMarkConverter();
     },
 ];
