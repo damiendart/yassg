@@ -57,6 +57,8 @@ class CollectionsPlugin implements PluginInterface
                             }
 
                             if (!empty($collections)) {
+                                ksort($collections);
+
                                 $configuration->mergeMetadata(
                                     ['collections' => $collections],
                                 );
