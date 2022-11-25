@@ -25,19 +25,23 @@ jobs:
       - name: 'Set up PHP environment'
         uses: 'shivammathur/setup-php@v2'
         with:
-          php-version: '${{ matrix.php }}'
+          php-version: '${{ matrix.php.php-version }}'
 
       - name: 'Install Task'
         run: 'curl -sL https://taskfile.dev/install.sh | sh'
 
       - name: 'Download project dependencies and run all linting, static analysis, and testing tasks'
         run: './bin/task ci'
+        env:
+          PHP_CS_FIXER_IGNORE_ENV: '${{ matrix.php.PHP_CS_FIXER_IGNORE_ENV }}'
     strategy:
       fail-fast: true
       matrix:
         php:
-          - '8.0'
-          - '8.1'
+          - php-version: '8.0'
+          - php-version: '8.1'
+          - php-version: '8.2'
+            PHP_CS_FIXER_IGNORE_ENV: '1'
         stability:
           - 'prefer-lowest'
           - 'prefer-stable'
