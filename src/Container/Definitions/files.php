@@ -8,8 +8,6 @@
 
 declare(strict_types=1);
 
-namespace Yassg\Container\Definitions;
-
 use Psr\Container\ContainerInterface;
 use Yassg\Files\FrontMatter\FrontMatterService;
 use Yassg\Files\Metadata\FrontMatterExtractor;

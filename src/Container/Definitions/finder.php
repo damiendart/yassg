@@ -8,8 +8,6 @@
 
 declare(strict_types=1);
 
-namespace Yassg\Container\Definitions;
-
 use Symfony\Component\Finder\Finder;
 
 return [
