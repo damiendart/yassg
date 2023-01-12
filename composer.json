@@ -41,7 +41,7 @@
   "require": {
     "php": "^8.0",
     "league/commonmark": "^2.3",
-    "php-di/php-di": "^6.4",
+    "php-di/php-di": "^7.0",
     "psr/event-dispatcher": "^1.0",
     "symfony/filesystem": "^6.0.7",
     "symfony/finder": "^6.0.3",
