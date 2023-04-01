@@ -41,7 +41,6 @@ jobs:
           - php-version: '8.0'
           - php-version: '8.1'
           - php-version: '8.2'
-            PHP_CS_FIXER_IGNORE_ENV: '1'
         stability:
           - 'prefer-lowest'
           - 'prefer-stable'
