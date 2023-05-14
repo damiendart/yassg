@@ -3,7 +3,7 @@
 # please refer to the accompanying "LICENCE" file.
 
 .php-cs-fixer.cache
-.phpunit.result.cache
+.phpunit.cache
 composer.lock
 coverage
 tests/Fixtures/*/output

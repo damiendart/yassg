@@ -6,9 +6,10 @@
 -->
 <phpunit
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd"
+  xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.1/phpunit.xsd"
   bootstrap="vendor/autoload.php"
   colors="true"
+  cacheDirectory=".phpunit.cache"
 >
   <testsuites>
     <testsuite name="Functional">
@@ -18,12 +19,13 @@
       <directory suffix="Test.php">./tests/Unit</directory>
     </testsuite>
   </testsuites>
-  <coverage processUncoveredFiles="true">
-    <exclude>
-      <directory suffix=".php">./src/Container/Definitions</directory>
-    </exclude>
+  <coverage/>
+  <source>
     <include>
       <directory suffix=".php">./src</directory>
     </include>
-  </coverage>
+    <exclude>
+      <directory suffix=".php">./src/Container/Definitions</directory>
+    </exclude>
+  </source>
 </phpunit>

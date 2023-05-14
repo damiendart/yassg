@@ -125,7 +125,7 @@ class ArgumentParserTest extends TestCase
     }
 
     /** @return array<string, array{string, string[]}> */
-    public function invalidArgumentsProvider(): array
+    public static function invalidArgumentsProvider(): array
     {
         return [
             'invalid short option' => [

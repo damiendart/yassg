@@ -30,7 +30,7 @@ class HelpersTest extends TestCase
     }
 
     /** @return array<array{string, string}> */
-    public function dedentTestStringProvider(): array
+    public static function dedentTestStringProvider(): array
     {
         return [
             [

@@ -30,7 +30,7 @@ class BasicSlugStrategyTest extends TestCase
     }
 
     /** @return array<array{0: string, 1: string}> */
-    public function slugifyTestStringProvider(): array
+    public static function slugifyTestStringProvider(): array
     {
         return [
             ['index.html', ''],
