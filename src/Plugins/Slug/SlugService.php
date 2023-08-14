@@ -10,6 +10,9 @@ declare(strict_types=1);
 
 namespace Yassg\Plugins\Slug;
 
+/**
+ * @psalm-api
+ */
 class SlugService
 {
     private SlugStrategyInterface $slugStrategy;

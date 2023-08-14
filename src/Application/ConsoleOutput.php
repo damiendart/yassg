@@ -39,11 +39,9 @@ class ConsoleOutput implements OutputInterface
 
     // This method is final to appease Psalm; for more information,
     // please see <https://psalm.dev/074>.
-    final public function setVerbosity(int $level): self
+    final public function setVerbosity(int $level): void
     {
         $this->verbosity = $level;
-
-        return $this;
     }
 
     public function write(string $output): self

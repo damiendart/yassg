@@ -15,6 +15,9 @@ use function DI\decorate;
 use Yassg\Files\Metadata\MetadataExtractorInterface;
 use Yassg\Plugins\PluginInterface;
 
+/**
+ * @psalm-api
+ */
 class HelloWorldPlugin implements PluginInterface
 {
     /** @codeCoverageIgnore  */

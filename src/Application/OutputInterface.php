@@ -17,7 +17,7 @@ interface OutputInterface
 
     public function isVerbose(): bool;
 
-    public function setVerbosity(int $level): self;
+    public function setVerbosity(int $level): void;
 
     public function write(string $output): self;
 

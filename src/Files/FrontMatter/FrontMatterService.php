@@ -25,6 +25,9 @@ class FrontMatterService
 
     private Parser $yamlParser;
 
+    /**
+     * @psalm-api
+     */
     public function __construct(Parser $yamlParser)
     {
         $this->yamlParser = $yamlParser;

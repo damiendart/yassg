@@ -26,8 +26,15 @@ interface InputFileInterface
     /** @param array<array-key, mixed> $metadata */
     public function mergeMetadata(array $metadata): self;
 
+    /**
+     * @psalm-api
+     */
     public function setContent(string $content): self;
 
-    /** @param array<array-key, mixed> $metadata */
+    /**
+     * @param array<array-key, mixed> $metadata
+     *
+     * @psalm-api
+     */
     public function setMetadata(array $metadata): self;
 }

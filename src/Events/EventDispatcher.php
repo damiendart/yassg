@@ -35,6 +35,9 @@ class EventDispatcher implements EventDispatcherInterface, ListenerProviderInter
         return $this;
     }
 
+    /**
+     * @psalm-api
+     */
     public function dispatch(object $event): object
     {
         foreach (
@@ -67,7 +70,11 @@ class EventDispatcher implements EventDispatcherInterface, ListenerProviderInter
         return [];
     }
 
-    /** @param class-string $eventClass */
+    /**
+     * @param class-string $eventClass
+     *
+     * @psalm-api
+     */
     public function removeEventListeners(string $eventClass): void
     {
         if (\array_key_exists($eventClass, $this->listeners)) {

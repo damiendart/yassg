@@ -15,7 +15,11 @@ use function DI\decorate;
 use Yassg\Files\Metadata\MetadataExtractorInterface;
 use Yassg\Plugins\PluginInterface;
 
-/** @codeCoverageIgnore  */
+/**
+ * @codeCoverageIgnore
+ *
+ * @psalm-api
+ */
 class SlugPlugin implements PluginInterface
 {
     private SlugStrategyInterface $slugStrategy;

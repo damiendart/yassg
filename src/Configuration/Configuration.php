@@ -49,6 +49,9 @@ class Configuration
         return $this->outputDirectory;
     }
 
+    /**
+     * @psalm-api
+     */
     public function addPlugin(PluginInterface $plugin): self
     {
         $this->plugins[] = $plugin;

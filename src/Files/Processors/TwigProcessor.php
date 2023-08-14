@@ -31,6 +31,9 @@ class TwigProcessor implements ProcessorInterface
     private Configuration $configuration;
     private FilesystemLoader $filesystemLoader;
 
+    /**
+     * @psalm-api
+     */
     public function __construct(
         FilesystemLoader $filesystemLoader,
         Configuration $configuration,

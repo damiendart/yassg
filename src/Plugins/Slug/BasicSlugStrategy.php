@@ -13,6 +13,9 @@ namespace Yassg\Plugins\Slug;
 use function Yassg\preg_match_safe;
 use function Yassg\preg_replace_safe;
 
+/**
+ * @psalm-api
+ */
 class BasicSlugStrategy implements SlugStrategyInterface
 {
     public function slugify(string $input): string

@@ -19,6 +19,9 @@ use Yassg\Events\PreSiteBuildEvent;
 use Yassg\Files\InputFile;
 use Yassg\Plugins\PluginInterface;
 
+/**
+ * @psalm-api
+ */
 class CollectionsPlugin implements PluginInterface
 {
     /** @codeCoverageIgnore  */

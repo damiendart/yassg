@@ -147,6 +147,7 @@ function fopen_safe(
  *
  * @template TFlags as int-mask<0, 256, 512, 768>
  *
+ * @param non-empty-string $pattern
  * @param TFlags $flags
  *
  * @param-out (
@@ -190,9 +191,10 @@ function preg_match_safe(
  * array of strings (depending on the _subject_ parameter) and throws an
  * exception when encountering an error instead of returning `null`.
  *
- * @param array<array-key, string>|string $pattern
+ * @param array<array-key, non-empty-string>|non-empty-string $pattern
  * @param array<array-key, float|int|string>|string $replacement
  * @param array<array-key, float|int|string>|string $subject
+ * @param null|int<0, max> $count
  *
  * @see \preg_replace() The core PHP function being wrapped
  *

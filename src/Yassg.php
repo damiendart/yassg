@@ -35,6 +35,9 @@ class Yassg
     private MetadataExtractorInterface $metadataExtractor;
     private ProcessorResolver $processorResolver;
 
+    /**
+     * @psalm-api
+     */
     public function __construct(
         Configuration $configuration,
         EventDispatcher $eventDispatcher,

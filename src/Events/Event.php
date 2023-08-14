@@ -21,6 +21,9 @@ class Event implements StoppableEventInterface
         return $this->propagationStopped;
     }
 
+    /**
+     * @psalm-api
+     */
     public function stopPropagation(): void
     {
         $this->propagationStopped = true;

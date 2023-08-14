@@ -25,6 +25,9 @@ class MarkdownProcessor implements ProcessorInterface
     private Configuration $configuration;
     private ConverterInterface $converter;
 
+    /**
+     * @psalm-api
+     */
     public function __construct(
         ConverterInterface $converter,
         Configuration $configuration,

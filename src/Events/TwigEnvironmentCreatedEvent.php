@@ -21,6 +21,9 @@ class TwigEnvironmentCreatedEvent extends Event
         $this->environment = $environment;
     }
 
+    /**
+     * @psalm-api
+     */
     public function getEnvironment(): Environment
     {
         return $this->environment;

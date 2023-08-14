@@ -19,6 +19,9 @@ use Yassg\Events\FileEventInterface;
 use Yassg\Events\FileWrittenEvent;
 use Yassg\Yassg;
 
+/**
+ * @psalm-api
+ */
 class BuildCommand implements CommandInterface
 {
     private int $createdFileCount = 0;
