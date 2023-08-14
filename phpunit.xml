@@ -7,9 +7,12 @@
 <phpunit
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.1/phpunit.xsd"
+  beStrictAboutChangesToGlobalState="true"
+  beStrictAboutCoverageMetadata="true"
   bootstrap="vendor/autoload.php"
   colors="true"
   cacheDirectory=".phpunit.cache"
+  requireCoverageMetadata="true"
 >
   <testsuites>
     <testsuite name="Functional">

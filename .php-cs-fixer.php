@@ -34,6 +34,7 @@ return (new PhpCsFixer\Config())
             ],
             'ordered_imports' => ['sort_algorithm' => 'alpha'],
             'phpdoc_align' => ['align' => 'left'],
+            'php_unit_test_class_requires_covers' => true,
             'trailing_comma_in_multiline' => [
                 'elements' => ['arrays', 'arguments', 'parameters'],
             ],
