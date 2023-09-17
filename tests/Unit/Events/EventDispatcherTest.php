@@ -127,13 +127,9 @@ class EventDispatcherTest extends TestCase
     }
 }
 
-class TestEvent extends Event
-{
-}
+class TestEvent extends Event {}
 
-class TestEventTheSecond extends Event
-{
-}
+class TestEventTheSecond extends Event {}
 
 class TestEventListener
 {

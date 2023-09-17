@@ -10,6 +10,4 @@ declare(strict_types=1);
 
 namespace Yassg\Configuration;
 
-class InvalidConfigurationException extends \RuntimeException
-{
-}
+class InvalidConfigurationException extends \RuntimeException {}

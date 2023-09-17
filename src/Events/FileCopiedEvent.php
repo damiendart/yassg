@@ -10,6 +10,4 @@ declare(strict_types=1);
 
 namespace Yassg\Events;
 
-class FileCopiedEvent extends FileWrittenEvent
-{
-}
+class FileCopiedEvent extends FileWrittenEvent {}

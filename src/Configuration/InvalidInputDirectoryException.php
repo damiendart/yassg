@@ -10,6 +10,4 @@ declare(strict_types=1);
 
 namespace Yassg\Configuration;
 
-class InvalidInputDirectoryException extends \RuntimeException
-{
-}
+class InvalidInputDirectoryException extends \RuntimeException {}

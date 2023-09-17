@@ -16,8 +16,7 @@ class DocumentWithMetadata
     public function __construct(
         private array $metadata = [],
         private string $content = '',
-    ) {
-    }
+    ) {}
 
     public function getContent(): string
     {
