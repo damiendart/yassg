@@ -210,7 +210,7 @@ function preg_replace_safe(
     array|string $subject,
     int $limit = -1,
     int &$count = null,
-): string|array {
+): array|string {
     error_clear_last();
 
     $result = preg_replace($pattern, $replacement, $subject, $limit, $count);
