@@ -11,10 +11,10 @@ declare(strict_types=1);
 namespace Yassg\Tests\Unit\Events;
 
 use PHPUnit\Framework\TestCase;
-use Yassg\Events\Event;
+use Yassg\Events\AbstractEvent;
 
 /**
- * @covers \Yassg\Events\Event
+ * @covers \Yassg\Events\AbstractEvent
  *
  * @internal
  */
@@ -22,7 +22,7 @@ class EventTest extends TestCase
 {
     public function testSettingEventPropagating(): void
     {
-        $event = new Event();
+        $event = new class () extends AbstractEvent {};
 
         $this->assertFalse($event->isPropagationStopped());
 

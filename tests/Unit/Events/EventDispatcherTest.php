@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace Yassg\Tests\Unit\Events;
 
 use PHPUnit\Framework\TestCase;
-use Yassg\Events\Event;
+use Yassg\Events\AbstractEvent;
 use Yassg\Events\EventDispatcher;
 
 /**
@@ -127,9 +127,9 @@ class EventDispatcherTest extends TestCase
     }
 }
 
-class TestEvent extends Event {}
+class TestEvent extends AbstractEvent {}
 
-class TestEventTheSecond extends Event {}
+class TestEventTheSecond extends AbstractEvent {}
 
 class TestEventListener
 {

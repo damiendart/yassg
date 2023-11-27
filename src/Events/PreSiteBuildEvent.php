@@ -12,7 +12,7 @@ namespace Yassg\Events;
 
 use Yassg\Files\InputFileCollection;
 
-class PreSiteBuildEvent extends Event
+class PreSiteBuildEvent extends AbstractEvent
 {
     private InputFileCollection $inputFiles;
 

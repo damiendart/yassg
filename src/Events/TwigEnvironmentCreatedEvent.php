@@ -12,7 +12,7 @@ namespace Yassg\Events;
 
 use Twig\Environment;
 
-class TwigEnvironmentCreatedEvent extends Event
+class TwigEnvironmentCreatedEvent extends AbstractEvent
 {
     private Environment $environment;
 

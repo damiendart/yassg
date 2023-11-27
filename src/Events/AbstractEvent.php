@@ -12,7 +12,7 @@ namespace Yassg\Events;
 
 use Psr\EventDispatcher\StoppableEventInterface;
 
-class Event implements StoppableEventInterface
+abstract class AbstractEvent implements StoppableEventInterface
 {
     private bool $propagationStopped = false;
 
