@@ -27,31 +27,17 @@ use Yassg\Files\Processors\ProcessorResolver;
 
 class Yassg
 {
-    private Configuration $configuration;
-    private EventDispatcher $eventDispatcher;
-    private Filesystem $filesystem;
-    private Finder $finder;
-    private MetadataExtractorInterface $metadataExtractor;
-    private ProcessorResolver $processorResolver;
-
     /**
      * @psalm-api
      */
     public function __construct(
-        Configuration $configuration,
-        EventDispatcher $eventDispatcher,
-        Filesystem $filesystem,
-        Finder $finder,
-        MetadataExtractorInterface $metadataExtractor,
-        ProcessorResolver $processorResolver,
-    ) {
-        $this->configuration = $configuration;
-        $this->eventDispatcher = $eventDispatcher;
-        $this->filesystem = $filesystem;
-        $this->finder = $finder;
-        $this->metadataExtractor = $metadataExtractor;
-        $this->processorResolver = $processorResolver;
-    }
+        readonly private Configuration $configuration,
+        readonly private EventDispatcher $eventDispatcher,
+        readonly private Filesystem $filesystem,
+        readonly private Finder $finder,
+        readonly private MetadataExtractorInterface $metadataExtractor,
+        readonly private ProcessorResolver $processorResolver,
+    ) {}
 
     /**
      * @psalm-suppress PossiblyNullArgument
