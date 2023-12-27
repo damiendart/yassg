@@ -11,7 +11,6 @@ declare(strict_types=1);
 namespace Yassg;
 
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Finder\Finder;
 use Yassg\Application\InvalidArgumentException;
 use Yassg\Configuration\Configuration;
 use Yassg\Events\EventDispatcher;
