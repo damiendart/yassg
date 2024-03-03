@@ -55,7 +55,7 @@ function dedent(string $input): string
  * `false`.
  *
  * @param resource $context
- * @param null|int<0, max> $length
+ * @param ?int<0, max> $length
  *
  * @see \file_get_contents() The core PHP function being wrapped
  *
@@ -107,7 +107,7 @@ function file_get_contents_safe(
  * A wrapper for `\fopen()` that always returns a `resource` and throws
  * an exception when encountering an error instead of returning `false`.
  *
- * @param null|resource $context
+ * @param ?resource $context
  *
  * @see \fopen() The core PHP function being wrapped
  *
@@ -194,7 +194,7 @@ function preg_match_safe(
  * @param array<array-key, non-empty-string>|non-empty-string $pattern
  * @param array<array-key, float|int|string>|string $replacement
  * @param array<array-key, float|int|string>|string $subject
- * @param null|int<0, max> $count
+ * @param ?int<0, max> $count
  *
  * @see \preg_replace() The core PHP function being wrapped
  *

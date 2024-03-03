@@ -133,7 +133,7 @@ class TestEventTheSecond extends AbstractEvent {}
 
 class TestEventListener
 {
-    private null|object $event = null;
+    private ?object $event = null;
 
     public function __invoke(object $event): void
     {
