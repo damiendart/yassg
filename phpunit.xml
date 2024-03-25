@@ -6,12 +6,14 @@
 -->
 <phpunit
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.1/phpunit.xsd"
+  xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
   beStrictAboutChangesToGlobalState="true"
   beStrictAboutCoverageMetadata="true"
   bootstrap="vendor/autoload.php"
   colors="true"
   cacheDirectory=".phpunit.cache"
+  failOnDeprecation="true"
+  failOnWarning="true"
   requireCoverageMetadata="true"
 >
   <testsuites>
