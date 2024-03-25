@@ -30,7 +30,7 @@ return (new PhpCsFixer\Config())
             'native_function_invocation' => true,
             'no_unused_imports' => true,
             'multiline_whitespace_before_semicolons' => [
-                'strategy' => 'no_multi_line'
+                'strategy' => 'no_multi_line',
             ],
             'ordered_imports' => ['sort_algorithm' => 'alpha'],
             'phpdoc_align' => ['align' => 'left'],
