@@ -23,8 +23,6 @@ use Yassg\Events\TwigEnvironmentCreatedEvent;
 use Yassg\Files\InputFileInterface;
 use Yassg\Files\MutatedFile;
 
-use function Yassg\preg_replace_safe;
-
 class TwigProcessor implements ProcessorInterface
 {
     private EventDispatcher $eventDispatcher;
@@ -95,6 +93,14 @@ class TwigProcessor implements ProcessorInterface
 
     private function processPathname(string $pathname): string
     {
-        return preg_replace_safe('/.twig$/i', '', $pathname);
+        error_clear_last();
+
+        $pathname = preg_replace('/.twig$/i', '', $pathname);
+
+        if (PREG_NO_ERROR !== preg_last_error() || null === $pathname) {
+            throw new \RuntimeException(preg_last_error_msg());
+        }
+
+        return $pathname;
     }
 }

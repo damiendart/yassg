@@ -18,8 +18,6 @@ use function Yassg\file_get_contents_safe;
 use Yassg\Files\InputFileInterface;
 use Yassg\Files\MutatedFile;
 
-use function Yassg\preg_replace_safe;
-
 class MarkdownProcessor implements ProcessorInterface
 {
     private Configuration $configuration;
@@ -87,8 +85,18 @@ class MarkdownProcessor implements ProcessorInterface
 
     private function processPathname(string $pathname): string
     {
-        $extension = pathinfo($pathname, PATHINFO_EXTENSION);
+        error_clear_last();
 
-        return preg_replace_safe("/{$extension}$/i", 'html', $pathname);
+        $pathname = preg_replace(
+            '/' . pathinfo($pathname, PATHINFO_EXTENSION) . '$/i',
+            'html',
+            $pathname,
+        );
+
+        if (PREG_NO_ERROR !== preg_last_error() || null === $pathname) {
+            throw new \RuntimeException(preg_last_error_msg());
+        }
+
+        return $pathname;
     }
 }

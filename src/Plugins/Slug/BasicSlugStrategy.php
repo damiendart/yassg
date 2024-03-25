@@ -10,9 +10,6 @@ declare(strict_types=1);
 
 namespace Yassg\Plugins\Slug;
 
-use function Yassg\preg_match_safe;
-use function Yassg\preg_replace_safe;
-
 /**
  * @psalm-api
  */
@@ -20,15 +17,14 @@ class BasicSlugStrategy implements SlugStrategyInterface
 {
     public function slugify(string $input): string
     {
-        $input = preg_replace_safe('/.twig$/', '', $input);
+        error_clear_last();
 
-        if (1 !== preg_match_safe('/(html?|md|php)$/', $input)) {
-            return ltrim($input, '/');
+        $input = preg_replace('/^\/|(index)?.(html?|md|php)|(.twig)?$/', '', $input);
+
+        if (PREG_NO_ERROR !== preg_last_error() || null === $input) {
+            throw new \RuntimeException(preg_last_error_msg());
         }
 
-        return ltrim(
-            preg_replace_safe('/^\/|(index)?.(html?|md|php)$/', '', $input),
-            '/',
-        );
+        return ltrim($input, '/');
     }
 }

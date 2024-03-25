@@ -185,39 +185,3 @@ function preg_match_safe(
 
     return $result;
 }
-
-/**
- * A wrapper for `\preg_replace()` that always returns a string or an
- * array of strings (depending on the _subject_ parameter) and throws an
- * exception when encountering an error instead of returning `null`.
- *
- * @param array<array-key, non-empty-string>|non-empty-string $pattern
- * @param array<array-key, float|int|string>|string $replacement
- * @param array<array-key, float|int|string>|string $subject
- * @param ?int<0, max> $count
- *
- * @see \preg_replace() The core PHP function being wrapped
- *
- * @return ($subject is array ? array<string> : string)
- *
- * @throws \RuntimeException
- *
- * @codeCoverageIgnore
- */
-function preg_replace_safe(
-    array|string $pattern,
-    array|string $replacement,
-    array|string $subject,
-    int $limit = -1,
-    int &$count = null,
-): array|string {
-    error_clear_last();
-
-    $result = preg_replace($pattern, $replacement, $subject, $limit, $count);
-
-    if (PREG_NO_ERROR !== preg_last_error() || null === $result) {
-        throw new \RuntimeException(preg_last_error_msg());
-    }
-
-    return $result;
-}
