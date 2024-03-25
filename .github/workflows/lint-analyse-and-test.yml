@@ -20,11 +20,15 @@ jobs:
     runs-on: 'ubuntu-20.04'
     steps:
       - name: 'Check out repository'
-        uses: 'actions/checkout@v3'
+        uses: 'actions/checkout@v4'
 
       - name: 'Set up PHP environment'
         uses: 'shivammathur/setup-php@v2'
         with:
+          # All PHP errors are reported when using the development
+          # "php.ini". For more information, please see
+          # <https://github.com/shivammathur/setup-php/issues/827>.
+          ini-file: 'development'
           php-version: '${{ matrix.php.php-version }}'
 
       - name: 'Install Task'
